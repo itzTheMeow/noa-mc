@@ -120,12 +120,25 @@ noa.entities.addComponent(player, noa.entities.names.mesh, {
  *
  */
 
+import MPS from "./mesh-particle-system.js";
+import { Texture } from "../../noalib/node_modules/@babylonjs/core/Materials/Textures/texture";
+var tex = new Texture("img/blocks/stone.png", scene);
+var capacity = 200;
+var rate = 30; // particles/second
+var mps = new MPS(capacity, rate, scene);
+mps.setTexture(tex);
+mps.mesh.position.x = 0;
+mps.mesh.position.y = 0;
+mps.mesh.position.z = 0;
+
 let actionTicks = 0;
 let mining = false;
 function mine() {
   if (noa.targetedBlock) {
     var pos = noa.targetedBlock.position;
     noa.setBlock(0, pos[0], pos[1], pos[2]);
+    mps.setMeshPosition(pos[0], pos[1], pos[2]);
+    mps.start();
     actionTicks = 0;
   }
 }
