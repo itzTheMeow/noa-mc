@@ -10,11 +10,17 @@
 import { Engine } from "../../noalib";
 import { Block } from "./Block";
 
+let GameOptions = {
+  sensitivity: 15,
+};
+
 var opts = {
   debug: true,
   showFPS: true,
   chunkSize: 32,
   playerStart: [32, 64, 32],
+  sensitivityX: GameOptions.sensitivity,
+  sensitivityY: GameOptions.sensitivity,
   // See `test` example, or noa docs/source, for more options
 };
 var noa = new Engine(opts);
@@ -114,29 +120,62 @@ noa.entities.addComponent(player, noa.entities.names.mesh, {
  *
  */
 
-noa.inputs.down.on("alt-fire", function () {
+let actionTicks = 0;
+let mining = false;
+function mine() {
   if (noa.targetedBlock) {
     var pos = noa.targetedBlock.position;
     noa.setBlock(0, pos[0], pos[1], pos[2]);
+    actionTicks = 0;
   }
+}
+noa.inputs.down.on("alt-fire", function () {
+  mining = true;
+  mine();
+});
+noa.inputs.up.on("alt-fire", function () {
+  mining = false;
 });
 
-noa.inputs.down.on("fire", function () {
+let placing = false;
+let lastPlacedOn = [];
+function place() {
   if (noa.targetedBlock) {
     var pos = noa.targetedBlock.adjacent;
     noa.setBlock(grass.id, pos[0], pos[1], pos[2]);
+    lastPlacedOn = [...pos];
   }
+}
+noa.inputs.down.on("fire", function () {
+  placing = true;
+  place();
+});
+noa.inputs.up.on("fire", function () {
+  placing = false;
 });
 
-// each tick, consume any scroll events and use them to zoom camera
 noa.on("tick", function (dt) {
+  actionTicks++;
   var scroll = noa.inputs.state.scrolly;
   if (scroll !== 0) {
     noa.camera.zoomDistance += scroll > 0 ? 1 : -1;
     if (noa.camera.zoomDistance < 0) noa.camera.zoomDistance = 0;
     if (noa.camera.zoomDistance > 10) noa.camera.zoomDistance = 10;
   }
+
   let pos = noa.entities.getPositionData(noa.playerEntity).position.map((p) => Math.ceil(p));
   _("coordinate-display").innerHTML = `${pos[0]}, ${pos[1]}, ${pos[2]}`;
   if (pos[1] < 0) noa.entities.setPosition(noa.playerEntity, [32, 64, 32]);
+
+  if (mining && actionTicks % 12 == 0) mine();
+  let target = (noa.targetedBlock || {}).position;
+  if (target) {
+    if (
+      placing &&
+      (lastPlacedOn[0] !== target[0] ||
+        lastPlacedOn[1] !== target[1] ||
+        lastPlacedOn[2] !== target[2])
+    )
+      place();
+  }
 });
