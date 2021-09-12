@@ -1,0 +1,31 @@
+body {
+  background-color: white;
+  margin: 0px;
+  overflow: hidden;
+  user-select: none;
+}
+
+#crosshair {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  margin: -10px 0 0 -10px;
+  z-index: 99;
+  color: white;
+  text-shadow: 2px 2px 2px black;
+  text-align: center;
+  font-size: 40px;
+}
+
+#coordinate-display {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  padding: 4px;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+  color: white;
+}
