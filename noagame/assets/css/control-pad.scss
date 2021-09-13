@@ -1,0 +1,33 @@
+$grid-size: 50px;
+$grid-padding: 8px;
+$sizing: calc((#{$grid-size} * 3) + (#{$grid-padding} * 4));
+
+#control-pad {
+  position: absolute;
+  z-index: 99;
+  left: 0px;
+  bottom: 0px;
+  width: $sizing;
+  height: $sizing;
+
+  * {
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: 0.7;
+    width: $grid-size;
+    height: $grid-size;
+  }
+
+  #left {
+    top: calc(#{grid-size} * 2 + #{grid-padding});
+    left: $grid-padding;
+    background-image: url(../img/touch/left.png);
+  }
+  #up {
+    top: 0px;
+    left: calc(#{$grid-size} + #{$grid-padding} * 2);
+    background-image: url(../img/touch/up.png);
+  }
+}

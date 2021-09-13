@@ -1,25 +1,22 @@
-
-import { Physics as VoxelPhysics } from 'voxel-physics-engine'
+import { Physics as VoxelPhysics } from "voxel-physics-engine";
 // import { Physics } from '../../../../npm-modules/voxel-physics-engine'
-
-
 
 var defaultOptions = {
     gravity: [0, -10, 0],
     airDrag: 0.1,
-}
+};
 
 /**
  * `noa.physics` - Wrapper module for the physics engine.
- * 
- * This module extends 
+ *
+ * This module extends
  * [voxel-physics-engine](https://github.com/andyhall/voxel-physics-engine),
- * so turn on "Inherited" to see its APIs here, or view the base module 
+ * so turn on "Inherited" to see its APIs here, or view the base module
  * for full docs.
- * 
+ *
  * This module uses the following default options (from the options
  * object passed to the [[Engine]]):
- * 
+ *
  * ```js
  * {
  *     gravity: [0, -10, 0],
@@ -29,33 +26,36 @@ var defaultOptions = {
  *     minBounceImpulse: .5,      // cutoff for a bounce to occur
  * }
  * ```
-*/
+ */
 
 export class Physics extends VoxelPhysics {
-
     /** @internal */
     constructor(noa, opts) {
-        opts = Object.assign({}, defaultOptions, opts)
-        var world = noa.world
-        var solidLookup = noa.registry._solidityLookup
-        var fluidLookup = noa.registry._fluidityLookup
+        opts = Object.assign({}, defaultOptions, opts);
+        var world = noa.world;
+        var solidLookup = noa.registry._solidityLookup;
+        var fluidLookup = noa.registry._fluidityLookup;
 
         // physics engine runs in offset coords, so voxel getters need to match
-        var offset = noa.worldOriginOffset
+        var offset = noa.worldOriginOffset;
 
         var blockGetter = (x, y, z) => {
-            var id = world.getBlockID(x + offset[0], y + offset[1], z + offset[2])
-            return solidLookup[id]
-        }
+            var id = world.getBlockID(
+                x + offset[0],
+                y + offset[1],
+                z + offset[2]
+            );
+            return solidLookup[id];
+        };
         var isFluidGetter = (x, y, z) => {
-            var id = world.getBlockID(x + offset[0], y + offset[1], z + offset[2])
-            return fluidLookup[id]
-        }
+            var id = world.getBlockID(
+                x + offset[0],
+                y + offset[1],
+                z + offset[2]
+            );
+            return fluidLookup[id];
+        };
 
-        super(opts, blockGetter, isFluidGetter)
+        super(opts, blockGetter, isFluidGetter);
     }
-
 }
-
-
-

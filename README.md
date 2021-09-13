@@ -1,6 +1,14 @@
 Semi-functional port of minecraft preclassic to js using [noa](https://github.com/fenomas/noa).
 Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 
+# **_DISCLAIMER_**
+
+## I DO NOT OWN ANY OF THESE ASSETS
+
+### ASSETS &copy; MOJANG AB
+
+<br>
+
 # Changelog
 
 ## v0.0.2
