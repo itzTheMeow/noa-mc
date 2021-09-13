@@ -7,8 +7,6 @@
  *
  */
 
-require("./control-pad");
-
 import { Engine } from "../../noalib";
 import { Block } from "./Block";
 
@@ -18,6 +16,8 @@ let GameOptions = {
     navigator.userAgent
   ),
 };
+import initCtrlPad from "./control-pad";
+initCtrlPad(GameOptions);
 
 var opts = {
   debug: true,
