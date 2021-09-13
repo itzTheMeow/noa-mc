@@ -454,8 +454,10 @@ function updatePositionsData(system) {
       // minus the bits zeroed out due to having no z coord
 
       var w = vx * m[3] + vy * m[7] + m[15];
+      let y = Math.max(0, data[di + 1]);
+      if (!y) data[di + 3] = data[di + 4] = data[di + 5] = 0;
       positions[idx] = data[di] + (vx * m[0] + vy * m[4]) / w;
-      positions[idx + 1] = data[di + 1] + (vx * m[1] + vy * m[5]) / w;
+      positions[idx + 1] = y + (vx * m[1] + vy * m[5]) / w;
       positions[idx + 2] = data[di + 2] + (vx * m[2] + vy * m[6]) / w;
 
       idx += 3;
