@@ -12,6 +12,9 @@ import { Block } from "./Block";
 
 let GameOptions = {
   sensitivity: 15,
+  touchMode: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  ),
 };
 
 var opts = {
