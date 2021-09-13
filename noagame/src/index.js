@@ -12,6 +12,9 @@ import { Block } from "./Block";
 
 let GameOptions = {
   sensitivity: 15,
+  touchMode: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  ),
 };
 
 var opts = {
@@ -27,13 +30,15 @@ var noa = new Engine(opts);
 export default noa;
 
 // [all] [top-bottom,sides] [top,bottom,sides] [-x, +x, -y, +y, -z, +z]
-let dirt = new Block("dirt", ["dirt"]);
-let grass = new Block("grass", ["grass_top", "dirt", "grass_side"]);
-let stone = new Block("stone", ["stone"]);
-let planks = new Block("planks", ["planks"]);
-let sand = new Block("sand", ["sand"]);
-let gravel = new Block("gravel", ["gravel"]);
-let bedrock = new Block("bedrock", ["bedrock"]);
+let blocks = {
+  dirt: new Block("dirt", ["dirt"]),
+  grass: new Block("grass", ["grass_top", "dirt", "grass_side"]),
+  stone: new Block("stone", ["stone"]),
+  planks: new Block("planks", ["planks"]),
+  sand: new Block("sand", ["sand"]),
+  gravel: new Block("gravel", ["gravel"]),
+  bedrock: new Block("bedrock", ["bedrock"]),
+};
 
 /*
  *
@@ -57,10 +62,10 @@ function getVoxelID(x, y, z) {
   if (x < 0 || y < 0 || z < 0) return 0;
 
   let h = Math.floor(filter[x + z * width] / 3);
-  if (y == 0) return bedrock.id;
-  if (y == h) return grass.id;
-  if (y < h && y >= h - 3) return dirt.id;
-  if (y < h - 3) return stone.id;
+  if (y == 0) return blocks.bedrock.id;
+  if (y == h) return blocks.grass.id;
+  if (y < h && y >= h - 3) return blocks.dirt.id;
+  if (y < h - 3) return blocks.stone.id;
   return 0;
 }
 
@@ -120,12 +125,45 @@ noa.entities.addComponent(player, noa.entities.names.mesh, {
  *
  */
 
+import MPS from "./mesh-particle-system.js";
+import { Texture } from "../../noalib/node_modules/@babylonjs/core/Materials/Textures/texture";
+let breakTextures = {};
+var capacity = 80;
+var rate = 80; // particles/second
+
 let actionTicks = 0;
 let mining = false;
 function mine() {
   if (noa.targetedBlock) {
     var pos = noa.targetedBlock.position;
     noa.setBlock(0, pos[0], pos[1], pos[2]);
+
+    let block = Object.values(blocks).find((b) => b.id == noa.targetedBlock.blockID);
+    var tex =
+      breakTextures[block.name] ||
+      (breakTextures[block.name] = new Texture(`img/blocks/${block.tex[0]}.png`, scene));
+    var mps = new MPS(capacity, rate, scene);
+    mps.disposeOnEmpty = true;
+    mps.initParticle = function initParticle(pdata) {
+      pdata.position.copyFromFloats(Math.random(), Math.max(Math.random(), 0.6), Math.random());
+      pdata.velocity.x = ((Math.random() > 0.5 ? 1 : -1) * Math.random()) / 1.5;
+      pdata.velocity.y = -Math.random() * 3;
+      pdata.velocity.z = ((Math.random() > 0.5 ? 1 : -1) * Math.random()) / 1.5;
+      pdata.size = 0.3;
+      pdata.age = 0;
+      pdata.lifetime = Math.random() * 2;
+    };
+    mps.setTexture(tex);
+    mps.setSizeRange(0.4, 0.4);
+    mps.mesh.position.x = pos[0];
+    mps.mesh.position.y = pos[1];
+    mps.mesh.position.z = pos[2];
+    noa.rendering.addMeshToScene(mps.mesh);
+    mps.start();
+    setTimeout(function () {
+      mps.rate = 0;
+    }, 350);
+
     actionTicks = 0;
   }
 }
@@ -142,7 +180,7 @@ let lastPlacedOn = [];
 function place() {
   if (noa.targetedBlock) {
     var pos = noa.targetedBlock.adjacent;
-    noa.setBlock(grass.id, pos[0], pos[1], pos[2]);
+    noa.setBlock(blocks.grass.id, pos[0], pos[1], pos[2]);
     lastPlacedOn = [...pos];
   }
 }
