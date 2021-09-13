@@ -1,14 +1,19 @@
-$grid-size: 50px;
+$grid-size: 70px;
 $grid-padding: 8px;
-$sizing: calc((#{$grid-size} * 3) + (#{$grid-padding} * 4));
 
 #control-pad {
   position: absolute;
   z-index: 99;
-  left: 0px;
-  bottom: 0px;
-  width: $sizing;
-  height: $sizing;
+  left: $grid-padding;
+  bottom: $grid-padding;
+  display: grid;
+  grid-template-columns: $grid-size $grid-size $grid-size;
+  grid-template-rows: $grid-size $grid-size $grid-size;
+  gap: $grid-padding $grid-padding;
+  grid-template-areas:
+    "up-left up up-right"
+    "left jump right"
+    ". down .";
 
   * {
     position: absolute;
@@ -16,18 +21,40 @@ $sizing: calc((#{$grid-size} * 3) + (#{$grid-padding} * 4));
     background-repeat: no-repeat;
     background-position: center center;
     opacity: 0.7;
-    width: $grid-size;
-    height: $grid-size;
+    width: 100%;
+    height: 100%;
+
+    &.active {
+      opacity: 0.5;
+    }
   }
 
+  #jump {
+    grid-area: jump;
+    background-image: url(../img/touch/jump.png);
+  }
   #left {
-    top: calc(#{grid-size} * 2 + #{grid-padding});
-    left: $grid-padding;
+    grid-area: left;
     background-image: url(../img/touch/left.png);
   }
+  #down {
+    grid-area: down;
+    background-image: url(../img/touch/down.png);
+  }
+  #right {
+    grid-area: right;
+    background-image: url(../img/touch/right.png);
+  }
+  #up-right {
+    grid-area: up-right;
+    background-image: url(../img/touch/up_right.png);
+  }
   #up {
-    top: 0px;
-    left: calc(#{$grid-size} + #{$grid-padding} * 2);
+    grid-area: up;
     background-image: url(../img/touch/up.png);
+  }
+  #up-left {
+    grid-area: up-left;
+    background-image: url(../img/touch/up_left.png);
   }
 }

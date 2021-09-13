@@ -7,6 +7,8 @@
  *
  */
 
+require("./control-pad");
+
 import { Engine } from "../../noalib";
 import { Block } from "./Block";
 
@@ -129,7 +131,7 @@ import MPS from "./mesh-particle-system.js";
 import { Texture } from "../../noalib/node_modules/@babylonjs/core/Materials/Textures/texture";
 let breakTextures = {};
 var capacity = 80;
-var rate = 80; // particles/second
+var rate = 80;
 
 let actionTicks = 0;
 let mining = false;
