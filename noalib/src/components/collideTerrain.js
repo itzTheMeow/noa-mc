@@ -1,36 +1,30 @@
-
-
 export default function (noa) {
     return {
-
-        name: 'collideTerrain',
+        name: "collideTerrain",
 
         order: 0,
 
         state: {
-            callback: null
+            callback: null,
         },
 
         onAdd: function (eid, state) {
             // add collide handler for physics engine to call
-            var ents = noa.entities
+            var ents = noa.entities;
             if (ents.hasPhysics(eid)) {
-                var body = ents.getPhysics(eid).body
+                var body = ents.getPhysics(eid).body;
                 body.onCollide = function bodyOnCollide(impulse) {
-                    var cb = noa.ents.getCollideTerrain(eid).callback
-                    if (cb) cb(impulse, eid)
-                }
+                    var cb = noa.ents.getCollideTerrain(eid).callback;
+                    if (cb) cb(impulse, eid);
+                };
             }
         },
 
         onRemove: function (eid, state) {
-            var ents = noa.entities
+            var ents = noa.entities;
             if (ents.hasPhysics(eid)) {
-                ents.getPhysics(eid).body.onCollide = null
+                ents.getPhysics(eid).body.onCollide = null;
             }
         },
-
-
-
-    }
+    };
 }
