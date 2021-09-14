@@ -1,4 +1,5 @@
 import _ from "./_";
+import noa from "./index";
 
 export default function init(opts) {
   let touching = {
@@ -18,6 +19,17 @@ export default function init(opts) {
     if (!touching.up && !touching["up-left"] && !touching["up-right"])
       _("up-left").style.display = _("up-right").style.display = "none";
     else _("up-left").style.display = _("up-right").style.display = "";
+
+    noa.inputs.state = {
+      ...noa.inputs.state,
+      ...{
+        forward: touching.up || touching["up-left"] || touching["up-right"],
+        left: touching.left || touching["up-left"],
+        right: touching.right || touching["up-right"],
+        backward: touching.down,
+        jump: touching.jump,
+      },
+    };
   }
   updateTouch();
   function resetTouch() {

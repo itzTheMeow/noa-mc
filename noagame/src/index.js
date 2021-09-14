@@ -12,12 +12,24 @@ import { Block } from "./Block";
 
 let GameOptions = {
   sensitivity: 15,
-  touchMode: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  ),
+  touchMode:
+    /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(
+      navigator.userAgent
+    ),
+  bindings: {
+    forward: "W",
+    left: "A",
+    backward: "S",
+    right: "D",
+    fire: "<mouse 1>",
+    "mid-fire": "<mouse 2>",
+    "alt-fire": "<mouse 3>",
+    jump: "<space>",
+    sprint: "<shift>",
+    crouch: "<control>",
+  },
 };
 import initCtrlPad from "./control-pad";
-initCtrlPad(GameOptions);
 
 var opts = {
   debug: true,
@@ -26,10 +38,13 @@ var opts = {
   playerStart: [32, 64, 32],
   sensitivityX: GameOptions.sensitivity,
   sensitivityY: GameOptions.sensitivity,
+  bindings: GameOptions.bindings,
   // See `test` example, or noa docs/source, for more options
 };
 var noa = new Engine(opts);
 export default noa;
+
+initCtrlPad(GameOptions);
 
 // [all] [top-bottom,sides] [top,bottom,sides] [-x, +x, -y, +y, -z, +z]
 let blocks = {
