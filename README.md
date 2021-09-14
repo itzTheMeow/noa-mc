@@ -11,6 +11,13 @@ Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 
 # Changelog
 
+## v0.0.3
+
+- ~~Added menu gui.~~
+- Added mobile control pad.
+- ~~Fixed mobile scrolling.~~
+- Added temporary button to force touch mode.
+
 ## v0.0.2
 
 - Added hold-to-mine.

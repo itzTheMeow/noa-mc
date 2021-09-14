@@ -1,7 +1,7 @@
 import _ from "./_";
 import noa from "./index";
 
-export default function init(opts) {
+export default function init() {
   let touching = {
     up: false,
     "up-left": false,
@@ -15,7 +15,8 @@ export default function init(opts) {
 
   function updateTouch(lh) {
     if (lh) lastHit = lh;
-    if (!opts.touchMode) _("control-pad").style.display = "none";
+    if (!window.touchMode) _("control-pad").style.display = "none";
+    else _("control-pad").style.display = "";
     if (!touching.up && !touching["up-left"] && !touching["up-right"])
       _("up-left").style.display = _("up-right").style.display = "none";
     else _("up-left").style.display = _("up-right").style.display = "";
@@ -32,6 +33,7 @@ export default function init(opts) {
     };
   }
   updateTouch();
+  window.updateTouch = updateTouch;
   function resetTouch() {
     Object.keys(touching).map((i) => {
       _(i).classList.remove("active");

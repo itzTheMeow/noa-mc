@@ -29,6 +29,7 @@ let GameOptions = {
     crouch: "<control>",
   },
 };
+window.touchMode = GameOptions.touchMode;
 import initCtrlPad from "./control-pad";
 
 var opts = {
@@ -45,6 +46,11 @@ var noa = new Engine(opts);
 export default noa;
 
 initCtrlPad(GameOptions);
+
+window.setTouchMode = function (val) {
+  GameOptions.touchMode = window.touchMode = val;
+  window.updateTouch();
+};
 
 // [all] [top-bottom,sides] [top,bottom,sides] [-x, +x, -y, +y, -z, +z]
 let blocks = {
