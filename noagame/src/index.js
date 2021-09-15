@@ -62,6 +62,7 @@ let blocks = {
   gravel: new Block("gravel", ["gravel"]),
   bedrock: new Block("bedrock", ["bedrock"]),
 };
+let placeBlock = blocks.grass;
 
 /*
  *
@@ -198,12 +199,19 @@ noa.inputs.up.on("alt-fire", function () {
   mining = false;
 });
 
+noa.inputs.up.on("mid-fire", function () {
+  if (noa.targetedBlock) {
+    placeBlock =
+      Object.values(blocks).find((b) => b.id == noa.targetedBlock.blockID) || blocks.grass;
+  }
+});
+
 let placing = false;
 let lastPlacedOn = [];
 function place() {
   if (noa.targetedBlock) {
     var pos = noa.targetedBlock.adjacent;
-    noa.setBlock(blocks.grass.id, pos[0], pos[1], pos[2]);
+    noa.setBlock(placeBlock.id, pos[0], pos[1], pos[2]);
     lastPlacedOn = [...pos];
   }
 }
