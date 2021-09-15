@@ -20,4 +20,6 @@ fs.readdirSync("assets/img").forEach((dir) => {
     fs.copyFileSync(`assets/img/${dir}/${a}`, `build/img/${dir}/${a}`);
   });
 });
+
 fs.copyFileSync("assets/index.html", "build/index.html");
+//fs.copyFileSync("assets/Minecraft.ttf", "build/Minecraft.ttf");
