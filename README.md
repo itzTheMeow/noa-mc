@@ -14,7 +14,7 @@ Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 ## v0.0.3
 
 - Added mobile control pad.
-- ~~Fixed mobile scrolling.~~
+- Fixed mobile scrolling.
 - Added temporary button to force touch mode.
 - Added blockpick.
 
