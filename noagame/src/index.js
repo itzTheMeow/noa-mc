@@ -1,12 +1,4 @@
-/*
- *
- *          noa hello-world example
- *
- *  This is a bare-minimum example world, intended to be a
- *  starting point for hacking on noa game world content.
- *
- */
-
+import _ from "./_";
 import { Engine } from "../../noalib";
 import { Block } from "./Block";
 
@@ -31,6 +23,12 @@ let GameOptions = {
 };
 window.touchMode = GameOptions.touchMode;
 import initCtrlPad from "./control-pad";
+
+require("body-scroll-lock").disableBodyScroll(_("bsl"), {
+  allowTouchMove: (e) => {
+    return e.id == "control-pad" || e.id == "noa-container";
+  },
+});
 
 var opts = {
   debug: true,
@@ -125,7 +123,6 @@ var h = dat.height;
 // add a mesh to represent the player, and scale it, etc.
 import { Mesh } from "@babylonjs/core/Meshes/mesh";
 import "@babylonjs/core/Meshes/Builders/boxBuilder";
-import _ from "./_";
 
 var scene = noa.rendering.getScene();
 var mesh = Mesh.CreateBox("player-mesh", 1, scene);
