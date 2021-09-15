@@ -3,7 +3,7 @@ import { Engine } from "../../noalib";
 import { Block } from "./Block";
 
 let GameOptions = {
-  sensitivity: 15,
+  sensitivity: 17,
   touchMode:
     /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(
       navigator.userAgent
@@ -45,9 +45,16 @@ export default noa;
 
 initCtrlPad(GameOptions);
 
+window.setSensitivity = function (val) {
+  GameOptions.sensitivity = +val;
+  if (window.touchMode) GameOptions.sensitivity *= 3;
+  noa.camera.sensitivityX = noa.camera.sensitivityY = GameOptions.sensitivity;
+};
+window.setSensitivity(GameOptions.sensitivity);
 window.setTouchMode = function (val) {
   GameOptions.touchMode = window.touchMode = val;
   window.updateTouch();
+  window.setSensitivity(GameOptions.sensitivity);
 };
 
 // [all] [top-bottom,sides] [top,bottom,sides] [-x, +x, -y, +y, -z, +z]
