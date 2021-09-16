@@ -11,6 +11,10 @@ Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 
 # Changelog
 
+## v0.0.6
+
+- Increased gravity.
+
 ## v0.0.5
 
 - Added more blocks.

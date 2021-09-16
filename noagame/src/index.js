@@ -39,7 +39,7 @@ var opts = {
   showFPS: true,
   chunkSize: 32,
   playerStart: [32, 64, 32],
-  gravity: [0, -14, 0],
+  gravity: [0, -16, 0],
   sensitivityX: GameOptions.sensitivity,
   sensitivityY: GameOptions.sensitivity,
   bindings: GameOptions.bindings,
