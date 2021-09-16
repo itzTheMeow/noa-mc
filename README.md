@@ -11,6 +11,14 @@ Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 
 # Changelog
 
+## v0.0.5
+
+- Added more blocks.
+- Revamped block creation system.
+- Added autojump for touch mode.
+- Added sapling-type blocks.
+- Fixed break textures being upside-down.
+
 ## v0.0.4
 
 - Hopefully fixed mobile resizing bug.

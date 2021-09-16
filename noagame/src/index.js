@@ -8,6 +8,7 @@ let GameOptions = {
     /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(
       navigator.userAgent
     ),
+  autoJump: false,
   bindings: {
     forward: "W",
     left: "A",
@@ -23,6 +24,7 @@ let GameOptions = {
     esc: "<escape>",
   },
 };
+GameOptions.autoJump = GameOptions.touchMode;
 window.touchMode = GameOptions.touchMode;
 import initCtrlPad from "./control-pad";
 
@@ -37,9 +39,11 @@ var opts = {
   showFPS: true,
   chunkSize: 32,
   playerStart: [32, 64, 32],
+  gravity: [0, -14, 0],
   sensitivityX: GameOptions.sensitivity,
   sensitivityY: GameOptions.sensitivity,
   bindings: GameOptions.bindings,
+  playerAutoStep: GameOptions.autoJump,
   // See `test` example, or noa docs/source, for more options
 };
 var noa = new Engine(opts);
@@ -57,19 +61,32 @@ window.setTouchMode = function (val) {
   GameOptions.touchMode = window.touchMode = val;
   window.updateTouch();
   window.setSensitivity(GameOptions.sensitivity);
+  noa.entities.getPhysics(noa.playerEntity).body.autoStep =
+    GameOptions.autoJump || GameOptions.touchMode;
 };
 
 // [all] [top-bottom,sides] [top,bottom,sides] [-x, +x, -y, +y, -z, +z]
 let blocks = {
-  dirt: new Block("dirt", ["dirt"], "dirt"),
-  grass: new Block("grass", ["grass_top", "dirt", "grass_side"], "grass_side"),
-  stone: new Block("stone", ["stone"], "stone"),
-  planks: new Block("planks", ["planks"], "planks"),
-  sand: new Block("sand", ["sand"], "sand"),
-  gravel: new Block("gravel", ["gravel"], "gravel"),
-  bedrock: new Block("bedrock", ["bedrock"], "bedrock"),
+  dirt: new Block("dirt", []),
+  grass: new Block("grass", ["grass_top", "dirt", "grass_side"], { prev: "grass_side" }),
+  stone: new Block("stone", []),
+  planks: new Block("planks", []),
+  sand: new Block("sand", []),
+  gravel: new Block("gravel", []),
+  bedrock: new Block("bedrock", []),
+  cobblestone: new Block("cobblestone", []),
+  bricks: new Block("bricks", []),
+  obsidian: new Block("obsidian", []),
+  mossyCobblestone: new Block("mossy_cobblestone", []),
+  oakLog: new Block("oak_log", ["oak_log_face", "oak_log_side"], { prev: "oak_log_side" }),
+  glass: new Block("glass", [], { transparent: true }),
+  sapling: new Block("sapling", [], { flowerType: true }),
 };
 let placeBlock = blocks.grass;
+
+noa.blockTargetIdCheck = (id) => {
+  return id !== 0;
+};
 
 Object.values(blocks).forEach((b) => {
   let item = document.createElement("div");
@@ -176,6 +193,7 @@ noa.entities.addComponent(player, noa.entities.names.mesh, {
 
 import MPS from "./mesh-particle-system.js";
 import { Texture } from "../../noalib/node_modules/@babylonjs/core/Materials/Textures/texture";
+import { Vector3 } from "@babylonjs/core";
 let breakTextures = {};
 var capacity = 80;
 var rate = 80;
@@ -191,6 +209,7 @@ function mine() {
     var tex =
       breakTextures[block.name] ||
       (breakTextures[block.name] = new Texture(`img/blocks/${block.preview}.png`, scene));
+    tex.uAng = tex.vAng = Math.PI;
     var mps = new MPS(capacity, rate, scene);
     mps.disposeOnEmpty = true;
     mps.initParticle = function initParticle(pdata) {
