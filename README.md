@@ -11,6 +11,12 @@ Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 
 # Changelog
 
+## v0.0.4
+
+- Hopefully fixed mobile resizing bug.
+- Increased touch mode sensitivity.
+- Added block choose menu.
+
 ## v0.0.3
 
 - Added mobile control pad.

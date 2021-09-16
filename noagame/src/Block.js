@@ -3,7 +3,7 @@ import noa from "./index";
 let blockID = 1;
 let materials = [];
 
-let Block = function (name, tex) {
+let Block = function (name, tex, texPreview) {
   if (!tex) tex = [name];
   tex.forEach((t) => {
     if (!materials.includes(t)) {
@@ -16,6 +16,7 @@ let Block = function (name, tex) {
   blockID++;
   this.name = name;
   this.tex = tex;
+  this.preview = texPreview;
 
   if (tex.length == 1) {
     noa.registry.registerBlock(this.id, { material: tex[0] });

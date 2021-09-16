@@ -19,6 +19,7 @@ let GameOptions = {
     jump: "<space>",
     sprint: "<shift>",
     crouch: "<control>",
+    inventory: "E",
   },
 };
 window.touchMode = GameOptions.touchMode;
@@ -59,15 +60,28 @@ window.setTouchMode = function (val) {
 
 // [all] [top-bottom,sides] [top,bottom,sides] [-x, +x, -y, +y, -z, +z]
 let blocks = {
-  dirt: new Block("dirt", ["dirt"]),
-  grass: new Block("grass", ["grass_top", "dirt", "grass_side"]),
-  stone: new Block("stone", ["stone"]),
-  planks: new Block("planks", ["planks"]),
-  sand: new Block("sand", ["sand"]),
-  gravel: new Block("gravel", ["gravel"]),
-  bedrock: new Block("bedrock", ["bedrock"]),
+  dirt: new Block("dirt", ["dirt"], "dirt"),
+  grass: new Block("grass", ["grass_top", "dirt", "grass_side"], "grass_side"),
+  stone: new Block("stone", ["stone"], "stone"),
+  planks: new Block("planks", ["planks"], "planks"),
+  sand: new Block("sand", ["sand"], "sand"),
+  gravel: new Block("gravel", ["gravel"], "gravel"),
+  bedrock: new Block("bedrock", ["bedrock"], "bedrock"),
 };
 let placeBlock = blocks.grass;
+
+Object.values(blocks).forEach((b) => {
+  let item = document.createElement("div");
+  item.className = "invblock";
+  item.id = `inv-${b.name}`;
+  item.style = `background-image: url(img/blocks/${b.preview}.png)`;
+  item.onclick = function () {
+    placeBlock = b;
+    _("blocks").style.display = "none";
+    noa.container.setPointerLock(true);
+  };
+  _("blocks").appendChild(item);
+});
 
 /*
  *
@@ -169,7 +183,7 @@ function mine() {
     let block = Object.values(blocks).find((b) => b.id == noa.targetedBlock.blockID);
     var tex =
       breakTextures[block.name] ||
-      (breakTextures[block.name] = new Texture(`img/blocks/${block.tex[0]}.png`, scene));
+      (breakTextures[block.name] = new Texture(`img/blocks/${block.preview}.png`, scene));
     var mps = new MPS(capacity, rate, scene);
     mps.disposeOnEmpty = true;
     mps.initParticle = function initParticle(pdata) {
@@ -203,13 +217,6 @@ noa.inputs.up.on("alt-fire", function () {
   mining = false;
 });
 
-noa.inputs.up.on("mid-fire", function () {
-  if (noa.targetedBlock) {
-    placeBlock =
-      Object.values(blocks).find((b) => b.id == noa.targetedBlock.blockID) || blocks.grass;
-  }
-});
-
 let placing = false;
 let lastPlacedOn = [];
 function place() {
@@ -225,6 +232,21 @@ noa.inputs.down.on("fire", function () {
 });
 noa.inputs.up.on("fire", function () {
   placing = false;
+});
+
+noa.inputs.up.on("mid-fire", function () {
+  if (noa.targetedBlock) {
+    placeBlock =
+      Object.values(blocks).find((b) => b.id == noa.targetedBlock.blockID) || blocks.grass;
+  }
+});
+
+noa.inputs.up.on("inventory", function () {
+  let hidden = _("blocks").style.display == "none";
+  _("blocks").style.display = hidden ? "" : "none";
+  console.log(hidden);
+  if (hidden) noa.container.setPointerLock(false);
+  else noa.container.setPointerLock(true);
 });
 
 noa.on("tick", function (dt) {

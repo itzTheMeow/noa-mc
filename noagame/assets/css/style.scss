@@ -6,11 +6,18 @@
   font-display: swap;
 }
 
+html {
+  height: -webkit-fill-available;
+  width: -webkit-fill-available;
+}
+
 body {
   background-color: white;
   margin: 0px;
   overflow: hidden;
   user-select: none;
+  min-height: -webkit-fill-available;
+  min-width: -webkit-fill-available;
   //font-family: "Minecraft";
 }
 
