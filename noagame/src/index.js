@@ -20,6 +20,7 @@ let GameOptions = {
     sprint: "<shift>",
     crouch: "<control>",
     inventory: "E",
+    esc: "<escape>",
   },
 };
 window.touchMode = GameOptions.touchMode;
@@ -81,6 +82,12 @@ Object.values(blocks).forEach((b) => {
     noa.container.setPointerLock(true);
   };
   _("blocks").appendChild(item);
+});
+noa.inputs.up.on("esc", () => {
+  if (_("blocks").style.display !== "none") {
+    _("blocks").style.display = "none";
+    noa.container.setPointerLock(true);
+  }
 });
 
 /*
