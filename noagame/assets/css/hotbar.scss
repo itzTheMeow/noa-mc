@@ -1,0 +1,41 @@
+$hotbar-scale: 3;
+
+#hotbar {
+  width: calc(182px * #{$hotbar-scale});
+  height: calc(22px * #{$hotbar-scale});
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-image: url(img/gui/hotbar.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  z-index: 997;
+
+  [id^="hotbar-item-"] {
+    width: calc(24px * #{$hotbar-scale});
+    height: calc(24px * #{$hotbar-scale});
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    background-image: url(img/blocks/stone.png);
+    background-size: calc(16px * #{$hotbar-scale});
+    background-repeat: no-repeat;
+    background-position: center center;
+    z-index: 998;
+  }
+
+  #hotbar-selection {
+    width: calc(24px * #{$hotbar-scale});
+    height: calc(24px * #{$hotbar-scale});
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    background-image: url(img/gui/hotbar_selection.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    z-index: 999;
+  }
+}

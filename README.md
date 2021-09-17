@@ -14,6 +14,7 @@ Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 ## v0.0.6
 
 - Increased gravity.
+- Added working hotbar.
 
 ## v0.0.5
 

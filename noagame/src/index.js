@@ -22,7 +22,17 @@ let GameOptions = {
     crouch: "<control>",
     inventory: "E",
     esc: "<escape>",
+    hb1: "1",
+    hb2: "2",
+    hb3: "3",
+    hb4: "4",
+    hb5: "5",
+    hb6: "6",
+    hb7: "7",
+    hb8: "8",
+    hb9: "9",
   },
+  thirdPersonZoom: 8,
 };
 GameOptions.autoJump = GameOptions.touchMode;
 window.touchMode = GameOptions.touchMode;
@@ -83,6 +93,51 @@ let blocks = {
   sapling: new Block("sapling", [], { flowerType: true }),
 };
 let placeBlock = blocks.grass;
+let hotbar = [
+  blocks.grass,
+  blocks.dirt,
+  blocks.planks,
+  blocks.oakLog,
+  blocks.cobblestone,
+  blocks.stone,
+  blocks.bricks,
+  blocks.obsidian,
+  blocks.bedrock,
+];
+let hotbarSelection = 1;
+
+//                                HOTBAR SCALE
+//                                     V
+let getHotbarOffset = (n) => -3 + 20 * 3 * (n - 1);
+
+window.setHotbarSelection = function (num) {
+  hotbarSelection = num;
+  _("hotbar-selection").style.left = getHotbarOffset(num) + "px";
+  [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => _(`hotbar-item-${n}`).classList.remove("selected"));
+  let selection = _(`hotbar-item-${hotbarSelection}`);
+  selection.classList.add("selected");
+  placeBlock = hotbar[hotbarSelection - 1];
+};
+window.setHotbarSelection(hotbarSelection);
+
+window.updateHotbar = function () {
+  [1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((n) => {
+    let hb = _(`hotbar-item-${n}`);
+    hb.style.backgroundImage = `url(img/blocks/${hotbar[n - 1].preview}.png)`;
+    hb.style.left = getHotbarOffset(n) + "px";
+  });
+};
+window.updateHotbar();
+
+window.addEventListener("touchstart", (touch) => {
+  if (!touch.target.id.startsWith("hotbar-item-")) return;
+  let sel = Number(touch.target.id.substring("hotbar-item-".length)) || 1;
+  window.setHotbarSelection(sel);
+});
+
+[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) =>
+  noa.inputs.down.on(`hb${n}`, () => window.setHotbarSelection(n))
+);
 
 noa.blockTargetIdCheck = (id) => {
   return id !== 0;
@@ -277,11 +332,13 @@ noa.inputs.up.on("inventory", function () {
 
 noa.on("tick", function (dt) {
   actionTicks++;
-  var scroll = noa.inputs.state.scrolly;
+  let scroll = noa.inputs.state.scrolly;
   if (scroll !== 0) {
-    noa.camera.zoomDistance += scroll > 0 ? 1 : -1;
-    if (noa.camera.zoomDistance < 0) noa.camera.zoomDistance = 0;
-    if (noa.camera.zoomDistance > 10) noa.camera.zoomDistance = 10;
+    let sel = hotbarSelection + (scroll > 0 ? 1 : -1);
+    console.log(hotbarSelection, sel, scroll);
+    if (sel < 1) sel = 9;
+    if (sel > 9) sel = 1;
+    setHotbarSelection(sel);
   }
 
   let pos = noa.entities.getPositionData(noa.playerEntity).position.map((p) => Math.ceil(p));
