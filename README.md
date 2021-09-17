@@ -5,6 +5,8 @@ Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 
 ## I DO NOT OWN ANY OF THESE ASSETS
 
+## I AM NOT AFFILIATED WITH MOJANG IN ANY WAY
+
 ### ASSETS &copy; MOJANG AB
 
 <br>
