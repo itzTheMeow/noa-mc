@@ -49,6 +49,13 @@ let Block = function (name, tex, opts) {
   this.transparent = opts.transparent;
   this.flowerType = opts.flowerType;
 
+  this.getPreviewTex = function () {
+    if (this.tex.length == 1) return [this.tex[0], this.tex[0], this.tex[0]];
+    else if (this.tex.length == 2) return [this.tex[0], this.tex[1], this.tex[1]];
+    else if (this.tex.length == 3) return [this.tex[0], this.tex[2], this.tex[2]];
+    else return [this.tex[3], this.tex[1], this.tex[5]];
+  };
+
   let blockOptions = {
     material: this.tex.length > 1 ? this.tex : this.tex[0],
     opaque: !this.transparent,

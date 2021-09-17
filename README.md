@@ -11,6 +11,10 @@ Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 
 # Changelog
 
+## v0.0.7
+
+- Added 3d renders to hotbar.
+
 ## v0.0.6
 
 - Increased gravity.

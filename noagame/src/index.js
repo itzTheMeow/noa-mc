@@ -105,10 +105,9 @@ let hotbar = [
   blocks.bedrock,
 ];
 let hotbarSelection = 1;
+let hotbarScale = 3;
 
-//                                HOTBAR SCALE
-//                                     V
-let getHotbarOffset = (n) => -3 + 20 * 3 * (n - 1);
+let getHotbarOffset = (n) => -3 + 20 * hotbarScale * (n - 1);
 
 window.setHotbarSelection = function (num) {
   hotbarSelection = num;
@@ -120,11 +119,19 @@ window.setHotbarSelection = function (num) {
 };
 window.setHotbarSelection(hotbarSelection);
 
+import blockPreview from "./blockPreview";
 window.updateHotbar = function () {
   [1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((n) => {
     let hb = _(`hotbar-item-${n}`);
-    hb.style.backgroundImage = `url(img/blocks/${hotbar[n - 1].preview}.png)`;
+    if (hb.firstChild) hb.firstChild.remove();
+    let sel = hotbar[n - 1];
+    if (!sel) return;
+    let canv = document.createElement("canvas");
+    canv.width = 16 * hotbarScale;
+    canv.height = 16 * hotbarScale;
+    hb.appendChild(canv);
     hb.style.left = getHotbarOffset(n) + "px";
+    blockPreview(canv, ...sel.getPreviewTex(), sel.flowerType);
   });
 };
 window.updateHotbar();
@@ -248,7 +255,6 @@ noa.entities.addComponent(player, noa.entities.names.mesh, {
 
 import MPS from "./mesh-particle-system.js";
 import { Texture } from "../../noalib/node_modules/@babylonjs/core/Materials/Textures/texture";
-import { Vector3 } from "@babylonjs/core";
 let breakTextures = {};
 var capacity = 80;
 var rate = 80;
