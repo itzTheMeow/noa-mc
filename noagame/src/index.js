@@ -120,12 +120,15 @@ window.setHotbarSelection = function (num) {
 window.setHotbarSelection(hotbarSelection);
 
 import blockPreview from "./blockPreview";
-window.updateHotbar = function () {
+let hotbarCache = [];
+window.updateHotbar = function (force) {
   [1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((n) => {
-    let hb = _(`hotbar-item-${n}`);
-    if (hb.firstChild) hb.firstChild.remove();
     let sel = hotbar[n - 1];
     if (!sel) return;
+    if (hotbarCache[n - 1] == sel.id && !force) return;
+
+    let hb = _(`hotbar-item-${n}`);
+    if (hb.firstChild) hb.firstChild.remove();
     let canv = document.createElement("canvas");
     canv.width = 16 * hotbarScale;
     canv.height = 16 * hotbarScale;
@@ -133,8 +136,9 @@ window.updateHotbar = function () {
     hb.style.left = getHotbarOffset(n) + "px";
     blockPreview(canv, ...sel.getPreviewTex(), sel.flowerType);
   });
+  hotbarCache = hotbar.map((h) => h.id);
 };
-window.updateHotbar();
+window.updateHotbar(true);
 
 window.addEventListener("touchstart", (touch) => {
   if (!touch.target.id.startsWith("hotbar-item-")) return;
@@ -156,7 +160,9 @@ Object.values(blocks).forEach((b) => {
   item.id = `inv-${b.name}`;
   item.style = `background-image: url(img/blocks/${b.preview}.png)`;
   item.onclick = function () {
-    placeBlock = b;
+    hotbar[hotbarSelection - 1] = b;
+    window.setHotbarSelection(hotbarSelection);
+    window.updateHotbar(false);
     _("blocks").style.display = "none";
     noa.container.setPointerLock(true);
   };
@@ -267,9 +273,15 @@ function mine() {
     noa.setBlock(0, pos[0], pos[1], pos[2]);
 
     let block = Object.values(blocks).find((b) => b.id == noa.targetedBlock.blockID);
-    var tex =
+    let tex =
       breakTextures[block.name] ||
-      (breakTextures[block.name] = new Texture(`img/blocks/${block.preview}.png`, scene));
+      (breakTextures[block.name] = new Texture(
+        `img/blocks/${block.preview}.png`,
+        scene,
+        true,
+        true,
+        Texture.NEAREST_SAMPLINGMODE
+      ));
     tex.uAng = tex.vAng = Math.PI;
     var mps = new MPS(capacity, rate, scene);
     mps.disposeOnEmpty = true;
@@ -323,15 +335,17 @@ noa.inputs.up.on("fire", function () {
 
 noa.inputs.up.on("mid-fire", function () {
   if (noa.targetedBlock) {
-    placeBlock =
+    let picked =
       Object.values(blocks).find((b) => b.id == noa.targetedBlock.blockID) || blocks.grass;
+    hotbar[hotbarSelection - 1] = picked;
+    window.setHotbarSelection(hotbarSelection);
+    window.updateHotbar();
   }
 });
 
 noa.inputs.up.on("inventory", function () {
   let hidden = _("blocks").style.display == "none";
   _("blocks").style.display = hidden ? "" : "none";
-  console.log(hidden);
   if (hidden) noa.container.setPointerLock(false);
   else noa.container.setPointerLock(true);
 });
@@ -341,7 +355,6 @@ noa.on("tick", function (dt) {
   let scroll = noa.inputs.state.scrolly;
   if (scroll !== 0) {
     let sel = hotbarSelection + (scroll > 0 ? 1 : -1);
-    console.log(hotbarSelection, sel, scroll);
     if (sel < 1) sel = 9;
     if (sel > 9) sel = 1;
     setHotbarSelection(sel);

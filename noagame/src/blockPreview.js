@@ -3,6 +3,7 @@ import {
   Color4,
   Engine,
   HemisphericLight,
+  Matrix,
   Mesh,
   MeshBuilder,
   Scene,
@@ -24,41 +25,69 @@ export default function blockPreview(glcanvas, topT, leftT, rightT, xShape) {
 
   const camera = new ArcRotateCamera("Camera", -Math.PI / 4, Math.PI / 3, 4, Vector3.Zero());
   camera.attachControl(glcanvas, true);
-  const light = new HemisphericLight("light", new Vector3(0.8, 1, -0.3));
 
-  const matTop = new StandardMaterial("matTop");
-  let topTex = new Texture(`img/blocks/${topT}.png`);
-  topTex.hasAlpha = true;
-  matTop.diffuseTexture = topTex;
-  const matLeft = new StandardMaterial("matLeft");
-  let leftTex = new Texture(`img/blocks/${leftT}.png`);
-  leftTex.hasAlpha = true;
-  matLeft.diffuseTexture = leftTex;
-  const matRight = new StandardMaterial("matRight");
-  let rightTex = new Texture(`img/blocks/${rightT}.png`);
-  rightTex.hasAlpha = true;
-  matRight.diffuseTexture = rightTex;
+  let blockSize = 1;
 
-  let top = MeshBuilder.CreatePlane("top", { size: 1 });
-  top.material = matTop;
-  top.rotation.x = Math.PI / 2;
-  top.position.y = 0.5;
+  if (!xShape) {
+    new HemisphericLight("light", new Vector3(0.8, 1, -0.3));
+    camera.fov = 0.45 * blockSize;
 
-  let left = MeshBuilder.CreatePlane("left", { size: 1 });
-  left.material = matLeft;
-  left.rotation.y = -Math.PI / 2;
-  left.position.x = 0.5;
+    const matTop = new StandardMaterial("matTop");
+    let topTex = new Texture(`img/blocks/${topT}.png`);
+    topTex.hasAlpha = true;
+    matTop.diffuseTexture = topTex;
+    const matLeft = new StandardMaterial("matLeft");
+    let leftTex = new Texture(`img/blocks/${leftT}.png`);
+    leftTex.hasAlpha = true;
+    matLeft.diffuseTexture = leftTex;
+    const matRight = new StandardMaterial("matRight");
+    let rightTex = new Texture(`img/blocks/${rightT}.png`);
+    rightTex.hasAlpha = true;
+    matRight.diffuseTexture = rightTex;
 
-  let right = MeshBuilder.CreatePlane("right", { size: 1 });
-  right.material = matRight;
-  right.rotation.y = 0;
-  right.position.z = -0.5;
+    let top = MeshBuilder.CreatePlane("top", { size: blockSize });
+    top.material = matTop;
+    top.rotation.x = Math.PI / 2;
+    top.position.y = 0.5 * blockSize;
 
-  camera.fov = 0.45;
+    let left = MeshBuilder.CreatePlane("left", { size: blockSize });
+    left.material = matLeft;
+    left.rotation.y = -Math.PI / 2;
+    left.position.x = 0.5 * blockSize;
 
+    let right = MeshBuilder.CreatePlane("right", { size: blockSize });
+    right.material = matRight;
+    right.rotation.y = 0;
+    right.position.z = -0.5 * blockSize;
+  } else {
+    new HemisphericLight("light", new Vector3(1, 1, 1));
+    camera.alpha += Math.PI / 2.7;
+    camera.fov = 0.3 * blockSize;
+
+    let tex = new Texture(
+      `img/blocks/${topT}.png`,
+      undefined,
+      true,
+      true,
+      Texture.NEAREST_SAMPLINGMODE
+    );
+    tex.hasAlpha = true;
+    const mesh = Mesh.CreatePlane("xplane", 1);
+    const mat = new StandardMaterial("xplane");
+    mat.backFaceCulling = false;
+    mat.diffuseTexture = tex;
+    mat.diffuseTexture.vOffset = 0.99;
+    mesh.material = mat;
+    mesh.rotation.y = -Math.PI / 2;
+    const clone = mesh.clone("xplanec");
+    clone.rotation.y = Math.PI;
+  }
+
+  let rendered = 0;
   engine.runRenderLoop(function () {
-    if (scene && scene.activeCamera) {
+    if (scene && scene.activeCamera && rendered < 5) {
       scene.render();
+      rendered++;
     }
   });
 }

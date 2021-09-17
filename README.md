@@ -16,6 +16,9 @@ Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 ## v0.0.7
 
 - Added 3d renders to hotbar.
+- Fixed break particle sampling.
+- Pickblock updates current hotbar slot.
+- Inventory updates current hotbar slot.
 
 ## v0.0.6
 
