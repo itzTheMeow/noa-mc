@@ -11,11 +11,11 @@ export default function init() {
     "up-right": false,
     down: false,
   };
-  let lastHit = "";
+  let lastHit: HTMLElement;
 
-  function updateTouch(lh) {
+  function updateTouch(lh?: HTMLElement) {
     if (lh) lastHit = lh;
-    if (!window.touchMode) _("control-pad").style.display = "none";
+    if (!(window as any).touchMode) _("control-pad").style.display = "none";
     else _("control-pad").style.display = "";
     if (!touching.up && !touching["up-left"] && !touching["up-right"])
       _("up-left").style.display = _("up-right").style.display = "none";
@@ -33,7 +33,7 @@ export default function init() {
     };
   }
   updateTouch();
-  window.updateTouch = updateTouch;
+  (window as any).updateTouch = updateTouch;
   function resetTouch() {
     Object.keys(touching).map((i) => {
       _(i).classList.remove("active");
@@ -42,21 +42,21 @@ export default function init() {
   }
 
   window.addEventListener("touchstart", (touch) => {
-    if (!Object.keys(touching).includes(touch.target.id)) return;
-    touch.target.classList.add("active");
-    touching[touch.target.id] = true;
-    updateTouch(touch.target);
+    if (!Object.keys(touching).includes((touch.target as HTMLElement).id)) return;
+    (touch.target as HTMLElement).classList.add("active");
+    touching[(touch.target as HTMLElement).id] = true;
+    updateTouch(touch.target as HTMLElement);
   });
   window.addEventListener("touchmove", (touch) => {
     [...touch.touches].forEach((t) => {
-      if (!Object.keys(touching).includes(t.target.id)) return;
+      if (!Object.keys(touching).includes((t.target as HTMLElement).id)) return;
       let el = document.elementFromPoint(t.pageX, t.pageY);
       if (!el) return;
       resetTouch();
       if (Object.keys(touching).includes(el.id)) {
         el.classList.add("active");
         touching[el.id] = true;
-        updateTouch(el);
+        updateTouch(el as HTMLElement);
       } else if (el.id == "control-pad" && lastHit) {
         lastHit.classList.add("active");
         touching[lastHit.id] = true;
@@ -65,7 +65,7 @@ export default function init() {
     });
   });
   window.addEventListener("touchend", (touch) => {
-    if (!Object.keys(touching).includes(touch.target.id)) return;
+    if (!Object.keys(touching).includes((touch.target as HTMLElement).id)) return;
     resetTouch();
     updateTouch();
   });

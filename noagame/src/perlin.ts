@@ -1,6 +1,6 @@
 import rand from "./random";
 
-function PerlinNoiseFilter(levels) {
+export default function PerlinNoiseFilter(levels: 0 | 1) {
   this.seed;
   this.levels;
   this.fuzz;
@@ -72,5 +72,3 @@ function PerlinNoiseFilter(levels) {
     return result;
   };
 }
-
-export default PerlinNoiseFilter;

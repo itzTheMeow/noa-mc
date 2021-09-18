@@ -431,7 +431,7 @@ function updatePositionsData(system) {
     vec3.Up(),
     baseMatrix
   );
-  baseMatrix.m[12] = baseMatrix.m[13] = baseMatrix.m[14] = 0;
+  (baseMatrix as any).m[12] = (baseMatrix as any).m[13] = (baseMatrix as any).m[14] = 0;
 
   var mat = cachedMatrix2;
   baseMatrix.invertToRef(mat);
@@ -545,7 +545,7 @@ function disposeMPS(system) {
  */
 
 var profile_hook = (function () {
-  if (window && window.MPS_profile_hook) return window.MPS_profile_hook;
+  if (window && (window as any).MPS_profile_hook) return (window as any).MPS_profile_hook;
   return function () {};
 })();
 

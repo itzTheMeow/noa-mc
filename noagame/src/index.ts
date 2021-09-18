@@ -35,7 +35,7 @@ let GameOptions = {
   thirdPersonZoom: 8,
 };
 GameOptions.autoJump = GameOptions.touchMode;
-window.touchMode = GameOptions.touchMode;
+(window as any).touchMode = GameOptions.touchMode;
 import initCtrlPad from "./control-pad";
 
 require("body-scroll-lock").disableBodyScroll(_("bsl"), {
@@ -59,18 +59,18 @@ var opts = {
 var noa = new Engine(opts);
 export default noa;
 
-initCtrlPad(GameOptions);
+initCtrlPad();
 
-window.setSensitivity = function (val) {
+(window as any).setSensitivity = function (val) {
   GameOptions.sensitivity = +val;
-  if (window.touchMode) GameOptions.sensitivity *= 3;
+  if ((window as any).touchMode) GameOptions.sensitivity *= 3;
   noa.camera.sensitivityX = noa.camera.sensitivityY = GameOptions.sensitivity;
 };
-window.setSensitivity(GameOptions.sensitivity);
-window.setTouchMode = function (val) {
-  GameOptions.touchMode = window.touchMode = val;
-  window.updateTouch();
-  window.setSensitivity(GameOptions.sensitivity);
+(window as any).setSensitivity(GameOptions.sensitivity);
+(window as any).setTouchMode = function (val) {
+  GameOptions.touchMode = (window as any).touchMode = val;
+  (window as any).updateTouch();
+  (window as any).setSensitivity(GameOptions.sensitivity);
   noa.entities.getPhysics(noa.playerEntity).body.autoStep =
     GameOptions.autoJump || GameOptions.touchMode;
 };
@@ -109,7 +109,7 @@ let hotbarScale = 3;
 
 let getHotbarOffset = (n) => -3 + 20 * hotbarScale * (n - 1);
 
-window.setHotbarSelection = function (num) {
+(window as any).setHotbarSelection = function (num) {
   hotbarSelection = num;
   _("hotbar-selection").style.left = getHotbarOffset(num) + "px";
   [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => _(`hotbar-item-${n}`).classList.remove("selected"));
@@ -117,11 +117,11 @@ window.setHotbarSelection = function (num) {
   selection.classList.add("selected");
   placeBlock = hotbar[hotbarSelection - 1];
 };
-window.setHotbarSelection(hotbarSelection);
+(window as any).setHotbarSelection(hotbarSelection);
 
 import blockPreview from "./blockPreview";
 let hotbarCache = [];
-window.updateHotbar = function (force) {
+(window as any).updateHotbar = function (force) {
   [1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((n) => {
     let sel = hotbar[n - 1];
     if (!sel) return;
@@ -143,20 +143,21 @@ window.updateHotbar = function (force) {
     document.body.appendChild(glcanv);
     hb.style.left = getHotbarOffset(n) + "px";
 
-    blockPreview(glcanv, canv, ...sel.getPreviewTex(), sel.flowerType);
+    let prev = sel.getPreviewTex();
+    blockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType);
   });
   hotbarCache = hotbar.map((h) => h.id);
 };
-window.updateHotbar(true);
+(window as any).updateHotbar(true);
 
-window.addEventListener("touchstart", (touch) => {
+(window as any).addEventListener("touchstart", (touch) => {
   if (!touch.target.id.startsWith("hotbar-item-")) return;
   let sel = Number(touch.target.id.substring("hotbar-item-".length)) || 1;
-  window.setHotbarSelection(sel);
+  (window as any).setHotbarSelection(sel);
 });
 
 [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) =>
-  noa.inputs.down.on(`hb${n}`, () => window.setHotbarSelection(n))
+  noa.inputs.down.on(`hb${n}`, () => (window as any).setHotbarSelection(n))
 );
 
 noa.blockTargetIdCheck = (id) => {
@@ -167,11 +168,11 @@ Object.values(blocks).forEach((b) => {
   let item = document.createElement("div");
   item.className = "invblock";
   item.id = `inv-${b.name}`;
-  item.style = `background-image: url(img/blocks/${b.preview}.png)`;
+  item.style.backgroundImage = `url(img/blocks/${b.preview}.png)`;
   item.onclick = function () {
     hotbar[hotbarSelection - 1] = b;
-    window.setHotbarSelection(hotbarSelection);
-    window.updateHotbar(false);
+    (window as any).setHotbarSelection(hotbarSelection);
+    (window as any).updateHotbar(false);
     _("blocks").style.display = "none";
     noa.container.setPointerLock(true);
   };
@@ -200,7 +201,6 @@ import noise from "./perlin";
 let width = 64;
 let height = 64;
 let filter = new noise(0).read(width, height);
-window.n = [];
 function getVoxelID(x, y, z) {
   if (x >= 64 || y >= 64 || z >= 64) return 0;
   if (x < 0 || y < 0 || z < 0) return 0;
@@ -227,7 +227,7 @@ noa.world.on("worldDataNeeded", function (id, data, x, y, z) {
     }
   }
   // tell noa the chunk's terrain data is now set
-  noa.world.setChunkData(id, data);
+  noa.world.setChunkData(id, data, null);
 });
 
 /*
@@ -254,7 +254,7 @@ mesh.scaling.y = h;
 
 // add "mesh" component to the player entity
 // this causes the mesh to move around in sync with the player entity
-noa.entities.addComponent(player, noa.entities.names.mesh, {
+noa.entities.addComponent(player, (noa.entities.names as any).mesh, {
   mesh: mesh,
   // offset vector is needed because noa positions are always the
   // bottom-center of the entity, and Babylon's CreateBox gives a
@@ -269,7 +269,7 @@ noa.entities.addComponent(player, noa.entities.names.mesh, {
  */
 
 import MPS from "./mesh-particle-system.js";
-import { Texture } from "../../noalib/node_modules/@babylonjs/core/Materials/Textures/texture";
+import { Texture } from "@babylonjs/core/Materials/Textures/texture";
 let breakTextures = {};
 var capacity = 80;
 var rate = 80;
@@ -292,7 +292,7 @@ function mine() {
         Texture.NEAREST_SAMPLINGMODE
       ));
     tex.uAng = tex.vAng = Math.PI;
-    var mps = new MPS(capacity, rate, scene);
+    var mps = new MPS(capacity, rate, scene, null, null, null);
     mps.disposeOnEmpty = true;
     mps.initParticle = function initParticle(pdata) {
       pdata.position.copyFromFloats(Math.random(), Math.max(Math.random(), 0.6), Math.random());
@@ -347,8 +347,8 @@ noa.inputs.up.on("mid-fire", function () {
     let picked =
       Object.values(blocks).find((b) => b.id == noa.targetedBlock.blockID) || blocks.grass;
     hotbar[hotbarSelection - 1] = picked;
-    window.setHotbarSelection(hotbarSelection);
-    window.updateHotbar();
+    (window as any).setHotbarSelection(hotbarSelection);
+    (window as any).updateHotbar();
   }
 });
 
@@ -366,7 +366,7 @@ noa.on("tick", function (dt) {
     let sel = hotbarSelection + (scroll > 0 ? 1 : -1);
     if (sel < 1) sel = 9;
     if (sel > 9) sel = 1;
-    setHotbarSelection(sel);
+    (window as any).setHotbarSelection(sel);
   }
 
   let pos = noa.entities.getPositionData(noa.playerEntity).position.map((p) => Math.ceil(p));

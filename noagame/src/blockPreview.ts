@@ -23,25 +23,25 @@ export default function blockPreview(glcanvas, canvas2d, topT, leftT, rightT, xS
   const scene = new Scene(engine);
   scene.clearColor = new Color4(0, 0, 0, 0);
 
-  const camera = new ArcRotateCamera("Camera", -Math.PI / 4, Math.PI / 3, 4, Vector3.Zero());
+  const camera = new ArcRotateCamera("Camera", -Math.PI / 4, Math.PI / 3, 4, Vector3.Zero(), null);
   camera.attachControl(glcanvas, true);
 
   let blockSize = 1;
 
   if (!xShape) {
-    new HemisphericLight("light", new Vector3(0.8, 1, -0.3));
+    new HemisphericLight("light", new Vector3(0.8, 1, -0.3), null);
     camera.fov = 0.45 * blockSize;
 
-    const matTop = new StandardMaterial("matTop");
-    let topTex = new Texture(`img/blocks/${topT}.png`);
+    const matTop = new StandardMaterial("matTop", null);
+    let topTex = new Texture(`img/blocks/${topT}.png`, null);
     topTex.hasAlpha = true;
     matTop.diffuseTexture = topTex;
-    const matLeft = new StandardMaterial("matLeft");
-    let leftTex = new Texture(`img/blocks/${leftT}.png`);
+    const matLeft = new StandardMaterial("matLeft", null);
+    let leftTex = new Texture(`img/blocks/${leftT}.png`, null);
     leftTex.hasAlpha = true;
     matLeft.diffuseTexture = leftTex;
-    const matRight = new StandardMaterial("matRight");
-    let rightTex = new Texture(`img/blocks/${rightT}.png`);
+    const matRight = new StandardMaterial("matRight", null);
+    let rightTex = new Texture(`img/blocks/${rightT}.png`, null);
     rightTex.hasAlpha = true;
     matRight.diffuseTexture = rightTex;
 
@@ -60,7 +60,7 @@ export default function blockPreview(glcanvas, canvas2d, topT, leftT, rightT, xS
     right.rotation.y = 0;
     right.position.z = -0.5 * blockSize;
   } else {
-    new HemisphericLight("light", new Vector3(1, 1, 1));
+    new HemisphericLight("light", new Vector3(1, 1, 1), null);
     camera.alpha += Math.PI / 2.7;
     camera.fov = 0.3 * blockSize;
 
@@ -72,11 +72,11 @@ export default function blockPreview(glcanvas, canvas2d, topT, leftT, rightT, xS
       Texture.NEAREST_SAMPLINGMODE
     );
     tex.hasAlpha = true;
-    const mesh = Mesh.CreatePlane("xplane", 1);
-    const mat = new StandardMaterial("xplane");
+    const mesh = Mesh.CreatePlane("xplane", 1, null);
+    const mat = new StandardMaterial("xplane", null);
     mat.backFaceCulling = false;
     mat.diffuseTexture = tex;
-    mat.diffuseTexture.vOffset = 0.99;
+    (mat.diffuseTexture as Texture).vOffset = 0.99;
     mesh.material = mat;
     mesh.rotation.y = -Math.PI / 2;
     const clone = mesh.clone("xplanec");

@@ -1,9 +1,9 @@
 let prod = false;
 
 let buildOpts = {
-  entryPoints: ["src/index.js"],
-  bundle: true,
+  entryPoints: ["src/index.ts"],
   outfile: "build/bundle.js",
+  bundle: true,
   minify: true,
   sourcemap: true,
   watch: {

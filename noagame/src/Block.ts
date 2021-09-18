@@ -18,7 +18,7 @@ function xMesh(name) {
   const mat = noa.rendering.makeStandardMaterial(name);
   mat.backFaceCulling = false;
   mat.diffuseTexture = tex;
-  mat.diffuseTexture.vOffset = 0.99;
+  (mat.diffuseTexture as Texture).vOffset = 0.99;
   mesh.material = mat;
   mesh.rotation.y += 0.81;
 
@@ -30,7 +30,7 @@ function xMesh(name) {
   return Mesh.MergeMeshes([mesh, clone], true);
 }
 
-let Block = function (name, tex, opts) {
+let Block = function (name: string, tex: string[], opts?: any) {
   if (!tex.length) tex = [name];
   opts = Object.assign({}, { transparent: false, prev: tex[0], flowerType: false }, opts);
 
@@ -61,9 +61,9 @@ let Block = function (name, tex, opts) {
     opaque: !this.transparent,
   };
   if (this.flowerType) {
-    blockOptions.blockMesh = xMesh(this.tex[0]);
+    (blockOptions as any).blockMesh = xMesh(this.tex[0]);
     blockOptions.opaque = false;
-    blockOptions.solid = false;
+    (blockOptions as any).solid = false;
     delete blockOptions.material;
   }
   noa.registry.registerBlock(this.id, blockOptions);
