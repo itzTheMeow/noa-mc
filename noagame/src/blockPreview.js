@@ -13,7 +13,7 @@ import {
   Vector4,
 } from "@babylonjs/core";
 
-export default function blockPreview(glcanvas, topT, leftT, rightT, xShape) {
+export default function blockPreview(glcanvas, canvas2d, topT, leftT, rightT, xShape) {
   let engine = new Engine(glcanvas, true, {
     preserveDrawingBuffer: true,
     stencil: true,
@@ -85,9 +85,15 @@ export default function blockPreview(glcanvas, topT, leftT, rightT, xShape) {
 
   let rendered = 0;
   engine.runRenderLoop(function () {
-    if (scene && scene.activeCamera && rendered < 5) {
+    if (scene && scene.activeCamera && rendered < 10) {
       scene.render();
       rendered++;
+    } else {
+      try {
+        canvas2d.getContext("2d").drawImage(engine._gl.canvas, 0, 0);
+        engine._gl.getExtension("WEBGL_lose_context").loseContext(); // chrome max contexts fuck you
+        glcanvas.remove();
+      } catch (e) {}
     }
   });
 }

@@ -10,7 +10,7 @@ function deleteFolderRecursive(path, delExts) {
         deleteFolderRecursive(curPath);
       } else {
         // delete file
-        fs.unlinkSync(curPath);
+        if (!curPath.includes("babylon.js")) fs.unlinkSync(curPath);
       }
     });
   }

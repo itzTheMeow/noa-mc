@@ -129,12 +129,21 @@ window.updateHotbar = function (force) {
 
     let hb = _(`hotbar-item-${n}`);
     if (hb.firstChild) hb.firstChild.remove();
+
+    let glcanv = document.createElement("canvas");
+    glcanv.width = 16 * hotbarScale;
+    glcanv.height = 16 * hotbarScale;
+    glcanv.style.visibility = "none";
+
     let canv = document.createElement("canvas");
     canv.width = 16 * hotbarScale;
     canv.height = 16 * hotbarScale;
+
     hb.appendChild(canv);
+    document.body.appendChild(glcanv);
     hb.style.left = getHotbarOffset(n) + "px";
-    blockPreview(canv, ...sel.getPreviewTex(), sel.flowerType);
+
+    blockPreview(glcanv, canv, ...sel.getPreviewTex(), sel.flowerType);
   });
   hotbarCache = hotbar.map((h) => h.id);
 };

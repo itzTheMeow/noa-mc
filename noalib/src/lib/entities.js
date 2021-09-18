@@ -132,14 +132,39 @@ export class Entities extends ECS {
 
         // Bundler magic to import everything in the ../components directory
         // each component module exports a default function: (noa) => compDefinition
-        //@ts-expect-error
-        var reqContext = require.context("../components/", false, /\.js$/);
-        for (var name of reqContext.keys()) {
-            // convert name ('./foo.js') to bare name ('foo')
-            var bareName = /\.\/(.*)\.js/.exec(name)[1];
-            var arg = componentArgs[bareName] || undefined;
-            var compFn = reqContext(name);
+        var reqContext = [
+            require("../components/collideEntities.js"),
+            require("../components/collideTerrain.js"),
+            require("../components/fadeOnZoom.js"),
+            require("../components/followsEntity.js"),
+            require("../components/mesh.js"),
+            require("../components/movement.js"),
+            require("../components/physics.js"),
+            require("../components/position.js"),
+            require("../components/receivesInputs.js"),
+            require("../components/shadow.js"),
+            require("../components/smoothCamera.js"),
+        ];
+        var bareNames = [
+            "collideEntities",
+            "collideTerrain",
+            "fadeOnZoom",
+            "followsEntity",
+            "mesh",
+            "movement",
+            "physics",
+            "position",
+            "receivesInputs",
+            "shadow",
+            "smoothCamera",
+        ];
+        for (var name of reqContext) {
+            var compFn = name;
+            //@ts-expect-error
             if (compFn.default) compFn = compFn.default;
+            let bareName = bareNames[reqContext.indexOf(name)];
+            let arg = componentArgs[bareName];
+            //@ts-expect-error
             var compDef = compFn(noa, arg);
             var comp = this.createComponent(compDef);
             this.names[bareName] = comp;

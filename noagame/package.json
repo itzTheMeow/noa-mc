@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "Starter examples of game worlds using the noa voxel engine",
   "scripts": {
-    "start": "npm run build && cd src && webpack serve",
-    "build": "node clean.js && node build-assets.js && npm run prefixcss && cd src && webpack --env prod",
-    "prefixcss": "npx postcss build/style.css --use autoprefixer -d build/"
+    "start": "node clean.js && node build-assets.js && npm run prefixcss && node esbuild.js",
+    "prefixcss": "npx postcss build/style.css --use autoprefixer -d build/",
+    "start_old": "npm run build && cd src && webpack serve",
+    "build_old": "node clean.js && node build-assets.js && npm run prefixcss && cd src && webpack --env prod"
   },
   "keywords": [],
   "author": "Meow",
@@ -15,6 +16,8 @@
     "@babylonjs/inspector": "^4.2.0",
     "autoprefixer": "^10.3.4",
     "body-scroll-lock": "^4.0.0-beta.0",
+    "esbuild": "^0.12.28",
+    "express": "^4.17.1",
     "noa-engine": "^0.30.0",
     "perlin-noise-3d": "^0.5.4",
     "postcss-cli": "^8.3.1",

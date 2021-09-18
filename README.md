@@ -13,6 +13,11 @@ Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 
 # Changelog
 
+## v0.0.8
+
+- Fixed inventory updating in chrome.
+- Switched to esbuild.
+
 ## v0.0.7
 
 - Added 3d renders to hotbar.
