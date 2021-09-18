@@ -37,9 +37,10 @@ let GameOptions = {
 GameOptions.autoJump = GameOptions.touchMode;
 (window as any).touchMode = GameOptions.touchMode;
 import initCtrlPad from "./control-pad";
+import { disableBodyScroll } from "body-scroll-lock";
 
-require("body-scroll-lock").disableBodyScroll(_("bsl"), {
-  allowTouchMove: (e) => {
+disableBodyScroll(_("bsl"), {
+  allowTouchMove: (e: HTMLElement | Element) => {
     return e.id == "control-pad" || e.id == "noa-container";
   },
 });
@@ -119,7 +120,7 @@ let getHotbarOffset = (n) => -3 + 20 * hotbarScale * (n - 1);
 };
 (window as any).setHotbarSelection(hotbarSelection);
 
-import blockPreview from "./blockPreview";
+import BlockPreview from "./BlockPreview";
 let hotbarCache = [];
 (window as any).updateHotbar = function (force) {
   [1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((n) => {
@@ -144,7 +145,7 @@ let hotbarCache = [];
     hb.style.left = getHotbarOffset(n) + "px";
 
     let prev = sel.getPreviewTex();
-    blockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType);
+    new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType);
   });
   hotbarCache = hotbar.map((h) => h.id);
 };
@@ -214,7 +215,7 @@ function getVoxelID(x, y, z) {
 }
 
 // register for world events
-noa.world.on("worldDataNeeded", function (id, data, x, y, z) {
+(noa.world as any).on("worldDataNeeded", function (id, data, x, y, z) {
   // `id` - a unique string id for the chunk
   // `data` - an `ndarray` of voxel ID data (see: https://github.com/scijs/ndarray)
   // `x, y, z` - world coords of the corner of the chunk
@@ -254,7 +255,7 @@ mesh.scaling.y = h;
 
 // add "mesh" component to the player entity
 // this causes the mesh to move around in sync with the player entity
-noa.entities.addComponent(player, (noa.entities.names as any).mesh, {
+(noa.entities as any).addComponent(player, (noa.entities.names as any).mesh, {
   mesh: mesh,
   // offset vector is needed because noa positions are always the
   // bottom-center of the entity, and Babylon's CreateBox gives a
@@ -359,7 +360,7 @@ noa.inputs.up.on("inventory", function () {
   else noa.container.setPointerLock(true);
 });
 
-noa.on("tick", function (dt) {
+(noa as any).on("tick", function (dt) {
   actionTicks++;
   let scroll = noa.inputs.state.scrolly;
   if (scroll !== 0) {

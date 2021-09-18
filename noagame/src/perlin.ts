@@ -1,22 +1,23 @@
 import rand from "./random";
 
-export default function PerlinNoiseFilter(levels: 0 | 1) {
-  this.seed;
-  this.levels;
-  this.fuzz;
+type PerlinLevels = 0 | 1;
 
-  this.seed = Math.random();
-  this.levels = 0;
-  this.fuzz = 16;
-  this.levels = levels;
+export default class PerlinNoiseFilter {
+  public seed: number = Math.random();
+  public levels: PerlinLevels = 0;
+  public fuzz: number = 16;
 
-  this.read = function (width, height) {
-    let tmp = [];
-    let level = this.levels;
-    let step = width >> level;
+  constructor(levels: PerlinLevels) {
+    this.levels = levels;
+  }
 
-    let val;
-    let ss;
+  public read(width: number, height: number) {
+    let tmp: number[] = [];
+    let level: PerlinLevels = this.levels;
+    let step: number = width >> level;
+
+    let val: number;
+    let ss: number;
     for (val = 0; val < height; val += step) {
       for (ss = 0; ss < width; ss += step) {
         tmp[ss + val * width] = (rand(0, 256 - 1) - 128) * this.fuzz;
@@ -27,13 +28,13 @@ export default function PerlinNoiseFilter(levels: 0 | 1) {
       val = 256 * (step << level);
       ss = step / 2;
 
-      let y;
-      let x;
-      let c;
-      let r;
-      let d;
-      let mu;
-      let ml;
+      let y: number;
+      let x: number;
+      let c: number;
+      let r: number;
+      let d: number;
+      let mu: number;
+      let ml: number;
       for (y = 0; y < height; y += step) {
         for (x = 0; x < width; x += step) {
           c = tmp[(x % width) + (y % height) * width];
@@ -61,7 +62,7 @@ export default function PerlinNoiseFilter(levels: 0 | 1) {
       }
     }
 
-    let result = [];
+    let result: number[] = [];
 
     for (val = 0; val < height; ++val) {
       for (ss = 0; ss < width; ++ss) {
@@ -70,5 +71,5 @@ export default function PerlinNoiseFilter(levels: 0 | 1) {
     }
 
     return result;
-  };
+  }
 }

@@ -1,3 +1,5 @@
+//TODO: Convert to TS class and stuff... too lazy to do rn. (open to prs)
+
 import {
   BoundingInfo,
   Color3,

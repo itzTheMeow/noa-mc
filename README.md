@@ -17,6 +17,7 @@ Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 
 - Fixed inventory updating in chrome.
 - Switched to esbuild.
+- Switched to typescript.
 
 ## v0.0.7
 

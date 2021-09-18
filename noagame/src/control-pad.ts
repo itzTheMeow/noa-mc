@@ -1,8 +1,18 @@
 import _ from "./_";
 import noa from "./index";
 
+type TouchDictionary = {
+  up: boolean;
+  "up-left": boolean;
+  left: boolean;
+  jump: boolean;
+  right: boolean;
+  "up-right": boolean;
+  down: boolean;
+};
+
 export default function init() {
-  let touching = {
+  let touching: TouchDictionary = {
     up: false,
     "up-left": false,
     left: false,
@@ -34,6 +44,7 @@ export default function init() {
   }
   updateTouch();
   (window as any).updateTouch = updateTouch;
+
   function resetTouch() {
     Object.keys(touching).map((i) => {
       _(i).classList.remove("active");
@@ -47,6 +58,7 @@ export default function init() {
     touching[(touch.target as HTMLElement).id] = true;
     updateTouch(touch.target as HTMLElement);
   });
+
   window.addEventListener("touchmove", (touch) => {
     [...touch.touches].forEach((t) => {
       if (!Object.keys(touching).includes((t.target as HTMLElement).id)) return;
@@ -64,6 +76,7 @@ export default function init() {
       }
     });
   });
+
   window.addEventListener("touchend", (touch) => {
     if (!Object.keys(touching).includes((touch.target as HTMLElement).id)) return;
     resetTouch();
