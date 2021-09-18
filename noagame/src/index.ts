@@ -33,6 +33,7 @@ let GameOptions = {
     hb9: "9",
   },
   thirdPersonZoom: 8,
+  mineDelay: 350,
 };
 GameOptions.autoJump = GameOptions.touchMode;
 (window as any).touchMode = GameOptions.touchMode;
@@ -74,7 +75,13 @@ initCtrlPad();
   (window as any).setSensitivity(GameOptions.sensitivity);
   noa.entities.getPhysics(noa.playerEntity).body.autoStep =
     GameOptions.autoJump || GameOptions.touchMode;
+  if (GameOptions.touchMode) {
+    noa.container.supportsPointerLock = false;
+    noa.container.setPointerLock(false);
+    // seems to not work for touch mode on a pc :/
+  }
 };
+(window as any).setTouchMode(GameOptions.touchMode);
 
 // [all] [top-bottom,sides] [top,bottom,sides] [-x, +x, -y, +y, -z, +z]
 let blocks = {
@@ -353,11 +360,43 @@ noa.inputs.up.on("mid-fire", function () {
   }
 });
 
-noa.inputs.up.on("inventory", function () {
+function openInventory() {
   let hidden = _("blocks").style.display == "none";
   _("blocks").style.display = hidden ? "" : "none";
   if (hidden) noa.container.setPointerLock(false);
   else noa.container.setPointerLock(true);
+}
+(window as any).openInventory = openInventory;
+
+noa.inputs.up.on("inventory", function () {
+  openInventory();
+});
+
+let touchDictionary = {};
+(noa.container.canvas as HTMLCanvasElement).addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  let t = e.changedTouches[0];
+  touchDictionary[t.identifier] = [Date.now(), t.pageX, t.pageY, t.pageX, t.pageY, false];
+});
+(noa.container.canvas as HTMLCanvasElement).addEventListener("touchmove", (e) => {
+  //e.preventDefault();
+  let t = e.changedTouches[0];
+  let dict = touchDictionary[t.identifier];
+  if (!dict) return;
+  touchDictionary[t.identifier] = [dict[0], dict[1], dict[2], t.pageX, t.pageY, dict[6]];
+});
+(noa.container.canvas as HTMLCanvasElement).addEventListener("touchend", (e) => {
+  e.preventDefault();
+  let t = e.changedTouches[0];
+  let dict = touchDictionary[t.identifier];
+  if (!dict) return;
+  delete touchDictionary[t.identifier];
+  mining = false;
+
+  let timeDiff = Date.now() - dict[0];
+  let spaceDiff = Math.floor(Math.hypot(t.pageX - dict[1], t.pageY - dict[2]));
+  if (spaceDiff > 2) return;
+  if (timeDiff < GameOptions.mineDelay) place();
 });
 
 (noa as any).on("tick", function (dt) {
@@ -369,6 +408,18 @@ noa.inputs.up.on("inventory", function () {
     if (sel > 9) sel = 1;
     (window as any).setHotbarSelection(sel);
   }
+
+  Object.values(touchDictionary).forEach((d, index) => {
+    let timeDiff = Date.now() - d[0];
+    let spaceDiff = Math.floor(Math.hypot(d[3] - d[1], d[4] - d[2]));
+    let allowMine = d[6];
+    if (timeDiff > GameOptions.mineDelay && spaceDiff < 3)
+      touchDictionary[index][6] = allowMine = true;
+    if (timeDiff > GameOptions.mineDelay && !mining && allowMine) {
+      mining = true;
+      mine();
+    }
+  });
 
   let pos = noa.entities.getPositionData(noa.playerEntity).position.map((p) => Math.ceil(p));
   _("coordinate-display").innerHTML = `${pos[0]}, ${pos[1]}, ${pos[2]}`;

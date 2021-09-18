@@ -13,6 +13,12 @@ Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 
 # Changelog
 
+## 0.0.9
+
+- Fixed hotbar clicking on mobile.
+- Added proper mobile placing/breaking
+- Add inventory button.
+
 ## v0.0.8
 
 - Fixed inventory updating in chrome.

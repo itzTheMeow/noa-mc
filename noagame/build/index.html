@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Preclassic Port v0.0.8</title>
+    <title>Preclassic Port v0.0.9</title>
     <link rel="icon" href="img/blocks/grass_side.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <link rel="apple-touch-icon" href="img/blocks/grass_side.png" />
@@ -41,7 +41,7 @@
       <div id="hotbar-selection"></div>
     </div>
     <button
-      onclick="setTouchMode(true)"
+      onclick="setTouchMode(true);this.blur()"
       style="position: absolute; bottom: 2px; right: 2px; width: 50px; height: 50px; z-index: 999"
     >
       T
@@ -51,6 +51,12 @@
       style="position: absolute; bottom: 2px; right: 54px; width: 50px; height: 50px; z-index: 999"
     >
       R
+    </button>
+    <button
+      onclick="openInventory();this.blur()"
+      style="position: absolute; bottom: 2px; right: 106px; width: 50px; height: 50px; z-index: 999"
+    >
+      E
     </button>
     <div id="blocks" style="display: none"></div>
     <div id="bsl" style="display: none"></div>
