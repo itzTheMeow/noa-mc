@@ -384,7 +384,7 @@ noa.inputs.up.on("inventory", function () {
 
 let touchDictionary = [];
 (noa.container.canvas as HTMLCanvasElement).addEventListener("touchstart", (e) => {
-  e.preventDefault();
+  //e.preventDefault();
   let t = e.changedTouches[0];
   touchDictionary[t.identifier] = [Date.now(), t.pageX, t.pageY, t.pageX, t.pageY, false];
 });
