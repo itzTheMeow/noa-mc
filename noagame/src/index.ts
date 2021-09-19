@@ -393,7 +393,7 @@ let touchDictionary = [];
   let t = e.changedTouches[0];
   let dict = touchDictionary[t.identifier];
   if (!dict) return;
-  touchDictionary[t.identifier] = [dict[0], dict[1], dict[2], t.pageX, t.pageY, dict[6]];
+  touchDictionary[t.identifier] = [dict[0], dict[1], dict[2], t.pageX, t.pageY, dict[5]];
 });
 (noa.container.canvas as HTMLCanvasElement).addEventListener("touchend", (e) => {
   e.preventDefault();
@@ -422,12 +422,12 @@ let touchDictionary = [];
   touchDictionary.forEach((d, index) => {
     let timeDiff = Date.now() - d[0];
     let spaceDiff = Math.floor(Math.hypot(d[3] - d[1], d[4] - d[2]));
-    let allowMine = d[6];
+    let allowMine = d[5];
     if (timeDiff > GameOptions.mineDelay && spaceDiff < 3) {
       allowMine = true;
-      if (touchDictionary[index]) touchDictionary[index][6] = true;
+      if (touchDictionary[index]) touchDictionary[index][5] = true;
     }
-    console.log(touchDictionary, index, allowMine, spaceDiff, timeDiff, mining);
+    console.log(JSON.stringify([touchDictionary, index, allowMine, spaceDiff, timeDiff, mining]));
     if (timeDiff > GameOptions.mineDelay && !mining && allowMine) {
       mining = true;
       mine();
