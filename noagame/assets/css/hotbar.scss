@@ -1,8 +1,10 @@
-$hotbar-scale: 3;
+:root {
+  --hotbar-scale: 1;
+}
 
 #hotbar {
-  width: calc(182px * #{$hotbar-scale});
-  height: calc(22px * #{$hotbar-scale});
+  width: calc(182px * var(--hotbar-scale));
+  height: calc(22px * var(--hotbar-scale));
   position: absolute;
   bottom: 4px;
   left: 50%;
@@ -14,11 +16,11 @@ $hotbar-scale: 3;
   z-index: 997;
 
   [id^="hotbar-item-"] {
-    width: calc(24px * #{$hotbar-scale});
-    height: calc(24px * #{$hotbar-scale});
+    width: calc(24px * var(--hotbar-scale));
+    height: calc(24px * var(--hotbar-scale));
     position: absolute;
-    top: -3px;
-    left: -3px;
+    top: calc(-1px * var(--hotbar-scale));
+    left: calc(-1px * var(--hotbar-scale));
     z-index: 998;
 
     canvas {
@@ -31,11 +33,11 @@ $hotbar-scale: 3;
   }
 
   #hotbar-selection {
-    width: calc(24px * #{$hotbar-scale});
-    height: calc(24px * #{$hotbar-scale});
+    width: calc(24px * var(--hotbar-scale));
+    height: calc(24px * var(--hotbar-scale));
     position: absolute;
-    top: -3px;
-    left: -3px;
+    top: calc(-1px * var(--hotbar-scale));
+    left: calc(-1px * var(--hotbar-scale));
     background-image: url(img/gui/hotbar_selection.svg);
     background-size: cover;
     background-repeat: no-repeat;

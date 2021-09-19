@@ -34,6 +34,7 @@ let GameOptions = {
   },
   thirdPersonZoom: 8,
   mineDelay: 350,
+  hotbarScale: 3,
 };
 GameOptions.autoJump = GameOptions.touchMode;
 (window as any).touchMode = GameOptions.touchMode;
@@ -69,19 +70,6 @@ initCtrlPad();
   noa.camera.sensitivityX = noa.camera.sensitivityY = GameOptions.sensitivity;
 };
 (window as any).setSensitivity(GameOptions.sensitivity);
-(window as any).setTouchMode = function (val) {
-  GameOptions.touchMode = (window as any).touchMode = val;
-  (window as any).updateTouch();
-  (window as any).setSensitivity(GameOptions.sensitivity);
-  noa.entities.getPhysics(noa.playerEntity).body.autoStep =
-    GameOptions.autoJump || GameOptions.touchMode;
-  if (GameOptions.touchMode) {
-    noa.container.supportsPointerLock = false;
-    noa.container.setPointerLock(false);
-    // seems to not work for touch mode on a pc :/
-  }
-};
-(window as any).setTouchMode(GameOptions.touchMode);
 
 // [all] [top-bottom,sides] [top,bottom,sides] [-x, +x, -y, +y, -z, +z]
 let blocks = {
@@ -113,9 +101,8 @@ let hotbar = [
   blocks.bedrock,
 ];
 let hotbarSelection = 1;
-let hotbarScale = 3;
 
-let getHotbarOffset = (n) => -3 + 20 * hotbarScale * (n - 1);
+let getHotbarOffset = (n) => -1 * GameOptions.hotbarScale + 20 * GameOptions.hotbarScale * (n - 1);
 
 (window as any).setHotbarSelection = function (num) {
   hotbarSelection = num;
@@ -139,13 +126,13 @@ let hotbarCache = [];
     if (hb.firstChild) hb.firstChild.remove();
 
     let glcanv = document.createElement("canvas");
-    glcanv.width = 16 * hotbarScale;
-    glcanv.height = 16 * hotbarScale;
+    glcanv.width = 16 * GameOptions.hotbarScale;
+    glcanv.height = 16 * GameOptions.hotbarScale;
     glcanv.style.visibility = "none";
 
     let canv = document.createElement("canvas");
-    canv.width = 16 * hotbarScale;
-    canv.height = 16 * hotbarScale;
+    canv.width = 16 * GameOptions.hotbarScale;
+    canv.height = 16 * GameOptions.hotbarScale;
 
     hb.appendChild(canv);
     document.body.appendChild(glcanv);
@@ -156,7 +143,30 @@ let hotbarCache = [];
   });
   hotbarCache = hotbar.map((h) => h.id);
 };
-(window as any).updateHotbar(true);
+
+(window as any).setHotbarScale = function (num: number, updH: boolean = true) {
+  num = Math.floor(num) || 1;
+  GameOptions.hotbarScale = num;
+  _("hotbarScale").innerHTML = `:root {--hotbar-scale: ${num};}`;
+  if (updH) (window as any).updateHotbar(true);
+  (window as any).setHotbarSelection(hotbarSelection);
+};
+(window as any).setHotbarScale(GameOptions.hotbarScale, false);
+
+(window as any).setTouchMode = function (val: boolean) {
+  GameOptions.touchMode = (window as any).touchMode = val;
+  (window as any).updateTouch();
+  (window as any).setSensitivity(GameOptions.sensitivity);
+  noa.entities.getPhysics(noa.playerEntity).body.autoStep =
+    GameOptions.autoJump || GameOptions.touchMode;
+  if (GameOptions.touchMode) {
+    (window as any).setHotbarScale(2);
+    noa.container.supportsPointerLock = false;
+    noa.container.setPointerLock(false);
+    // seems to not work for touch mode on a pc :/
+  } else (window as any).setHotbarScale(3);
+};
+(window as any).setTouchMode(GameOptions.touchMode);
 
 (window as any).addEventListener("touchstart", (touch) => {
   if (!touch.target.id.startsWith("hotbar-item-")) return;

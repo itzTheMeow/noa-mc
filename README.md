@@ -18,6 +18,8 @@ Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 - Fixed hotbar clicking on mobile.
 - Added proper mobile placing/breaking
 - Add inventory button.
+- Added hotbar scale modification.
+- Made hotbar smaller for mobile.
 
 ## v0.0.8
 
