@@ -1,5 +1,8 @@
+# noa-mc
+
 Semi-functional port of minecraft preclassic to js using [noa](https://github.com/fenomas/noa).
-Play [here](https://themeow.ml/noa-mc/noagame/build/)!
+
+## Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 
 # **_DISCLAIMER_**
 
@@ -10,6 +13,30 @@ Play [here](https://themeow.ml/noa-mc/noagame/build/)!
 ### ASSETS &copy; MOJANG AB
 
 <br>
+
+# Q & A
+
+- ### What devices have you tested this on?
+  - Firefox on iOS 12 (equivalent to safari 12)
+  - Firefox on Windows 10 (v91)
+  - Occasionally using Chrome on Windows 10 (v93)
+  - _If something doesn't work right (blank page, console errors, etc) make an issue with your device and browser version/name._
+
+---
+
+- ### Why did you make this?
+  - I wanted to make something better than the official classic port. The controls are kinda weird and it's prone to bugs.
+
+---
+
+- ### Is this against Mojang's Terms?
+  - No, i'm following everything [here](https://account.mojang.com/terms#brand).
+  - This is not for a commercial use.
+  - I'm not making money off of this.
+  - I'm not giving away copies of Minecraft.
+  - I'm not "letting other people get access to anything we've made in a way that is unfair or unreasonable" as far as i know.
+  - [I'm not misleading anyone into thinking this is official.](#i-am-not-affiliated-with-mojang-in-any-way)
+  - I'm not damaging Mojang's brand as far as i know.
 
 # Changelog
 
