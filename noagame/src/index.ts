@@ -427,7 +427,6 @@ let touchDictionary = [];
       allowMine = true;
       if (touchDictionary[index]) touchDictionary[index][5] = true;
     }
-    console.log(JSON.stringify([touchDictionary, index, allowMine, spaceDiff, timeDiff, mining]));
     if (timeDiff > GameOptions.mineDelay && !mining && allowMine) {
       mining = true;
       mine();
