@@ -3,7 +3,7 @@ let CONFIG = {
     entryPoints: ["src/index.ts"],
     outfile: "build/bundle.js",
     bundle: true,
-    minify: true,
+    //minify: true, // https://github.com/evanw/esbuild/issues/1618
     sourcemap: true,
     watch: {
       onRebuild(error, result) {
