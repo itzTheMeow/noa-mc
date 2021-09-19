@@ -424,9 +424,10 @@ let touchDictionary = [];
     let spaceDiff = Math.floor(Math.hypot(d[3] - d[1], d[4] - d[2]));
     let allowMine = d[6];
     if (timeDiff > GameOptions.mineDelay && spaceDiff < 3) {
-      if (touchDictionary[index]) touchDictionary[index][6] = true;
       allowMine = true;
+      if (touchDictionary[index]) touchDictionary[index][6] = true;
     }
+    console.log(touchDictionary, index, allowMine, spaceDiff, timeDiff, mining);
     if (timeDiff > GameOptions.mineDelay && !mining && allowMine) {
       mining = true;
       mine();
