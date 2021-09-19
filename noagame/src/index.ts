@@ -382,7 +382,7 @@ noa.inputs.up.on("inventory", function () {
   openInventory();
 });
 
-let touchDictionary = {};
+let touchDictionary = [];
 (noa.container.canvas as HTMLCanvasElement).addEventListener("touchstart", (e) => {
   e.preventDefault();
   let t = e.changedTouches[0];
@@ -419,12 +419,14 @@ let touchDictionary = {};
     (window as any).setHotbarSelection(sel);
   }
 
-  Object.values(touchDictionary).forEach((d, index) => {
+  touchDictionary.forEach((d, index) => {
     let timeDiff = Date.now() - d[0];
     let spaceDiff = Math.floor(Math.hypot(d[3] - d[1], d[4] - d[2]));
     let allowMine = d[6];
-    if (timeDiff > GameOptions.mineDelay && spaceDiff < 3)
-      touchDictionary[Object.keys(touchDictionary)[index]][6] = allowMine = true;
+    if (timeDiff > GameOptions.mineDelay && spaceDiff < 3) {
+      if (touchDictionary[index]) touchDictionary[index][6] = true;
+      allowMine = true;
+    }
     if (timeDiff > GameOptions.mineDelay && !mining && allowMine) {
       mining = true;
       mine();
