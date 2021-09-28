@@ -147,7 +147,7 @@ let hotbarCache = [];
 (window as any).setHotbarScale = function (num: number, updH: boolean = true) {
   num = Math.floor(num) || 1;
   GameOptions.hotbarScale = num;
-  _("hotbarScale").innerHTML = `:root {--hotbar-scale: ${num};}`;
+  _("hotbarScale").innerHTML = `:root{--hotbar-scale:${num};--button-scale:${num / 1.5};}`;
   if (updH) (window as any).updateHotbar(true);
   (window as any).setHotbarSelection(hotbarSelection);
 };
@@ -201,7 +201,24 @@ noa.inputs.up.on("esc", () => {
     _("blocks").style.display = "none";
     noa.container.setPointerLock(true);
   }
+  if (_("menu").style.display !== "none") {
+    toggleMenu(false);
+    noa.container.setPointerLock(true);
+  }
 });
+noa.container._shell._onPointerLockChanged = noa.container._shell.onPointerLockChanged;
+noa.container._shell.onPointerLockChanged = function (has) {
+  this._onPointerLockChanged(has);
+  if (!has && _("blocks").style.display == "none") {
+    toggleMenu(true);
+  }
+};
+(window as any).toggleMenu = toggleMenu;
+
+_("btn-backtogame").onclick = function () {
+  toggleMenu(false);
+  noa.container.setPointerLock(true);
+};
 
 /*
  *
@@ -288,6 +305,8 @@ mesh.scaling.y = h;
 
 import MPS from "./mesh-particle-system.js";
 import { Texture } from "@babylonjs/core/Materials/Textures/texture";
+import { toggleMenu } from "./menu";
+import onRemovePointerLock from "./onRemovePointerLock";
 let breakTextures = {};
 var capacity = 80;
 var rate = 80;

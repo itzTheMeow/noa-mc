@@ -1,3 +1,27 @@
+:root {
+  --button-scale: 1;
+}
+
+.button {
+  width: calc(200px * var(--button-scale));
+  height: calc(20px * var(--button-scale));
+  background-image: url(img/gui/button.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: calc(20px * var(--button-scale) / 2);
+}
+.button.disabled {
+  background-image: url(img/gui/button_disabled.svg);
+}
+.button:hover:not(.disabled) {
+  background-image: url(img/gui/button_active.svg);
+}
 #control-pad {
   position: absolute;
   z-index: 99;
@@ -121,6 +145,13 @@
 }
 .invblock:active {
   border: 1px solid white;
+}
+#menu {
+  z-index: 9999;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 @font-face {
   font-family: "Minecraft";
