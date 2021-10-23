@@ -114,7 +114,7 @@ let getHotbarOffset = (n) => -1 * GameOptions.hotbarScale + 20 * GameOptions.hot
 };
 (window as any).setHotbarSelection(hotbarSelection);
 
-import BlockPreview from "./BlockPreview";
+import BlockPreview from "./blockPreview";
 let hotbarCache = [];
 (window as any).updateHotbar = function (force) {
   [1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((n) => {

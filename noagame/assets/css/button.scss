@@ -23,4 +23,8 @@
   &:hover:not(.disabled) {
     background-image: url(img/gui/button_active.svg);
   }
+
+  &:not(:last-child) {
+    margin-bottom: 4px;
+  }
 }
