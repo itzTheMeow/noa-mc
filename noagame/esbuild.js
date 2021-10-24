@@ -77,6 +77,13 @@ fs.readdirSync("assets/img").forEach((dir) => {
   });
 });
 
+try {
+  fs.mkdirSync("build/font");
+} catch (e) {}
+fs.readdirSync("assets/font").forEach((font) => {
+  fs.copyFileSync(`assets/font/${font}`, `build/font/${font}`);
+});
+
 CONFIG.copyFiles.forEach((f) => {
   fs.copyFileSync(`assets/${f}`, `build/${f}`);
 });
