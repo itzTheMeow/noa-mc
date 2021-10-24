@@ -2,6 +2,8 @@
   background-image: url("/img/blocks/dirt.png");
   background-repeat: repeat;
   background-size: 32px;
+  background-blend-mode: darken;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 :root {
   --button-scale: 1;
@@ -169,6 +171,11 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+:root {
+  --text: #ffffff;
+  --text-shadow: #3f3f3f;
+}
+
 html {
   height: -webkit-fill-available;
   width: -webkit-fill-available;
@@ -182,6 +189,8 @@ body {
   min-height: -webkit-fill-available;
   min-width: -webkit-fill-available;
   font-family: "Minecraft";
+  color: var(--text);
+  text-shadow: 2px 2px 0px var(--text-shadow);
 }
 
 #crosshair {
@@ -210,6 +219,8 @@ body {
 }
 .title {
   font-size: 56px;
+  text-align: center;
+  text-shadow: 4px 4px 0px var(--text-shadow);
 }
 @font-face {
   font-family: "Minecraft";

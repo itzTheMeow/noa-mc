@@ -1,3 +1,8 @@
+:root {
+  --text: #ffffff;
+  --text-shadow: #3f3f3f;
+}
+
 html {
   height: -webkit-fill-available;
   width: -webkit-fill-available;
@@ -11,6 +16,9 @@ body {
   min-height: -webkit-fill-available;
   min-width: -webkit-fill-available;
   font-family: "Minecraft";
+
+  color: var(--text);
+  text-shadow: 2px 2px 0px var(--text-shadow);
 }
 
 #crosshair {
