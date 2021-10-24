@@ -188,6 +188,7 @@ body {
   user-select: none;
   min-height: -webkit-fill-available;
   min-width: -webkit-fill-available;
+  font-family: "Minecraft";
 }
 
 #crosshair {
@@ -213,4 +214,7 @@ body {
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 99;
   color: white;
+}
+.title {
+  font-size: 56px;
 }
