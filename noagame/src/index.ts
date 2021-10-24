@@ -62,6 +62,7 @@ var opts = {
 var noa = new Engine(opts);
 export default noa;
 
+initScreenInteractions();
 initCtrlPad();
 
 (window as any).setSensitivity = function (val) {
@@ -215,7 +216,7 @@ noa.container._shell.onPointerLockChanged = function (has) {
 };
 (window as any).toggleMenu = toggleMenu;
 
-_("btn-backtogame").onclick = function () {
+_("backtogame").onclick = function () {
   toggleMenu(false);
   noa.container.setPointerLock(true);
 };
@@ -307,6 +308,7 @@ import MPS from "./mesh-particle-system.js";
 import { Texture } from "@babylonjs/core/Materials/Textures/texture";
 import { toggleMenu } from "./menu";
 import onRemovePointerLock from "./onRemovePointerLock";
+import initScreenInteractions from "./screenInteractions";
 let breakTextures = {};
 var capacity = 80;
 var rate = 80;

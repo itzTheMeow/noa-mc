@@ -47,11 +47,16 @@
       <div id="hotbar-selection"></div>
     </div>
     <div id="menu" class="bg-dirt" style="display: block">
-      <div id="menu-container">
+      <div class="menu-container" container="index" opened>
         <div class="title" style="margin-bottom: 24px">MCHangout</div>
-        <div class="button" id="btn-backtogame" style="margin-bottom: 18px">Back to Game</div>
-        <div class="button" id="btn-options">Options</div>
-        <div class="button" id="btn-credits">Credits</div>
+        <div class="button" id="backtogame" style="margin-bottom: 18px">Back to Game</div>
+        <div class="button" open="options">Options</div>
+        <div class="button" open="debug">Debug</div>
+        <div class="button" open="changelog">Changelog</div>
+        <div class="button" open="credits">Credits</div>
+      </div>
+      <div class="menu-container" container="debug">
+        <div class="button" onclick="window.location.reload()">Reload Page</div>
       </div>
     </div>
     <button
@@ -61,14 +66,8 @@
       T
     </button>
     <button
-      onclick="window.location.reload()"
-      style="position: absolute; bottom: 2px; right: 54px; width: 50px; height: 50px; z-index: 999"
-    >
-      R
-    </button>
-    <button
       onclick="openInventory();this.blur()"
-      style="position: absolute; bottom: 2px; right: 106px; width: 50px; height: 50px; z-index: 999"
+      style="position: absolute; bottom: 2px; right: 54px; width: 50px; height: 50px; z-index: 999"
     >
       E
     </button>
