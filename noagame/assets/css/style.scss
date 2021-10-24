@@ -1,6 +1,7 @@
 :root {
   --text: #ffffff;
   --text-shadow: #3f3f3f;
+  --link: #8db9ff;
 }
 
 html {
@@ -19,6 +20,11 @@ body {
 
   color: var(--text);
   text-shadow: 2px 2px 0px var(--text-shadow);
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
 }
 
 #crosshair {

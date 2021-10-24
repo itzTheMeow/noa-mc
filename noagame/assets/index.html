@@ -48,15 +48,50 @@
     </div>
     <div id="menu" class="bg-dirt" style="display: block">
       <div class="menu-container" container="index" opened>
-        <div class="title" style="margin-bottom: 24px">MCHangout</div>
-        <div class="button" id="backtogame" style="margin-bottom: 18px">Back to Game</div>
+        <div class="title">MCHangout</div>
+        <div class="button first" id="backtogame">Back to Game</div>
         <div class="button" open="options">Options</div>
         <div class="button" open="debug">Debug</div>
         <div class="button" open="changelog">Changelog</div>
         <div class="button" open="credits">Credits</div>
       </div>
       <div class="menu-container" container="debug">
+        <div class="title">Debug Menu</div>
         <div class="button" onclick="window.location.reload()">Reload Page</div>
+        <div class="button last" open="index">Back</div>
+      </div>
+      <div class="menu-container scrollable" container="credits">
+        <div class="title">Credits</div>
+        <div class="subtitle">ORIGINAL GAME MADE BY MOJANG</div>
+        <div class="subsubtitle">I DO NOT OWN THESE ASSETS</div>
+        <div class="subsubtitle" style="margin-bottom: 24px">I AM NOT AFFILIATED WITH MOJANG</div>
+
+        <div class="subtitle">Open Source</div>
+        <div class="text">
+          This project is open source.
+          <a href="https://github.com/itzTheMeow/noa-mc">View it on github.</a>
+        </div>
+
+        <div class="subtitle">Libraries Used</div>
+        <a class="subsubtitle" href="https://github.com/fenomas/noa">Noa</a>
+        <div class="text">The backbone of this entire thing.</div>
+        <a class="subsubtitle" href="https://github.com/fenomas/mesh-particle-system">
+          mesh-particle-system
+        </a>
+        <div class="text">The engine for particles.</div>
+        <a class="subsubtitle" href="https://codepen.io/shshaw/pen/XbxvNj">Pixels.svg</a>
+        <div class="text">Used for converting Mojang assets to SVG while retaining pixels.</div>
+
+        <div class="subtitle">Contributors</div>
+        <a class="subsubtitle" href="https://themeow.ml">Meow</a>
+        <div class="text">Made basically everything so far. (minus the libs and assets)</div>
+        <a class="subsubtitle" href="https://github.com/fenomas">Fenomas</a>
+        <div class="text">
+          <a href="https://github.com/fenomas/noa/issues/167">Helped</a> with
+          <a href="https://github.com/fenomas/noa/issues/166">some</a> of the
+          <a href="https://github.com/fenomas/noa/issues/165">early</a> development stuff.
+        </div>
+        <div class="button" open="index" style="margin-top: 22px">Back</div>
       </div>
     </div>
     <button
