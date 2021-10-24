@@ -309,52 +309,57 @@ import { Texture } from "@babylonjs/core/Materials/Textures/texture";
 import { toggleMenu } from "./menu";
 import onRemovePointerLock from "./onRemovePointerLock";
 import initScreenInteractions from "./screenInteractions";
+import initAPI from "./API";
 let breakTextures = {};
 var capacity = 80;
 var rate = 80;
 
 let actionTicks = 0;
 let mining = false;
+
+export function breakBlockAt(...pos: number[]) {
+  noa.setBlock(0, pos[0], pos[1], pos[2]);
+
+  let block = Object.values(blocks).find(
+    (b) => b.id == ((noa.targetedBlock || {}).blockID || noa.getBlock(pos[0], pos[1], pos[2]))
+  );
+  if (!block) return;
+  let tex =
+    breakTextures[block.name] ||
+    (breakTextures[block.name] = new Texture(
+      `img/blocks/${block.preview}.png`,
+      scene,
+      true,
+      true,
+      Texture.NEAREST_SAMPLINGMODE
+    ));
+  tex.uAng = tex.vAng = Math.PI;
+  let mps = new MPS(capacity, rate, scene, null, null, null);
+  mps.disposeOnEmpty = true;
+  mps.initParticle = function initParticle(pdata) {
+    pdata.position.copyFromFloats(Math.random(), Math.max(Math.random(), 0.6), Math.random());
+    pdata.velocity.x = ((Math.random() > 0.5 ? 1 : -1) * Math.random()) / 1.5;
+    pdata.velocity.y = -Math.random() * 3;
+    pdata.velocity.z = ((Math.random() > 0.5 ? 1 : -1) * Math.random()) / 1.5;
+    pdata.size = 0.3;
+    pdata.age = 0;
+    pdata.lifetime = Math.random() * 2;
+  };
+  mps.setTexture(tex);
+  mps.setSizeRange(0.4, 0.4);
+  mps.mesh.position.x = pos[0];
+  mps.mesh.position.y = pos[1];
+  mps.mesh.position.z = pos[2];
+  noa.rendering.addMeshToScene(mps.mesh);
+  mps.start();
+  setTimeout(function () {
+    mps.rate = 0;
+  }, 350);
+
+  actionTicks = 0;
+}
 function mine() {
-  if (noa.targetedBlock) {
-    var pos = noa.targetedBlock.position;
-    noa.setBlock(0, pos[0], pos[1], pos[2]);
-
-    let block = Object.values(blocks).find((b) => b.id == noa.targetedBlock.blockID);
-    let tex =
-      breakTextures[block.name] ||
-      (breakTextures[block.name] = new Texture(
-        `img/blocks/${block.preview}.png`,
-        scene,
-        true,
-        true,
-        Texture.NEAREST_SAMPLINGMODE
-      ));
-    tex.uAng = tex.vAng = Math.PI;
-    var mps = new MPS(capacity, rate, scene, null, null, null);
-    mps.disposeOnEmpty = true;
-    mps.initParticle = function initParticle(pdata) {
-      pdata.position.copyFromFloats(Math.random(), Math.max(Math.random(), 0.6), Math.random());
-      pdata.velocity.x = ((Math.random() > 0.5 ? 1 : -1) * Math.random()) / 1.5;
-      pdata.velocity.y = -Math.random() * 3;
-      pdata.velocity.z = ((Math.random() > 0.5 ? 1 : -1) * Math.random()) / 1.5;
-      pdata.size = 0.3;
-      pdata.age = 0;
-      pdata.lifetime = Math.random() * 2;
-    };
-    mps.setTexture(tex);
-    mps.setSizeRange(0.4, 0.4);
-    mps.mesh.position.x = pos[0];
-    mps.mesh.position.y = pos[1];
-    mps.mesh.position.z = pos[2];
-    noa.rendering.addMeshToScene(mps.mesh);
-    mps.start();
-    setTimeout(function () {
-      mps.rate = 0;
-    }, 350);
-
-    actionTicks = 0;
-  }
+  if (noa.targetedBlock) breakBlockAt(...noa.targetedBlock.position);
 }
 noa.inputs.down.on("alt-fire", function () {
   mining = true;
@@ -470,3 +475,5 @@ let touchDictionary = [];
       place();
   }
 });
+
+initAPI();
