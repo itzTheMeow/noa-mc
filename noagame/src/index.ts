@@ -71,7 +71,7 @@ initCtrlPad();
 
 (window as any).setSensitivity = function (val) {
   GameOptions.sensitivity = +val;
-  if ((window as any).touchMode) GameOptions.sensitivity *= 3;
+  if ((window as any).touchMode) GameOptions.sensitivity *= 2;
   noa.camera.sensitivityX = noa.camera.sensitivityY = GameOptions.sensitivity;
 };
 (window as any).setSensitivity(GameOptions.sensitivity);
@@ -347,6 +347,7 @@ import onRemovePointerLock from "./onRemovePointerLock";
 import initScreenInteractions from "./screenInteractions";
 import initAPI from "./API";
 import random from "./random";
+import { newDroppedItem } from "./droppedItem";
 let breakTextures = {};
 var capacity = 80;
 var rate = 80;
@@ -361,6 +362,9 @@ export function breakBlockAt(...pos: number[]) {
     (b) => b.id == ((noa.targetedBlock || {}).blockID || noa.getBlock(pos[0], pos[1], pos[2]))
   );
   if (!block) return;
+
+  newDroppedItem(pos[0] + 0.5, pos[1] + 0.5, pos[2] + 0.5, block.preview);
+
   let tex =
     breakTextures[block.name] ||
     (breakTextures[block.name] = new Texture(
@@ -445,31 +449,29 @@ noa.inputs.up.on("inventory", function () {
   openInventory();
 });
 
-let touchDictionary = [];
+let touchDictionary = null;
 (noa.container.canvas as HTMLCanvasElement).addEventListener("touchstart", (e) => {
   //e.preventDefault();
   let t = e.changedTouches[0];
-  touchDictionary[t.identifier] = [Date.now(), t.pageX, t.pageY, t.pageX, t.pageY, false];
+  touchDictionary = [Date.now(), t.pageX, t.pageY, t.pageX, t.pageY, false];
 });
 (noa.container.canvas as HTMLCanvasElement).addEventListener("touchmove", (e) => {
   //e.preventDefault();
   let t = e.changedTouches[0];
-  let dict = touchDictionary[t.identifier];
-  if (!dict) return;
-  touchDictionary[t.identifier] = [dict[0], dict[1], dict[2], t.pageX, t.pageY, dict[5]];
+  let dict = touchDictionary;
+  touchDictionary = [dict[0], dict[1], dict[2], t.pageX, t.pageY, dict[5]];
 });
 (noa.container.canvas as HTMLCanvasElement).addEventListener("touchend", (e) => {
   e.preventDefault();
   let t = e.changedTouches[0];
-  let dict = touchDictionary[t.identifier];
-  if (!dict) return;
-  delete touchDictionary[t.identifier];
+  let dict = touchDictionary;
   mining = false;
 
   let timeDiff = Date.now() - dict[0];
   let spaceDiff = Math.floor(Math.hypot(t.pageX - dict[1], t.pageY - dict[2]));
   if (spaceDiff > 2) return;
   if (timeDiff < GameOptions.mineDelay) place();
+  touchDictionary = null;
 });
 
 (noa as any).on("tick", function (dt) {
@@ -482,19 +484,20 @@ let touchDictionary = [];
     (window as any).setHotbarSelection(sel);
   }
 
-  touchDictionary.forEach((d, index) => {
+  if (touchDictionary) {
+    let d = touchDictionary;
     let timeDiff = Date.now() - d[0];
     let spaceDiff = Math.floor(Math.hypot(d[3] - d[1], d[4] - d[2]));
     let allowMine = d[5];
     if (timeDiff > GameOptions.mineDelay && spaceDiff < 3) {
       allowMine = true;
-      if (touchDictionary[index]) touchDictionary[index][5] = true;
+      touchDictionary[5] = true;
     }
     if (timeDiff > GameOptions.mineDelay && !mining && allowMine) {
       mining = true;
       mine();
     }
-  });
+  }
 
   let pos = noa.entities.getPositionData(noa.playerEntity).position.map((p) => Math.ceil(p));
   _("coordinate-display").innerHTML = `${pos[0]}, ${pos[1]}, ${pos[2]}`;

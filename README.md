@@ -44,6 +44,8 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 - Added flowers.
 - Added random flower generation.
+- Fixed mobile block breaking.
+- Blocks now drop items that disappear when you collide with them.
 
 ## 0.1.1
 

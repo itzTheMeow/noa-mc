@@ -43,17 +43,35 @@ export default class BlockPreview {
       this.camera.fov = 0.45 * blockSize;
 
       const matTop = new StandardMaterial("matTop", null);
-      let topTex = new Texture(`img/blocks/${topT}.png`, null);
+      let topTex = new Texture(
+        `img/blocks/${topT}.png`,
+        null,
+        true,
+        true,
+        Texture.NEAREST_SAMPLINGMODE
+      );
       topTex.hasAlpha = true;
       matTop.diffuseTexture = topTex;
 
       const matLeft = new StandardMaterial("matLeft", null);
-      let leftTex = new Texture(`img/blocks/${leftT}.png`, null);
+      let leftTex = new Texture(
+        `img/blocks/${leftT}.png`,
+        null,
+        true,
+        true,
+        Texture.NEAREST_SAMPLINGMODE
+      );
       leftTex.hasAlpha = true;
       matLeft.diffuseTexture = leftTex;
 
       const matRight = new StandardMaterial("matRight", null);
-      let rightTex = new Texture(`img/blocks/${rightT}.png`, null);
+      let rightTex = new Texture(
+        `img/blocks/${rightT}.png`,
+        null,
+        true,
+        true,
+        Texture.NEAREST_SAMPLINGMODE
+      );
       rightTex.hasAlpha = true;
       matRight.diffuseTexture = rightTex;
 
