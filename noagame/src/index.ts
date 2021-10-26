@@ -223,23 +223,9 @@ noa.blockTargetIdCheck = (id) => {
   return id !== 0;
 };
 
-Object.values(blocks).forEach((b) => {
-  let item = document.createElement("div");
-  item.className = "invblock";
-  item.id = `inv-${b.name}`;
-  item.style.backgroundImage = `url(img/blocks/${b.preview}.png)`;
-  item.onclick = function () {
-    hotbar[hotbarSelection - 1] = b;
-    (window as any).setHotbarSelection(hotbarSelection);
-    (window as any).updateHotbar(false);
-    _("blocks").style.display = "none";
-    noa.container.setPointerLock(true);
-  };
-  _("blocks").appendChild(item);
-});
 noa.inputs.up.on("esc", () => {
-  if (_("blocks").style.display !== "none") {
-    _("blocks").style.display = "none";
+  if (_("inventory").style.display !== "none") {
+    _("inventory").style.display = "none";
     noa.container.setPointerLock(true);
   }
   if (_("menu").style.display !== "none") {
@@ -250,7 +236,7 @@ noa.inputs.up.on("esc", () => {
 noa.container._shell._onPointerLockChanged = noa.container._shell.onPointerLockChanged;
 noa.container._shell.onPointerLockChanged = function (has) {
   this._onPointerLockChanged(has);
-  if (!has && _("blocks").style.display == "none") {
+  if (!has && _("inventory").style.display == "none") {
     toggleMenu(true);
   }
 };
@@ -444,8 +430,8 @@ noa.inputs.up.on("mid-fire", function () {
 });
 
 function openInventory() {
-  let hidden = _("blocks").style.display == "none";
-  _("blocks").style.display = hidden ? "" : "none";
+  let hidden = _("inventory").style.display == "none";
+  _("inventory").style.display = hidden ? "" : "none";
   if (hidden) noa.container.setPointerLock(false);
   else noa.container.setPointerLock(true);
 }
