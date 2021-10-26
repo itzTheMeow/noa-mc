@@ -40,6 +40,14 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
+## 0.1.1
+
+- Added ore, tnt, metal, and more blocks.
+
+## 0.1.0
+
+- Added pause menu.
+
 ## 0.0.9
 
 - Fixed hotbar clicking on mobile.

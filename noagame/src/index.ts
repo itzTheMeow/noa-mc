@@ -93,6 +93,26 @@ let blocks = {
   goldOre: new Block("gold_ore", []),
   redstoneOre: new Block("redstone_ore", []),
   diamondOre: new Block("diamond_ore", []),
+  tnt: new Block("tnt", ["tnt_top", "tnt_bottom", "tnt_side"], { prev: "tnt_side" }),
+  bookshelf: new Block("bookshelf", ["bookshelf_top", "bookshelf_side"], {
+    prev: "bookshelf_side",
+  }),
+  ironBlock: new Block("iton_block", ["iron_block_top", "iron_block_bottom", "iron_block_side"], {
+    prev: "iron_block_top",
+  }),
+  goldBlock: new Block("gold_block", ["gold_block_top", "gold_block_bottom", "gold_block_side"], {
+    prev: "gold_block_top",
+  }),
+  diamondBlock: new Block(
+    "diamond_block",
+    ["diamond_block_top", "diamond_block_bottom", "diamond_block_side"],
+    {
+      prev: "diamond_block_top",
+    }
+  ),
+  sponge: new Block("sponge", []),
+  smoothStone: new Block("smooth_stone", []),
+  leaves: new Block("leaves", [], { transparent: true }),
 };
 let placeBlock = blocks.grass;
 let hotbar = [
