@@ -51,7 +51,11 @@ disableBodyScroll(_("bsl"), {
   },
 });
 
-_("inventory").innerHTML = `<div class="inv-slot"></div>`.repeat(27);
+_("inventory").innerHTML = `<div class="inv-slot inv-slot-main"></div>`.repeat(27);
+_("inventory").innerHTML += `<div class="inv-slot inv-slot-hotbar"></div>`.repeat(9);
+_("inventory").innerHTML += `<div class="inv-slot inv-slot-armor"></div>`.repeat(4);
+_("inventory").innerHTML += `<div class="inv-slot inv-slot-craftingin"></div>`.repeat(4);
+_("inventory").innerHTML += `<div class="inv-slot inv-slot-craftingout"></div>`.repeat(1);
 
 var opts = {
   debug: true,

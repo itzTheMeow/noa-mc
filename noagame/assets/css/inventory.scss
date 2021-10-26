@@ -3,7 +3,10 @@ $inv-height: 166px;
 $inv-scale: calc(var(--button-scale) * 1.5);
 
 $inv-startx: calc(8px * #{$inv-scale});
+$inv-startx2: calc(88px * #{$inv-scale});
 $inv-starty: calc(84px * #{$inv-scale});
+$inv-starty2: calc(142px * #{$inv-scale});
+$inv-starty3: calc(26px * #{$inv-scale});
 $inv-padding: calc(2px * #{$inv-scale});
 $inv-slot-size: calc(16px * #{$inv-scale});
 
@@ -25,93 +28,177 @@ $inv-slot-size: calc(16px * #{$inv-scale});
     height: $inv-slot-size;
     position: absolute;
 
-    @mixin slot($row, $ind) {
-      top: calc(#{$inv-starty} + ((#{$inv-padding} + #{$inv-slot-size}) * (#{$row} - 1)));
-      left: calc(#{$inv-startx} + ((#{$inv-padding} + #{$inv-slot-size}) * (#{$ind} - 1)));
+    &.inv-slot-main {
+      @mixin slot($row, $ind) {
+        top: calc(#{$inv-starty} + ((#{$inv-padding} + #{$inv-slot-size}) * (#{$row} - 1)));
+        left: calc(#{$inv-startx} + ((#{$inv-padding} + #{$inv-slot-size}) * (#{$ind} - 1)));
+      }
+
+      &:nth-of-type(1) {
+        @include slot(1, 1);
+      }
+      &:nth-of-type(2) {
+        @include slot(1, 2);
+      }
+      &:nth-of-type(3) {
+        @include slot(1, 3);
+      }
+      &:nth-of-type(4) {
+        @include slot(1, 4);
+      }
+      &:nth-of-type(5) {
+        @include slot(1, 5);
+      }
+      &:nth-of-type(6) {
+        @include slot(1, 6);
+      }
+      &:nth-of-type(7) {
+        @include slot(1, 7);
+      }
+      &:nth-of-type(8) {
+        @include slot(1, 8);
+      }
+      &:nth-of-type(9) {
+        @include slot(1, 9);
+      }
+
+      &:nth-of-type(10) {
+        @include slot(2, 1);
+      }
+      &:nth-of-type(11) {
+        @include slot(2, 2);
+      }
+      &:nth-of-type(12) {
+        @include slot(2, 3);
+      }
+      &:nth-of-type(13) {
+        @include slot(2, 4);
+      }
+      &:nth-of-type(14) {
+        @include slot(2, 5);
+      }
+      &:nth-of-type(15) {
+        @include slot(2, 6);
+      }
+      &:nth-of-type(16) {
+        @include slot(2, 7);
+      }
+      &:nth-of-type(17) {
+        @include slot(2, 8);
+      }
+      &:nth-of-type(18) {
+        @include slot(2, 9);
+      }
+
+      &:nth-of-type(19) {
+        @include slot(3, 1);
+      }
+      &:nth-of-type(20) {
+        @include slot(3, 2);
+      }
+      &:nth-of-type(21) {
+        @include slot(3, 3);
+      }
+      &:nth-of-type(22) {
+        @include slot(3, 4);
+      }
+      &:nth-of-type(23) {
+        @include slot(3, 5);
+      }
+      &:nth-of-type(24) {
+        @include slot(3, 6);
+      }
+      &:nth-of-type(25) {
+        @include slot(3, 7);
+      }
+      &:nth-of-type(26) {
+        @include slot(3, 8);
+      }
+      &:nth-of-type(27) {
+        @include slot(3, 9);
+      }
     }
 
-    &:nth-of-type(1) {
-      @include slot(1, 1);
-    }
-    &:nth-of-type(2) {
-      @include slot(1, 2);
-    }
-    &:nth-of-type(3) {
-      @include slot(1, 3);
-    }
-    &:nth-of-type(4) {
-      @include slot(1, 4);
-    }
-    &:nth-of-type(5) {
-      @include slot(1, 5);
-    }
-    &:nth-of-type(6) {
-      @include slot(1, 6);
-    }
-    &:nth-of-type(7) {
-      @include slot(1, 7);
-    }
-    &:nth-of-type(8) {
-      @include slot(1, 8);
-    }
-    &:nth-of-type(9) {
-      @include slot(1, 9);
+    &.inv-slot-hotbar {
+      @mixin slot($row, $ind) {
+        top: calc(#{$inv-starty2} + ((#{$inv-padding} + #{$inv-slot-size}) * (#{$row} - 1)));
+        left: calc(#{$inv-startx} + ((#{$inv-padding} + #{$inv-slot-size}) * (#{$ind} - 1)));
+      }
+
+      &:nth-of-type(28) {
+        @include slot(1, 1);
+      }
+      &:nth-of-type(29) {
+        @include slot(1, 2);
+      }
+      &:nth-of-type(30) {
+        @include slot(1, 3);
+      }
+      &:nth-of-type(31) {
+        @include slot(1, 4);
+      }
+      &:nth-of-type(32) {
+        @include slot(1, 5);
+      }
+      &:nth-of-type(33) {
+        @include slot(1, 6);
+      }
+      &:nth-of-type(34) {
+        @include slot(1, 7);
+      }
+      &:nth-of-type(35) {
+        @include slot(1, 8);
+      }
+      &:nth-of-type(36) {
+        @include slot(1, 9);
+      }
     }
 
-    &:nth-of-type(10) {
-      @include slot(2, 1);
-    }
-    &:nth-of-type(11) {
-      @include slot(2, 2);
-    }
-    &:nth-of-type(12) {
-      @include slot(2, 3);
-    }
-    &:nth-of-type(13) {
-      @include slot(2, 4);
-    }
-    &:nth-of-type(14) {
-      @include slot(2, 5);
-    }
-    &:nth-of-type(15) {
-      @include slot(2, 6);
-    }
-    &:nth-of-type(16) {
-      @include slot(2, 7);
-    }
-    &:nth-of-type(17) {
-      @include slot(2, 8);
-    }
-    &:nth-of-type(18) {
-      @include slot(2, 9);
+    &.inv-slot-armor {
+      @mixin slot($row, $ind) {
+        top: calc(#{$inv-startx} + ((#{$inv-padding} + #{$inv-slot-size}) * (#{$row} - 1)));
+        left: calc(#{$inv-startx} + ((#{$inv-padding} + #{$inv-slot-size}) * (#{$ind} - 1)));
+      }
+
+      &:nth-of-type(37) {
+        @include slot(1, 1);
+      }
+      &:nth-of-type(38) {
+        @include slot(2, 1);
+      }
+      &:nth-of-type(39) {
+        @include slot(3, 1);
+      }
+      &:nth-of-type(40) {
+        @include slot(4, 1);
+      }
     }
 
-    &:nth-of-type(19) {
-      @include slot(3, 1);
+    &.inv-slot-craftingin {
+      @mixin slot($row, $ind) {
+        top: calc(#{$inv-starty3} + ((#{$inv-padding} + #{$inv-slot-size}) * (#{$row} - 1)));
+        left: calc(#{$inv-startx2} + ((#{$inv-padding} + #{$inv-slot-size}) * (#{$ind} - 1)));
+      }
+
+      &:nth-of-type(41) {
+        @include slot(1, 1);
+      }
+      &:nth-of-type(42) {
+        @include slot(1, 2);
+      }
+      &:nth-of-type(43) {
+        @include slot(2, 2);
+      }
+      &:nth-of-type(44) {
+        @include slot(2, 1);
+      }
     }
-    &:nth-of-type(20) {
-      @include slot(3, 2);
-    }
-    &:nth-of-type(21) {
-      @include slot(3, 3);
-    }
-    &:nth-of-type(22) {
-      @include slot(3, 4);
-    }
-    &:nth-of-type(23) {
-      @include slot(3, 5);
-    }
-    &:nth-of-type(24) {
-      @include slot(3, 6);
-    }
-    &:nth-of-type(25) {
-      @include slot(3, 7);
-    }
-    &:nth-of-type(26) {
-      @include slot(3, 8);
-    }
-    &:nth-of-type(27) {
-      @include slot(3, 9);
+
+    &.inv-slot-craftingout {
+      &:nth-of-type(45) {
+        top: calc(36px * #{$inv-scale});
+        left: calc(144px * #{$inv-scale});
+      }
     }
 
     &:hover {

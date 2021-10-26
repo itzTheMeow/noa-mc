@@ -152,113 +152,185 @@
   height: calc(16px * calc(var(--button-scale) * 1.5));
   position: absolute;
 }
-.inventory .inv-slot:nth-of-type(1) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(1) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
 }
-.inventory .inv-slot:nth-of-type(2) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(2) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
 }
-.inventory .inv-slot:nth-of-type(3) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(3) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
 }
-.inventory .inv-slot:nth-of-type(4) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(4) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (4 - 1)));
 }
-.inventory .inv-slot:nth-of-type(5) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(5) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (5 - 1)));
 }
-.inventory .inv-slot:nth-of-type(6) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(6) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (6 - 1)));
 }
-.inventory .inv-slot:nth-of-type(7) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(7) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (7 - 1)));
 }
-.inventory .inv-slot:nth-of-type(8) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(8) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (8 - 1)));
 }
-.inventory .inv-slot:nth-of-type(9) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(9) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (9 - 1)));
 }
-.inventory .inv-slot:nth-of-type(10) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(10) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
 }
-.inventory .inv-slot:nth-of-type(11) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(11) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
 }
-.inventory .inv-slot:nth-of-type(12) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(12) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
 }
-.inventory .inv-slot:nth-of-type(13) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(13) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (4 - 1)));
 }
-.inventory .inv-slot:nth-of-type(14) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(14) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (5 - 1)));
 }
-.inventory .inv-slot:nth-of-type(15) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(15) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (6 - 1)));
 }
-.inventory .inv-slot:nth-of-type(16) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(16) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (7 - 1)));
 }
-.inventory .inv-slot:nth-of-type(17) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(17) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (8 - 1)));
 }
-.inventory .inv-slot:nth-of-type(18) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(18) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (9 - 1)));
 }
-.inventory .inv-slot:nth-of-type(19) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(19) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
 }
-.inventory .inv-slot:nth-of-type(20) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(20) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
 }
-.inventory .inv-slot:nth-of-type(21) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(21) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
 }
-.inventory .inv-slot:nth-of-type(22) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(22) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (4 - 1)));
 }
-.inventory .inv-slot:nth-of-type(23) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(23) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (5 - 1)));
 }
-.inventory .inv-slot:nth-of-type(24) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(24) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (6 - 1)));
 }
-.inventory .inv-slot:nth-of-type(25) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(25) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (7 - 1)));
 }
-.inventory .inv-slot:nth-of-type(26) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(26) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (8 - 1)));
 }
-.inventory .inv-slot:nth-of-type(27) {
+.inventory .inv-slot.inv-slot-main:nth-of-type(27) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (9 - 1)));
+}
+.inventory .inv-slot.inv-slot-hotbar:nth-of-type(28) {
+  top: calc(calc(142px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+}
+.inventory .inv-slot.inv-slot-hotbar:nth-of-type(29) {
+  top: calc(calc(142px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+}
+.inventory .inv-slot.inv-slot-hotbar:nth-of-type(30) {
+  top: calc(calc(142px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
+}
+.inventory .inv-slot.inv-slot-hotbar:nth-of-type(31) {
+  top: calc(calc(142px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (4 - 1)));
+}
+.inventory .inv-slot.inv-slot-hotbar:nth-of-type(32) {
+  top: calc(calc(142px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (5 - 1)));
+}
+.inventory .inv-slot.inv-slot-hotbar:nth-of-type(33) {
+  top: calc(calc(142px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (6 - 1)));
+}
+.inventory .inv-slot.inv-slot-hotbar:nth-of-type(34) {
+  top: calc(calc(142px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (7 - 1)));
+}
+.inventory .inv-slot.inv-slot-hotbar:nth-of-type(35) {
+  top: calc(calc(142px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (8 - 1)));
+}
+.inventory .inv-slot.inv-slot-hotbar:nth-of-type(36) {
+  top: calc(calc(142px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (9 - 1)));
+}
+.inventory .inv-slot.inv-slot-armor:nth-of-type(37) {
+  top: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+}
+.inventory .inv-slot.inv-slot-armor:nth-of-type(38) {
+  top: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+}
+.inventory .inv-slot.inv-slot-armor:nth-of-type(39) {
+  top: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+}
+.inventory .inv-slot.inv-slot-armor:nth-of-type(40) {
+  top: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (4 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+}
+.inventory .inv-slot.inv-slot-craftingin:nth-of-type(41) {
+  top: calc(calc(26px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(88px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+}
+.inventory .inv-slot.inv-slot-craftingin:nth-of-type(42) {
+  top: calc(calc(26px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(88px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+}
+.inventory .inv-slot.inv-slot-craftingin:nth-of-type(43) {
+  top: calc(calc(26px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+  left: calc(calc(88px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+}
+.inventory .inv-slot.inv-slot-craftingin:nth-of-type(44) {
+  top: calc(calc(26px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+  left: calc(calc(88px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+}
+.inventory .inv-slot.inv-slot-craftingout:nth-of-type(45) {
+  top: calc(36px * calc(var(--button-scale) * 1.5));
+  left: calc(144px * calc(var(--button-scale) * 1.5));
 }
 .inventory .inv-slot:hover {
   background-color: rgba(255, 255, 255, 0.5);
