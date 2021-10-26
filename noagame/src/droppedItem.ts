@@ -1,7 +1,7 @@
 import noa from "./index";
 import { Mesh } from "@babylonjs/core/Meshes/mesh";
 import "@babylonjs/core/Meshes/Builders/boxBuilder";
-import { HemisphericLight, MeshBuilder, StandardMaterial, Texture, Vector3 } from "@babylonjs/core";
+import { MeshBuilder, StandardMaterial, Texture } from "@babylonjs/core";
 
 export function newDroppedItem(x: number, y: number, z: number, tex: string) {
   let sz = 0.55;

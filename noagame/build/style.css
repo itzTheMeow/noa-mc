@@ -135,6 +135,134 @@
   background-position: center center;
   z-index: 999;
 }
+.inventory {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99999;
+  width: calc(176px * calc(var(--button-scale) * 1.5));
+  height: calc(166px * calc(var(--button-scale) * 1.5));
+}
+.inventory#inventory {
+  background-image: url(img/gui/inventory.svg);
+}
+.inventory .inv-slot {
+  width: calc(16px * calc(var(--button-scale) * 1.5));
+  height: calc(16px * calc(var(--button-scale) * 1.5));
+  position: absolute;
+}
+.inventory .inv-slot:nth-of-type(1) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+}
+.inventory .inv-slot:nth-of-type(2) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+}
+.inventory .inv-slot:nth-of-type(3) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
+}
+.inventory .inv-slot:nth-of-type(4) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (4 - 1)));
+}
+.inventory .inv-slot:nth-of-type(5) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (5 - 1)));
+}
+.inventory .inv-slot:nth-of-type(6) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (6 - 1)));
+}
+.inventory .inv-slot:nth-of-type(7) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (7 - 1)));
+}
+.inventory .inv-slot:nth-of-type(8) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (8 - 1)));
+}
+.inventory .inv-slot:nth-of-type(9) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (9 - 1)));
+}
+.inventory .inv-slot:nth-of-type(10) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+}
+.inventory .inv-slot:nth-of-type(11) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+}
+.inventory .inv-slot:nth-of-type(12) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
+}
+.inventory .inv-slot:nth-of-type(13) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (4 - 1)));
+}
+.inventory .inv-slot:nth-of-type(14) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (5 - 1)));
+}
+.inventory .inv-slot:nth-of-type(15) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (6 - 1)));
+}
+.inventory .inv-slot:nth-of-type(16) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (7 - 1)));
+}
+.inventory .inv-slot:nth-of-type(17) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (8 - 1)));
+}
+.inventory .inv-slot:nth-of-type(18) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (9 - 1)));
+}
+.inventory .inv-slot:nth-of-type(19) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
+}
+.inventory .inv-slot:nth-of-type(20) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (2 - 1)));
+}
+.inventory .inv-slot:nth-of-type(21) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
+}
+.inventory .inv-slot:nth-of-type(22) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (4 - 1)));
+}
+.inventory .inv-slot:nth-of-type(23) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (5 - 1)));
+}
+.inventory .inv-slot:nth-of-type(24) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (6 - 1)));
+}
+.inventory .inv-slot:nth-of-type(25) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (7 - 1)));
+}
+.inventory .inv-slot:nth-of-type(26) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (8 - 1)));
+}
+.inventory .inv-slot:nth-of-type(27) {
+  top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (3 - 1)));
+  left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (9 - 1)));
+}
+.inventory .inv-slot:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
 #blocks {
   z-index: 999;
   position: absolute;

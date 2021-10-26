@@ -51,6 +51,8 @@ disableBodyScroll(_("bsl"), {
   },
 });
 
+_("inventory").innerHTML = `<div class="inv-slot"></div>`.repeat(27);
+
 var opts = {
   debug: true,
   showFPS: true,
