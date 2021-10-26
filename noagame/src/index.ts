@@ -35,9 +35,13 @@ let GameOptions = {
   thirdPersonZoom: 8,
   mineDelay: 350,
   hotbarScale: 3,
+  version: "0.1.2",
 };
 GameOptions.autoJump = GameOptions.touchMode;
 (window as any).touchMode = GameOptions.touchMode;
+
+document.querySelector("title").innerHTML = `Preclassic Port v${GameOptions.version}`;
+
 import initCtrlPad from "./control-pad";
 import { disableBodyScroll } from "body-scroll-lock";
 
@@ -113,6 +117,11 @@ let blocks = {
   sponge: new Block("sponge", []),
   smoothStone: new Block("smooth_stone", []),
   leaves: new Block("leaves", [], { transparent: true }),
+  mushroomRed: new Block("mushroom_red", [], { flowerType: true }),
+  mushroomBrown: new Block("mushroom_brown", [], { flowerType: true }),
+  flowerYellow: new Block("flower_yellow", [], { flowerType: true }),
+  flowerRed: new Block("flower_red", [], { flowerType: true }),
+  flowerCyan: new Block("flower_cyan", [], { flowerType: true }),
 };
 let placeBlock = blocks.grass;
 let hotbar = [
@@ -262,12 +271,14 @@ import noise from "./perlin";
 let width = 64;
 let height = 64;
 let filter = new noise(0).read(width, height);
-function getVoxelID(x, y, z) {
+function getVoxelID(x: number, y: number, z: number): number {
   if (x >= 64 || y >= 64 || z >= 64) return 0;
   if (x < 0 || y < 0 || z < 0) return 0;
 
   let h = Math.floor(filter[x + z * width] / 3);
   if (y == 0) return blocks.bedrock.id;
+  if (y == h + 1 && random(0, 100) == 0 && random(0, 1) == 0)
+    return [blocks.flowerYellow.id, blocks.flowerRed.id, blocks.flowerCyan.id][random(0, 2)];
   if (y == h) return blocks.grass.id;
   if (y < h && y >= h - 3) return blocks.dirt.id;
   if (y < h - 3) return blocks.stone.id;
@@ -335,6 +346,7 @@ import { toggleMenu } from "./menu";
 import onRemovePointerLock from "./onRemovePointerLock";
 import initScreenInteractions from "./screenInteractions";
 import initAPI from "./API";
+import random from "./random";
 let breakTextures = {};
 var capacity = 80;
 var rate = 80;

@@ -40,6 +40,11 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
+## 0.1.2
+
+- Added flowers.
+- Added random flower generation.
+
 ## 0.1.1
 
 - Added ore, tnt, metal, and more blocks.
