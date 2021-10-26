@@ -152,6 +152,13 @@
   height: calc(16px * calc(var(--button-scale) * 1.5));
   position: absolute;
 }
+.inventory .inv-slot canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
 .inventory .inv-slot.inv-slot-main:nth-of-type(1) {
   top: calc(calc(84px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
   left: calc(calc(8px * calc(var(--button-scale) * 1.5)) + ((calc(2px * calc(var(--button-scale) * 1.5)) + calc(16px * calc(var(--button-scale) * 1.5))) * (1 - 1)));
@@ -334,35 +341,6 @@
 }
 .inventory .inv-slot:hover {
   background-color: rgba(255, 255, 255, 0.5);
-}
-#blocks {
-  z-index: 999;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 75%;
-  height: 80%;
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 4px;
-}
-
-.invblock {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 40px;
-  height: 40px;
-  margin: 4px;
-  box-sizing: border-box;
-  cursor: pointer;
-  display: inline-block;
-}
-.invblock:hover {
-  border: 2px solid white;
-}
-.invblock:active {
-  border: 1px solid white;
 }
 #menu {
   z-index: 9999;

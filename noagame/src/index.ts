@@ -129,19 +129,10 @@ let blocks = {
   flowerRed: new Block("flower_red", [], { flowerType: true }),
   flowerCyan: new Block("flower_cyan", [], { flowerType: true }),
 };
-let placeBlock = blocks.grass;
-let hotbar = [
-  blocks.grass,
-  blocks.dirt,
-  blocks.planks,
-  blocks.oakLog,
-  blocks.cobblestone,
-  blocks.stone,
-  blocks.bricks,
-  blocks.obsidian,
-  blocks.bedrock,
-];
+let placeBlock = null;
+let hotbar: (Block | null)[] = new Array(9).fill(null);
 let hotbarSelection = 1;
+let inventory: (Block | null)[] = new Array(27).fill(null);
 
 let getHotbarOffset = (n) => -1 * GameOptions.hotbarScale + 20 * GameOptions.hotbarScale * (n - 1);
 
@@ -155,15 +146,19 @@ let getHotbarOffset = (n) => -1 * GameOptions.hotbarScale + 20 * GameOptions.hot
 };
 (window as any).setHotbarSelection(hotbarSelection);
 
+hotbar[2] = blocks.grass;
+inventory[6] = blocks.stone;
+inventory[26] = blocks.flowerCyan;
+
 import BlockPreview from "./blockPreview";
 let hotbarCache = [];
+let invCache = [];
 (window as any).updateHotbar = function (force) {
-  [1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((n) => {
-    let sel = hotbar[n - 1];
-    if (!sel) return;
-    if (hotbarCache[n - 1] == sel.id && !force) return;
+  hotbar.forEach(async (sel, n) => {
+    let hb = _(`hotbar-item-${n + 1}`);
+    if (!sel) return hb.firstChild && hb.firstChild.remove();
+    if (hotbarCache[n] == sel.id && !force) return;
 
-    let hb = _(`hotbar-item-${n}`);
     if (hb.firstChild) hb.firstChild.remove();
 
     let glcanv = document.createElement("canvas");
@@ -177,12 +172,43 @@ let hotbarCache = [];
 
     hb.appendChild(canv);
     document.body.appendChild(glcanv);
-    hb.style.left = getHotbarOffset(n) + "px";
+    hb.style.left = getHotbarOffset(n + 1) + "px";
+
+    let prev = sel.getPreviewTex();
+    await new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType).done;
+
+    let canv2 = document.createElement("canvas");
+    canv2.width = canv.width;
+    canv2.height = canv.height;
+    canv2.getContext("2d").drawImage(canv, 0, 0);
+    document.querySelectorAll(`.inv-slot-hotbar`)[n].appendChild(canv2);
+  });
+  hotbarCache = hotbar.map((h) => (h == null ? null : h.id));
+
+  inventory.forEach(async (sel, n) => {
+    let iv = document.querySelectorAll(`.inv-slot-main`)[n] as HTMLElement;
+
+    if (!sel) return iv.firstChild && iv.firstChild.remove();
+    if (hotbarCache[n] == sel.id && !force) return;
+
+    if (iv.firstChild) iv.firstChild.remove();
+
+    let glcanv = document.createElement("canvas");
+    glcanv.width = 16 * GameOptions.hotbarScale;
+    glcanv.height = 16 * GameOptions.hotbarScale;
+    glcanv.style.visibility = "none";
+
+    let canv = document.createElement("canvas");
+    canv.width = 16 * GameOptions.hotbarScale;
+    canv.height = 16 * GameOptions.hotbarScale;
+
+    iv.appendChild(canv);
+    document.body.appendChild(glcanv);
 
     let prev = sel.getPreviewTex();
     new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType);
   });
-  hotbarCache = hotbar.map((h) => h.id);
+  invCache = inventory.map((i) => (i == null ? null : i.id));
 };
 
 (window as any).setHotbarScale = function (num: number, updH: boolean = true) {
@@ -405,7 +431,7 @@ noa.inputs.up.on("alt-fire", function () {
 let placing = false;
 let lastPlacedOn = [];
 function place() {
-  if (noa.targetedBlock) {
+  if (noa.targetedBlock && placeBlock) {
     var pos = noa.targetedBlock.adjacent;
     noa.setBlock(placeBlock.id, pos[0], pos[1], pos[2]);
     lastPlacedOn = [...pos];

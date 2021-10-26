@@ -28,6 +28,14 @@ $inv-slot-size: calc(16px * #{$inv-scale});
     height: $inv-slot-size;
     position: absolute;
 
+    canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
     &.inv-slot-main {
       @mixin slot($row, $ind) {
         top: calc(#{$inv-starty} + ((#{$inv-padding} + #{$inv-slot-size}) * (#{$row} - 1)));
