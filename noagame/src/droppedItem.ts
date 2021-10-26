@@ -4,7 +4,7 @@ import "@babylonjs/core/Meshes/Builders/boxBuilder";
 import { HemisphericLight, MeshBuilder, StandardMaterial, Texture, Vector3 } from "@babylonjs/core";
 
 export function newDroppedItem(x: number, y: number, z: number, tex: string) {
-  let sz = 0.5;
+  let sz = 0.55;
 
   const mat = new StandardMaterial("mat", noa.rendering.getScene());
   let texMat = new Texture(

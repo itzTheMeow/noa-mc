@@ -40,6 +40,11 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
+## 0.1.3
+
+- Made items bigger.
+- Added inventory screen.
+
 ## 0.1.2
 
 - Added flowers.
