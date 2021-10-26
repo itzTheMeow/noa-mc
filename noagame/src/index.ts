@@ -88,6 +88,11 @@ let blocks = {
   oakLog: new Block("oak_log", ["oak_log_face", "oak_log_side"], { prev: "oak_log_side" }),
   glass: new Block("glass", [], { transparent: true }),
   sapling: new Block("sapling", [], { flowerType: true }),
+  coalOre: new Block("coal_ore", []),
+  ironOre: new Block("iron_ore", []),
+  goldOre: new Block("gold_ore", []),
+  redstoneOre: new Block("redstone_ore", []),
+  diamondOre: new Block("diamond_ore", []),
 };
 let placeBlock = blocks.grass;
 let hotbar = [
