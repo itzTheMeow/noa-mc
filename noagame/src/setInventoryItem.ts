@@ -1,19 +1,24 @@
 import { hotbar, hotbarSelection, inventory } from "./index";
 import { Block } from "./Block";
 
+function validItems(i: [Block | null, number]) {
+  if (!i) return null;
+  if (i[1] >= i[0].stackSize) return null;
+  return i[0];
+}
+
 export default function setInventoryItem(
   item: Block | null,
   index: number | null = null,
   bar: boolean | null = null,
   count: number = 0
 ) {
-  console.log(item, index, bar, count, hotbar, inventory);
   if (index == null) {
-    index = hotbar.map((h) => (h ? h[0] : null)).indexOf(item);
+    index = hotbar.map(validItems).indexOf(item);
     bar = true;
   }
   if (index == -1) {
-    index = inventory.map((i) => (i ? i[0] : null)).indexOf(item);
+    index = inventory.map(validItems).indexOf(item);
     bar = false;
   }
   if (index == -1) {
