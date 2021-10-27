@@ -137,13 +137,13 @@ let inventory: ([Block, number] | null)[] = new Array(27).fill(null);
 
 let getHotbarOffset = (n) => -1 * GameOptions.hotbarScale + 20 * GameOptions.hotbarScale * (n - 1);
 
-(window as any).setHotbarSelection = function (num) {
+(window as any).setHotbarSelection = function (num: number) {
   hotbarSelection = num;
   _("hotbar-selection").style.left = getHotbarOffset(num) + "px";
   [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => _(`hotbar-item-${n}`).classList.remove("selected"));
   let selection = _(`hotbar-item-${hotbarSelection}`);
   selection.classList.add("selected");
-  placeBlock = hotbar[hotbarSelection - 1];
+  placeBlock = hotbar[hotbarSelection - 1] ? hotbar[hotbarSelection - 1][0] : null;
 };
 (window as any).setHotbarSelection(hotbarSelection);
 
