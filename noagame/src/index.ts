@@ -254,7 +254,7 @@ noa.inputs.up.on("esc", () => {
 noa.container._shell._onPointerLockChanged = noa.container._shell.onPointerLockChanged;
 noa.container._shell.onPointerLockChanged = function (has) {
   this._onPointerLockChanged(has);
-  if (!has && _("inventory").style.display == "none") {
+  if (!has && !GameOptions.touchMode && _("inventory").style.display == "none") {
     toggleMenu(true);
   }
 };
@@ -353,7 +353,6 @@ mesh.scaling.y = h;
 import MPS from "./mesh-particle-system.js";
 import { Texture } from "@babylonjs/core/Materials/Textures/texture";
 import { toggleMenu } from "./menu";
-import onRemovePointerLock from "./onRemovePointerLock";
 import initScreenInteractions from "./screenInteractions";
 import initAPI from "./API";
 import random from "./random";
