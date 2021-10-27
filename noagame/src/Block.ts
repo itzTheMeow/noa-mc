@@ -5,6 +5,7 @@ type BlockOptions = {
   transparent?: boolean;
   prev?: string;
   flowerType?: boolean;
+  stackSize?: number;
 };
 type NoaBlockOptions = {
   material: string | string[];
@@ -49,10 +50,15 @@ class Block {
   public preview: string;
   public transparent: boolean;
   public flowerType: boolean;
+  public stackSize: number;
 
   constructor(name: string, tex: string[], opts?: BlockOptions) {
     if (!tex.length) tex = [name];
-    opts = Object.assign({}, { transparent: false, prev: tex[0], flowerType: false }, opts);
+    opts = Object.assign(
+      {},
+      { transparent: false, prev: tex[0], flowerType: false, stackSize: 64 },
+      opts
+    );
 
     tex.forEach((t) => {
       if (!materials.includes(t)) {
@@ -68,6 +74,7 @@ class Block {
     this.preview = opts.prev;
     this.transparent = opts.transparent;
     this.flowerType = opts.flowerType;
+    this.stackSize = opts.stackSize;
 
     let blockOptions: NoaBlockOptions = {
       material: this.tex.length > 1 ? this.tex : this.tex[0],

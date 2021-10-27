@@ -1,6 +1,7 @@
 import _ from "./_";
 import { Engine } from "../../noalib";
 import { Block } from "./Block";
+import setInventoryItem from "./setInventoryItem";
 
 let GameOptions = {
   sensitivity: 17,
@@ -130,9 +131,9 @@ let blocks = {
   flowerCyan: new Block("flower_cyan", [], { flowerType: true }),
 };
 let placeBlock = null;
-let hotbar: (Block | null)[] = new Array(9).fill(null);
+let hotbar: ([Block, number] | null)[] = new Array(9).fill(null);
 let hotbarSelection = 1;
-let inventory: (Block | null)[] = new Array(27).fill(null);
+let inventory: ([Block, number] | null)[] = new Array(27).fill(null);
 
 let getHotbarOffset = (n) => -1 * GameOptions.hotbarScale + 20 * GameOptions.hotbarScale * (n - 1);
 
@@ -146,20 +147,15 @@ let getHotbarOffset = (n) => -1 * GameOptions.hotbarScale + 20 * GameOptions.hot
 };
 (window as any).setHotbarSelection(hotbarSelection);
 
-hotbar[2] = blocks.grass;
-inventory[6] = blocks.stone;
-inventory[26] = blocks.flowerCyan;
-
 import BlockPreview from "./blockPreview";
-let hotbarCache = [];
-let invCache = [];
-(window as any).updateHotbar = function (force) {
-  hotbar.forEach(async (sel, n) => {
+let hotbarCache: [number, number][] = [];
+let invCache: [number, number][] = [];
+(window as any).updateHotbar = function () {
+  hotbar.forEach(async (item, n) => {
+    let [sel, count] = item || [];
     let hb = _(`hotbar-item-${n + 1}`);
-    if (!sel) return hb.firstChild && hb.firstChild.remove();
-    if (hotbarCache[n] == sel.id && !force) return;
-
-    if (hb.firstChild) hb.firstChild.remove();
+    hb.innerHTML = "";
+    if (!sel) return;
 
     let glcanv = document.createElement("canvas");
     glcanv.width = 16 * GameOptions.hotbarScale;
@@ -175,23 +171,23 @@ let invCache = [];
     hb.style.left = getHotbarOffset(n + 1) + "px";
 
     let prev = sel.getPreviewTex();
-    await new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType).done;
+    await new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType, count).done;
 
     let canv2 = document.createElement("canvas");
     canv2.width = canv.width;
     canv2.height = canv.height;
     canv2.getContext("2d").drawImage(canv, 0, 0);
-    document.querySelectorAll(`.inv-slot-hotbar`)[n].appendChild(canv2);
+    let hbi = document.querySelectorAll(`.inv-slot-hotbar`)[n];
+    hbi.innerHTML = "";
+    hbi.appendChild(canv2);
   });
-  hotbarCache = hotbar.map((h) => (h == null ? null : h.id));
+  hotbarCache = hotbar.map((h) => (h == null ? null : [h[0].id, h[1]]));
 
-  inventory.forEach(async (sel, n) => {
+  inventory.forEach(async (item, n) => {
+    let [sel, count] = item || [];
     let iv = document.querySelectorAll(`.inv-slot-main`)[n] as HTMLElement;
-
-    if (!sel) return iv.firstChild && iv.firstChild.remove();
-    if (hotbarCache[n] == sel.id && !force) return;
-
-    if (iv.firstChild) iv.firstChild.remove();
+    iv.innerHTML = "";
+    if (!sel) return;
 
     let glcanv = document.createElement("canvas");
     glcanv.width = 16 * GameOptions.hotbarScale;
@@ -206,10 +202,12 @@ let invCache = [];
     document.body.appendChild(glcanv);
 
     let prev = sel.getPreviewTex();
-    new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType);
+    new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType, count);
   });
-  invCache = inventory.map((i) => (i == null ? null : i.id));
+  invCache = inventory.map((i) => (i == null ? null : [i[0].id, i[1]]));
 };
+
+setInventoryItem(blocks.grass, 1, true, 3);
 
 (window as any).setHotbarScale = function (num: number, updH: boolean = true) {
   num = Math.floor(num) || 1;
@@ -381,7 +379,7 @@ export function breakBlockAt(...pos: number[]) {
   );
   if (!block) return;
 
-  newDroppedItem(pos[0] + 0.5, pos[1] + 0.5, pos[2] + 0.5, block.preview);
+  newDroppedItem(pos[0] + 0.5, pos[1] + 0.5, pos[2] + 0.5, block);
 
   let tex =
     breakTextures[block.name] ||
@@ -445,7 +443,7 @@ noa.inputs.up.on("fire", function () {
   placing = false;
 });
 
-noa.inputs.up.on("mid-fire", function () {
+/*noa.inputs.up.on("mid-fire", function () {
   if (noa.targetedBlock) {
     let picked =
       Object.values(blocks).find((b) => b.id == noa.targetedBlock.blockID) || blocks.grass;
@@ -453,7 +451,7 @@ noa.inputs.up.on("mid-fire", function () {
     (window as any).setHotbarSelection(hotbarSelection);
     (window as any).updateHotbar();
   }
-});
+});*/
 
 function openInventory() {
   let hidden = _("inventory").style.display == "none";
@@ -535,3 +533,5 @@ let touchDictionary = null;
 });
 
 initAPI();
+
+export { inventory, hotbar, hotbarSelection };

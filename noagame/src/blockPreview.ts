@@ -11,11 +11,11 @@ import {
   Vector3,
 } from "@babylonjs/core";
 
+let previewCache: { [key: string]: ImageData } = {};
+
 export default class BlockPreview {
-  public engine: Engine;
-  public scene: Scene;
-  public camera: ArcRotateCamera;
   public done: Promise<void>;
+  public texString: string;
 
   constructor(
     glcanvas: HTMLCanvasElement,
@@ -23,19 +23,56 @@ export default class BlockPreview {
     topT: string,
     leftT: string,
     rightT: string,
-    xShape: boolean
+    xShape: boolean,
+    count?: number
   ) {
-    this.done = new Promise((res) => {
-      this.engine = new Engine(glcanvas, true, {
+    this.texString = `${topT}-${leftT}-${rightT}`;
+
+    this.done = new Promise(async (res) => {
+      let tex = previewCache[this.texString];
+      if (!tex) tex = await this.getRender(glcanvas, canvas2d, topT, leftT, rightT, xShape);
+
+      let ctx2d = canvas2d.getContext("2d");
+      ctx2d.clearRect(0, 0, canvas2d.width, canvas2d.height);
+      ctx2d.putImageData(tex, 0, 0);
+
+      if (count > 1) {
+        let cpad = 6;
+        ctx2d.font = "22px Minecraft";
+
+        let meas = ctx2d.measureText(String(count));
+        let x = canvas2d.width - meas.actualBoundingBoxRight - cpad;
+        let y = canvas2d.height - meas.actualBoundingBoxAscent + cpad * 1.5;
+
+        ctx2d.fillStyle = "#3f3f3f";
+        ctx2d.fillText(String(count), x + 2, y + 2);
+        ctx2d.fillStyle = "#ffffff";
+        ctx2d.fillText(String(count), x, y);
+      }
+
+      res(void 0);
+    });
+  }
+
+  async getRender(
+    glcanvas: HTMLCanvasElement,
+    canvas2d: HTMLCanvasElement,
+    topT: string,
+    leftT: string,
+    rightT: string,
+    xShape: boolean
+  ): Promise<ImageData> {
+    return new Promise((res) => {
+      let engine = new Engine(glcanvas, true, {
         preserveDrawingBuffer: true,
         stencil: true,
         disableWebGL2Support: false,
       });
 
-      this.scene = new Scene(this.engine);
-      this.scene.clearColor = new Color4(0, 0, 0, 0);
+      let scene = new Scene(engine);
+      scene.clearColor = new Color4(0, 0, 0, 0);
 
-      this.camera = new ArcRotateCamera(
+      let camera = new ArcRotateCamera(
         "Camera",
         -Math.PI / 4,
         Math.PI / 3,
@@ -43,13 +80,13 @@ export default class BlockPreview {
         Vector3.Zero(),
         null
       );
-      this.camera.attachControl(glcanvas, true);
+      camera.attachControl(glcanvas, true);
 
       let blockSize = 1;
 
       if (!xShape) {
         new HemisphericLight("light", new Vector3(0.8, 1, -0.3), null);
-        this.camera.fov = 0.45 * blockSize;
+        camera.fov = 0.45 * blockSize;
 
         const matTop = new StandardMaterial("matTop", null);
         let topTex = new Texture(
@@ -100,8 +137,8 @@ export default class BlockPreview {
         right.position.z = -0.5 * blockSize;
       } else {
         new HemisphericLight("light", new Vector3(1, 1, 1), null);
-        this.camera.alpha += Math.PI / 2.7;
-        this.camera.fov = 0.3 * blockSize;
+        camera.alpha += Math.PI / 2.7;
+        camera.fov = 0.3 * blockSize;
 
         let tex = new Texture(
           `img/blocks/${topT}.png`,
@@ -125,21 +162,28 @@ export default class BlockPreview {
       }
 
       let rendered = 0;
-      this.engine.runRenderLoop(
-        function () {
-          if (this.scene && this.scene.activeCamera && rendered < 10) {
-            this.scene.render();
-            rendered++;
-          } else {
-            try {
-              canvas2d.getContext("2d").drawImage(this.engine._gl.canvas, 0, 0);
-              this.engine._gl.getExtension("WEBGL_lose_context").loseContext(); // chrome max contexts fuck you
-              glcanvas.remove();
-              res(void 0);
-            } catch (e) {}
-          }
-        }.bind(this)
-      );
+      let texString = this.texString;
+      engine.runRenderLoop(function () {
+        if (scene && scene.activeCamera && rendered < 10) {
+          scene.render();
+          rendered++;
+        } else if (rendered !== -1) {
+          rendered = -1;
+          try {
+            window.requestAnimationFrame(function () {
+              let ctx2d = canvas2d.getContext("2d");
+              ctx2d.clearRect(0, 0, canvas2d.width, canvas2d.height);
+              ctx2d.drawImage(engine._gl.canvas, 0, 0);
+              window.requestAnimationFrame(function () {
+                previewCache[texString] = ctx2d.getImageData(0, 0, canvas2d.width, canvas2d.height);
+                engine._gl.getExtension("WEBGL_lose_context").loseContext(); // chrome max contexts fuck you
+                glcanvas.remove();
+                res(previewCache[texString]);
+              });
+            });
+          } catch (e) {}
+        }
+      });
     });
   }
 }

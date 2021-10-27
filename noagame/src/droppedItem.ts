@@ -2,13 +2,15 @@ import noa from "./index";
 import { Mesh } from "@babylonjs/core/Meshes/mesh";
 import "@babylonjs/core/Meshes/Builders/boxBuilder";
 import { MeshBuilder, StandardMaterial, Texture } from "@babylonjs/core";
+import setInventoryItem from "./setInventoryItem";
+import { Block } from "./Block";
 
-export function newDroppedItem(x: number, y: number, z: number, tex: string) {
+export function newDroppedItem(x: number, y: number, z: number, block: Block) {
   let sz = 0.55;
 
   const mat = new StandardMaterial("mat", noa.rendering.getScene());
   let texMat = new Texture(
-    `img/blocks/${tex}.png`,
+    `img/blocks/${block.preview}.png`,
     noa.rendering.getScene(),
     true,
     true,
@@ -28,7 +30,10 @@ export function newDroppedItem(x: number, y: number, z: number, tex: string) {
   (noa.entities as any).addComponent(id, (noa.entities.names as any).collideTerrain);
   (noa.entities as any).addComponent(id, (noa.entities.names as any).collideEntities, {
     callback: function (other) {
-      if (other == noa.playerEntity) (noa.entities as any).deleteEntity(id);
+      if (other == noa.playerEntity) {
+        (noa.entities as any).deleteEntity(id);
+        setInventoryItem(block);
+      }
     },
   });
 }
