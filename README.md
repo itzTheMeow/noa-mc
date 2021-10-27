@@ -40,6 +40,11 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
+## 0.2.0
+
+- Made the inventory and hotbar functional.
+- Added functional item counts.
+
 ## 0.1.3
 
 - Made items bigger.

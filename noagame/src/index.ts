@@ -4,7 +4,7 @@ import { Block } from "./Block";
 import setInventoryItem from "./setInventoryItem";
 
 let GameOptions = {
-  sensitivity: 17,
+  sensitivity: 11,
   touchMode:
     /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(
       navigator.userAgent
@@ -36,7 +36,7 @@ let GameOptions = {
   thirdPersonZoom: 8,
   mineDelay: 350,
   hotbarScale: 3,
-  version: "0.1.3",
+  version: "0.2.0",
 };
 GameOptions.autoJump = GameOptions.touchMode;
 (window as any).touchMode = GameOptions.touchMode;
@@ -148,13 +148,13 @@ let getHotbarOffset = (n) => -1 * GameOptions.hotbarScale + 20 * GameOptions.hot
 (window as any).setHotbarSelection(hotbarSelection);
 
 import BlockPreview from "./blockPreview";
-let hotbarCache: [number, number][] = [];
-let invCache: [number, number][] = [];
 (window as any).updateHotbar = function () {
   hotbar.forEach(async (item, n) => {
     let [sel, count] = item || [];
     let hb = _(`hotbar-item-${n + 1}`);
     hb.innerHTML = "";
+    let hbi = document.querySelectorAll(`.inv-slot-hotbar`)[n];
+    hbi.innerHTML = "";
     if (!sel) return;
 
     let glcanv = document.createElement("canvas");
@@ -177,11 +177,8 @@ let invCache: [number, number][] = [];
     canv2.width = canv.width;
     canv2.height = canv.height;
     canv2.getContext("2d").drawImage(canv, 0, 0);
-    let hbi = document.querySelectorAll(`.inv-slot-hotbar`)[n];
-    hbi.innerHTML = "";
     hbi.appendChild(canv2);
   });
-  hotbarCache = hotbar.map((h) => (h == null ? null : [h[0].id, h[1]]));
 
   inventory.forEach(async (item, n) => {
     let [sel, count] = item || [];
@@ -204,10 +201,7 @@ let invCache: [number, number][] = [];
     let prev = sel.getPreviewTex();
     new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType, count);
   });
-  invCache = inventory.map((i) => (i == null ? null : [i[0].id, i[1]]));
 };
-
-setInventoryItem(blocks.grass, 1, true, 3);
 
 (window as any).setHotbarScale = function (num: number, updH: boolean = true) {
   num = Math.floor(num) || 1;
@@ -430,9 +424,10 @@ let placing = false;
 let lastPlacedOn = [];
 function place() {
   if (noa.targetedBlock && placeBlock) {
-    var pos = noa.targetedBlock.adjacent;
+    let pos = noa.targetedBlock.adjacent;
     noa.setBlock(placeBlock.id, pos[0], pos[1], pos[2]);
     lastPlacedOn = [...pos];
+    setInventoryItem(placeBlock, hotbarSelection - 1, true, undefined, "-");
   }
 }
 noa.inputs.down.on("fire", function () {
