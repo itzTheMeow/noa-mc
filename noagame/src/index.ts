@@ -36,7 +36,7 @@ let GameOptions = {
   thirdPersonZoom: 8,
   mineDelay: 350,
   hotbarScale: 3,
-  version: "0.2.0",
+  version: "0.2.1",
 };
 GameOptions.autoJump = GameOptions.touchMode;
 (window as any).touchMode = GameOptions.touchMode;
@@ -425,6 +425,13 @@ let lastPlacedOn = [];
 function place() {
   if (noa.targetedBlock && placeBlock) {
     let pos = noa.targetedBlock.adjacent;
+    let currentPos = noa.entities.getPosition(noa.playerEntity).map(Math.floor);
+    if (
+      currentPos[0] == pos[0] &&
+      (currentPos[1] == pos[1] - 1 || currentPos[1] == pos[1]) &&
+      currentPos[2] == pos[2]
+    )
+      return;
     noa.setBlock(placeBlock.id, pos[0], pos[1], pos[2]);
     lastPlacedOn = [...pos];
     setInventoryItem(placeBlock, hotbarSelection - 1, true, undefined, "-");

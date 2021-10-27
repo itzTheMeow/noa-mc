@@ -40,6 +40,10 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
+## 0.2.1
+
+- You can no longer place blocks inside your character's space.
+
 ## 0.2.0
 
 - Made the inventory and hotbar functional.
