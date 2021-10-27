@@ -11,7 +11,8 @@ export default function setInventoryItem(
   item: Block | null,
   index: number | null = null,
   bar: boolean | null = null,
-  count: number = 0
+  count: number = 0,
+  set: boolean = false
 ) {
   if (index == null) {
     index = hotbar.map(validItems).indexOf(item);
@@ -32,7 +33,9 @@ export default function setInventoryItem(
   if (index == -1) return false;
 
   let current = (bar ? hotbar : inventory)[index] || [];
-  (bar ? hotbar : inventory)[index] = item ? [item, (count || current[1] || 0) + 1] : null;
+  (bar ? hotbar : inventory)[index] = item
+    ? [item, (count || current[1] || 0) + (set ? 0 : 1)]
+    : null;
 
   (window as any).setHotbarSelection(hotbarSelection);
   (window as any).updateHotbar();
