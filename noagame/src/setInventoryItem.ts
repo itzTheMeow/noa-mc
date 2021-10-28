@@ -10,7 +10,7 @@ function validItems(i: [Block | null, number]) {
 export default function setInventoryItem(
   item: Block | null,
   index: number | null = null,
-  bar: boolean | null = null,
+  bar: "hotbar" | "main" = "main",
   count: number = 0,
   act: "+" | "=" | "-" = "+"
 ) {
@@ -20,25 +20,25 @@ export default function setInventoryItem(
 
   if (index == null) {
     index = hotbar.map(validItems).indexOf(item);
-    bar = true;
+    bar = "hotbar";
   }
   if (index == -1) {
     index = inventory.map(validItems).indexOf(item);
-    bar = false;
+    bar = "main";
   }
   if (index == -1) {
     index = hotbar.indexOf(null);
-    bar = true;
+    bar = "hotbar";
   }
   if (index == -1) {
     index = inventory.indexOf(null);
-    bar = false;
+    bar = "main";
   }
   if (index == -1) return false;
 
-  let current = (bar ? hotbar : inventory)[index] || [];
+  let current = (bar == "hotbar" ? hotbar : inventory)[index] || [];
   let newCt = (count || current[1] || 0) + actNum;
-  (bar ? hotbar : inventory)[index] = item && newCt ? [item, newCt] : null;
+  (bar == "hotbar" ? hotbar : inventory)[index] = item && newCt ? [item, newCt] : null;
 
   (window as any).setHotbarSelection(hotbarSelection);
   (window as any).updateHotbar();

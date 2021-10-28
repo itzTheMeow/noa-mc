@@ -352,6 +352,7 @@ import initScreenInteractions from "./screenInteractions";
 import initAPI from "./API";
 import random from "./random";
 import { newDroppedItem } from "./droppedItem";
+import { initInvActions } from "./inventoryInteractions";
 let breakTextures = {};
 var capacity = 80;
 var rate = 80;
@@ -428,7 +429,7 @@ function place() {
       return;
     noa.setBlock(placeBlock.id, pos[0], pos[1], pos[2]);
     lastPlacedOn = [...pos];
-    setInventoryItem(placeBlock, hotbarSelection - 1, true, undefined, "-");
+    setInventoryItem(placeBlock, hotbarSelection - 1, "hotbar", undefined, "-");
   }
 }
 noa.inputs.down.on("fire", function () {
@@ -528,6 +529,7 @@ let touchDictionary = null;
   }
 });
 
+initInvActions();
 initAPI();
 
-export { inventory, hotbar, hotbarSelection };
+export { inventory, hotbar, hotbarSelection, GameOptions };

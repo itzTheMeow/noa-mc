@@ -10,6 +10,19 @@ $inv-starty3: calc(26px * #{$inv-scale});
 $inv-padding: calc(2px * #{$inv-scale});
 $inv-slot-size: calc(16px * #{$inv-scale});
 
+#picked-up {
+  position: absolute;
+  pointer-events: none;
+  z-index: 999999;
+
+  canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
 .inventory {
   position: absolute;
   left: 50%;
