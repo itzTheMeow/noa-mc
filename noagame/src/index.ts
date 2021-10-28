@@ -86,11 +86,6 @@ initCtrlPad();
 
 // [all] [top-bottom,sides] [top,bottom,sides] [-x, +x, -y, +y, -z, +z]
 let blocks: { [key: string]: Block } = {
-  planks: new Block("planks", []),
-  sand: new Block("sand", []),
-  gravel: new Block("gravel", []),
-  bedrock: new Block("bedrock", []),
-  cobblestone: new Block("cobblestone", []),
   bricks: new Block("bricks", []),
   obsidian: new Block("obsidian", []),
   mossyCobblestone: new Block("mossy_cobblestone", []),
