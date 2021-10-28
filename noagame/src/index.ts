@@ -129,6 +129,10 @@ let placeBlock = null;
 let hotbar: ([Block, number] | null)[] = new Array(9).fill(null);
 let hotbarSelection = 1;
 let inventory: ([Block, number] | null)[] = new Array(27).fill(null);
+let craftingInv: { in: ([Block, number] | null)[]; out: [[Block, number] | null] } = {
+  in: new Array(4).fill(null),
+  out: [null],
+};
 
 let getHotbarOffset = (n) => -1 * GameOptions.hotbarScale + 20 * GameOptions.hotbarScale * (n - 1);
 
@@ -191,6 +195,31 @@ import BlockPreview from "./blockPreview";
     canv.height = 16 * GameOptions.hotbarScale;
 
     iv.appendChild(canv);
+    document.body.appendChild(glcanv);
+
+    let prev = sel.getPreviewTex();
+    new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType, count);
+  });
+
+  [...craftingInv.in, ...craftingInv.out].forEach(async (item, n) => {
+    let [sel, count] = item || [];
+    let cr = [
+      ...document.querySelectorAll(`.inv-slot-craftingin`),
+      ...document.querySelectorAll(`.inv-slot-craftingout`),
+    ][n] as HTMLElement;
+    cr.innerHTML = "";
+    if (!sel) return;
+
+    let glcanv = document.createElement("canvas");
+    glcanv.width = 16 * GameOptions.hotbarScale;
+    glcanv.height = 16 * GameOptions.hotbarScale;
+    glcanv.style.visibility = "none";
+
+    let canv = document.createElement("canvas");
+    canv.width = 16 * GameOptions.hotbarScale;
+    canv.height = 16 * GameOptions.hotbarScale;
+
+    cr.appendChild(canv);
     document.body.appendChild(glcanv);
 
     let prev = sel.getPreviewTex();
@@ -532,4 +561,4 @@ let touchDictionary = null;
 initInvActions();
 initAPI();
 
-export { inventory, hotbar, hotbarSelection, GameOptions };
+export { inventory, hotbar, hotbarSelection, GameOptions, craftingInv };

@@ -1,5 +1,7 @@
-import { hotbar, hotbarSelection, inventory } from "./index";
+import { craftingInv, hotbar, hotbarSelection, inventory } from "./index";
 import { Block } from "./Block";
+
+export type Bars = "hotbar" | "main" | "craftingin" | "craftingout";
 
 function validItems(i: [Block | null, number]) {
   if (!i) return null;
@@ -10,7 +12,7 @@ function validItems(i: [Block | null, number]) {
 export default function setInventoryItem(
   item: Block | null,
   index: number | null = null,
-  bar: "hotbar" | "main" = "main",
+  bar: Bars = "main",
   count: number = 0,
   act: "+" | "=" | "-" = "+"
 ) {
@@ -36,9 +38,25 @@ export default function setInventoryItem(
   }
   if (index == -1) return false;
 
-  let current = (bar == "hotbar" ? hotbar : inventory)[index] || [];
+  let change;
+  switch (bar) {
+    case "hotbar":
+      change = hotbar;
+      break;
+    case "main":
+      change = inventory;
+      break;
+    case "craftingin":
+      change = craftingInv.in;
+      break;
+    case "craftingout":
+      change = craftingInv.out;
+      break;
+  }
+
+  let current = change[index] || [];
   let newCt = (count || current[1] || 0) + actNum;
-  (bar == "hotbar" ? hotbar : inventory)[index] = item && newCt ? [item, newCt] : null;
+  change[index] = item && newCt ? [item, newCt] : null;
 
   (window as any).setHotbarSelection(hotbarSelection);
   (window as any).updateHotbar();
