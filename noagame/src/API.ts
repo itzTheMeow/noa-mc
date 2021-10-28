@@ -1,4 +1,4 @@
-import noa, { breakBlockAt } from ".";
+import noa, { breakBlockAt } from "./index";
 
 export default function initAPI() {
   (window as any).api = new (class API {

@@ -51,6 +51,8 @@ class Block {
   public transparent: boolean;
   public flowerType: boolean;
   public stackSize: number;
+  public materials: [string, null, string, true][] = [];
+  public block: [number, NoaBlockOptions];
 
   constructor(name: string, tex: string[], opts?: BlockOptions) {
     if (!tex.length) tex = [name];
@@ -62,7 +64,7 @@ class Block {
 
     tex.forEach((t) => {
       if (!materials.includes(t)) {
-        noa.registry.registerMaterial(t, null, `img/blocks/${t}.png`, true);
+        this.materials.push([t, null, `img/blocks/${t}.png`, true]);
         materials.push(t);
       }
     });
@@ -87,7 +89,7 @@ class Block {
       blockOptions.opaque = blockOptions.solid = false;
       delete blockOptions.material;
     }
-    noa.registry.registerBlock(this.id, blockOptions);
+    this.block = [this.id, blockOptions];
   }
 
   public getPreviewTex() {
@@ -95,6 +97,13 @@ class Block {
     else if (this.tex.length == 2) return [this.tex[0], this.tex[1], this.tex[1]];
     else if (this.tex.length == 3) return [this.tex[0], this.tex[2], this.tex[2]];
     else return [this.tex[3], this.tex[1], this.tex[5]];
+  }
+
+  public register() {
+    this.materials.forEach((m) => {
+      noa.registry.registerMaterial(...m);
+    });
+    noa.registry.registerBlock(...this.block);
   }
 }
 

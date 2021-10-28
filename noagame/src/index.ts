@@ -1,6 +1,5 @@
 import _ from "./_";
 import { Engine } from "../../noalib";
-import { Block } from "./Block";
 import setInventoryItem from "./setInventoryItem";
 
 let GameOptions = {
@@ -41,10 +40,27 @@ let GameOptions = {
 GameOptions.autoJump = GameOptions.touchMode;
 (window as any).touchMode = GameOptions.touchMode;
 
-document.querySelector("title").innerHTML = `Preclassic Port v${GameOptions.version}`;
+let opts = {
+  debug: true,
+  showFPS: true,
+  chunkSize: 32,
+  playerStart: [32, 64, 32],
+  gravity: [0, -16, 0],
+  sensitivityX: GameOptions.sensitivity,
+  sensitivityY: GameOptions.sensitivity,
+  bindings: GameOptions.bindings,
+  playerAutoStep: GameOptions.autoJump,
+  // See `test` example, or noa docs/source, for more options
+};
+let noa = new Engine(opts);
+export default noa;
 
+import { Block } from "./Block";
+import _blocks from "./blocks";
 import initCtrlPad from "./control-pad";
 import { disableBodyScroll } from "body-scroll-lock";
+
+document.querySelector("title").innerHTML = `Preclassic Port v${GameOptions.version}`;
 
 disableBodyScroll(_("bsl"), {
   allowTouchMove: (e: HTMLElement | Element) => {
@@ -58,21 +74,6 @@ _("inventory").innerHTML += `<div class="inv-slot inv-slot-armor"></div>`.repeat
 _("inventory").innerHTML += `<div class="inv-slot inv-slot-craftingin"></div>`.repeat(4);
 _("inventory").innerHTML += `<div class="inv-slot inv-slot-craftingout"></div>`.repeat(1);
 
-var opts = {
-  debug: true,
-  showFPS: true,
-  chunkSize: 32,
-  playerStart: [32, 64, 32],
-  gravity: [0, -16, 0],
-  sensitivityX: GameOptions.sensitivity,
-  sensitivityY: GameOptions.sensitivity,
-  bindings: GameOptions.bindings,
-  playerAutoStep: GameOptions.autoJump,
-  // See `test` example, or noa docs/source, for more options
-};
-var noa = new Engine(opts);
-export default noa;
-
 initScreenInteractions();
 initCtrlPad();
 
@@ -84,10 +85,7 @@ initCtrlPad();
 (window as any).setSensitivity(GameOptions.sensitivity);
 
 // [all] [top-bottom,sides] [top,bottom,sides] [-x, +x, -y, +y, -z, +z]
-let blocks = {
-  dirt: new Block("dirt", []),
-  grass: new Block("grass", ["grass_top", "dirt", "grass_side"], { prev: "grass_side" }),
-  stone: new Block("stone", []),
+let blocks: { [key: string]: Block } = {
   planks: new Block("planks", []),
   sand: new Block("sand", []),
   gravel: new Block("gravel", []),
@@ -129,7 +127,9 @@ let blocks = {
   flowerYellow: new Block("flower_yellow", [], { flowerType: true }),
   flowerRed: new Block("flower_red", [], { flowerType: true }),
   flowerCyan: new Block("flower_cyan", [], { flowerType: true }),
+  ..._blocks,
 };
+Object.values(blocks).map((b) => b.register());
 let placeBlock = null;
 let hotbar: ([Block, number] | null)[] = new Array(9).fill(null);
 let hotbarSelection = 1;
