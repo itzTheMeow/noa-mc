@@ -35,7 +35,7 @@ let GameOptions = {
   thirdPersonZoom: 8,
   mineDelay: 350,
   hotbarScale: 3,
-  version: "0.2.1",
+  version: "0.3.1",
 };
 GameOptions.autoJump = GameOptions.touchMode;
 (window as any).touchMode = GameOptions.touchMode;
@@ -152,6 +152,7 @@ import BlockPreview from "./blockPreview";
     let [sel, count] = item || [];
     let hb = _(`hotbar-item-${n + 1}`);
     hb.innerHTML = "";
+    hb.style.left = getHotbarOffset(n + 1) + "px";
     let hbi = document.querySelectorAll(`.inv-slot-hotbar`)[n];
     hbi.innerHTML = "";
     if (!sel) return;
@@ -167,7 +168,6 @@ import BlockPreview from "./blockPreview";
 
     hb.appendChild(canv);
     document.body.appendChild(glcanv);
-    hb.style.left = getHotbarOffset(n + 1) + "px";
 
     let prev = sel.getPreviewTex();
     await new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType, count).done;

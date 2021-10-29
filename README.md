@@ -40,6 +40,15 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
+## 0.3.1
+
+- Fixed mobile hotbar.
+- Made item count numbers resize with hotbar.
+
+## 0.3.0
+
+- You can now move items around in your inventory.
+
 ## 0.2.1
 
 - You can no longer place blocks inside your character's space.

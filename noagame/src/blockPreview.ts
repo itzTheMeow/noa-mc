@@ -10,6 +10,7 @@ import {
   Texture,
   Vector3,
 } from "@babylonjs/core";
+import { GameOptions } from ".";
 
 let previewCache: { [key: string]: ImageData } = {};
 
@@ -37,12 +38,15 @@ export default class BlockPreview {
       ctx2d.putImageData(tex, 0, 0);
 
       if (count > 1) {
-        let cpad = 6;
-        ctx2d.font = "22px Minecraft";
+        let cpad = 2 * GameOptions.hotbarScale;
+        ctx2d.font = 7 * GameOptions.hotbarScale + 1 + "px Minecraft";
 
         let meas = ctx2d.measureText(String(count));
         let x = canvas2d.width - meas.actualBoundingBoxRight - cpad;
-        let y = canvas2d.height - meas.actualBoundingBoxAscent + cpad * 1.5;
+        let y =
+          canvas2d.height -
+          meas.actualBoundingBoxAscent +
+          cpad * (1 + 0.3 * GameOptions.hotbarScale);
 
         ctx2d.fillStyle = "#3f3f3f";
         ctx2d.fillText(String(count), x + 2, y + 2);
