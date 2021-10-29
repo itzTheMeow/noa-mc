@@ -11,6 +11,7 @@ import {
   Vector3,
 } from "@babylonjs/core";
 import { GameOptions } from ".";
+import { BlockTypes } from "./Block";
 
 let previewCache: { [key: string]: ImageData } = {};
 
@@ -24,14 +25,14 @@ export default class BlockPreview {
     topT: string,
     leftT: string,
     rightT: string,
-    xShape: boolean,
+    type: BlockTypes,
     count?: number
   ) {
     this.texString = `${topT}-${leftT}-${rightT}`;
 
     this.done = new Promise(async (res) => {
       let tex = previewCache[this.texString];
-      if (!tex) tex = await this.getRender(glcanvas, canvas2d, topT, leftT, rightT, xShape);
+      if (!tex) tex = await this.getRender(glcanvas, canvas2d, topT, leftT, rightT, type);
 
       let ctx2d = canvas2d.getContext("2d");
       ctx2d.clearRect(0, 0, canvas2d.width, canvas2d.height);
@@ -64,7 +65,7 @@ export default class BlockPreview {
     topT: string,
     leftT: string,
     rightT: string,
-    xShape: boolean
+    type: BlockTypes
   ): Promise<ImageData> {
     return new Promise((res) => {
       let engine = new Engine(glcanvas, true, {
@@ -88,81 +89,85 @@ export default class BlockPreview {
 
       let blockSize = 1;
 
-      if (!xShape) {
-        new HemisphericLight("light", new Vector3(0.8, 1, -0.3), null);
-        camera.fov = 0.45 * blockSize;
+      switch (type) {
+        case "block":
+        case "slab":
+          new HemisphericLight("light", new Vector3(0.8, 1, -0.3), null);
+          camera.fov = 0.45 * blockSize;
 
-        const matTop = new StandardMaterial("matTop", null);
-        let topTex = new Texture(
-          `img/blocks/${topT}.png`,
-          null,
-          true,
-          true,
-          Texture.NEAREST_SAMPLINGMODE
-        );
-        topTex.hasAlpha = true;
-        matTop.diffuseTexture = topTex;
+          const matTop = new StandardMaterial("matTop", null);
+          let topTex = new Texture(
+            `img/blocks/${topT}.png`,
+            null,
+            true,
+            true,
+            Texture.NEAREST_SAMPLINGMODE
+          );
+          topTex.hasAlpha = true;
+          matTop.diffuseTexture = topTex;
 
-        const matLeft = new StandardMaterial("matLeft", null);
-        let leftTex = new Texture(
-          `img/blocks/${leftT}.png`,
-          null,
-          true,
-          true,
-          Texture.NEAREST_SAMPLINGMODE
-        );
-        leftTex.hasAlpha = true;
-        matLeft.diffuseTexture = leftTex;
+          const matLeft = new StandardMaterial("matLeft", null);
+          let leftTex = new Texture(
+            `img/blocks/${leftT}.png`,
+            null,
+            true,
+            true,
+            Texture.NEAREST_SAMPLINGMODE
+          );
+          leftTex.hasAlpha = true;
+          matLeft.diffuseTexture = leftTex;
 
-        const matRight = new StandardMaterial("matRight", null);
-        let rightTex = new Texture(
-          `img/blocks/${rightT}.png`,
-          null,
-          true,
-          true,
-          Texture.NEAREST_SAMPLINGMODE
-        );
-        rightTex.hasAlpha = true;
-        matRight.diffuseTexture = rightTex;
+          const matRight = new StandardMaterial("matRight", null);
+          let rightTex = new Texture(
+            `img/blocks/${rightT}.png`,
+            null,
+            true,
+            true,
+            Texture.NEAREST_SAMPLINGMODE
+          );
+          rightTex.hasAlpha = true;
+          matRight.diffuseTexture = rightTex;
 
-        let top = MeshBuilder.CreatePlane("top", { size: blockSize });
-        top.material = matTop;
-        top.rotation.x = Math.PI / 2;
-        top.position.y = 0.5 * blockSize;
+          let top = MeshBuilder.CreatePlane("top", { size: blockSize });
+          top.material = matTop;
+          top.rotation.x = Math.PI / 2;
+          top.position.y = 0.5 * blockSize;
 
-        let left = MeshBuilder.CreatePlane("left", { size: blockSize });
-        left.material = matLeft;
-        left.rotation.y = -Math.PI / 2;
-        left.position.x = 0.5 * blockSize;
+          let left = MeshBuilder.CreatePlane("left", { size: blockSize });
+          left.material = matLeft;
+          left.rotation.y = -Math.PI / 2;
+          left.position.x = 0.5 * blockSize;
 
-        let right = MeshBuilder.CreatePlane("right", { size: blockSize });
-        right.material = matRight;
-        right.rotation.y = 0;
-        right.position.z = -0.5 * blockSize;
-      } else {
-        new HemisphericLight("light", new Vector3(1, 1, 1), null);
-        camera.alpha += Math.PI / 2.7;
-        camera.fov = 0.3 * blockSize;
+          let right = MeshBuilder.CreatePlane("right", { size: blockSize });
+          right.material = matRight;
+          right.rotation.y = 0;
+          right.position.z = -0.5 * blockSize;
+          break;
+        case "flower":
+          new HemisphericLight("light", new Vector3(1, 1, 1), null);
+          camera.alpha += Math.PI / 2.7;
+          camera.fov = 0.3 * blockSize;
 
-        let tex = new Texture(
-          `img/blocks/${topT}.png`,
-          undefined,
-          true,
-          true,
-          Texture.NEAREST_SAMPLINGMODE
-        );
-        tex.hasAlpha = true;
+          let tex = new Texture(
+            `img/blocks/${topT}.png`,
+            undefined,
+            true,
+            true,
+            Texture.NEAREST_SAMPLINGMODE
+          );
+          tex.hasAlpha = true;
 
-        const mesh = Mesh.CreatePlane("xplane", 1, null);
-        const mat = new StandardMaterial("xplane", null);
-        mat.backFaceCulling = false;
-        mat.diffuseTexture = tex;
-        (mat.diffuseTexture as Texture).vOffset = 0.99;
-        mesh.material = mat;
-        mesh.rotation.y = -Math.PI / 2;
+          const mesh = Mesh.CreatePlane("xplane", 1, null);
+          const mat = new StandardMaterial("xplane", null);
+          mat.backFaceCulling = false;
+          mat.diffuseTexture = tex;
+          (mat.diffuseTexture as Texture).vOffset = 0.99;
+          mesh.material = mat;
+          mesh.rotation.y = -Math.PI / 2;
 
-        const clone = mesh.clone("xplanec");
-        clone.rotation.y = Math.PI;
+          const clone = mesh.clone("xplanec");
+          clone.rotation.y = Math.PI;
+          break;
       }
 
       let rendered = 0;

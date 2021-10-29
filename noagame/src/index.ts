@@ -91,7 +91,7 @@ let blocks: { [key: string]: Block } = {
   mossyCobblestone: new Block("mossy_cobblestone", []),
   oakLog: new Block("oak_log", ["oak_log_face", "oak_log_side"], { prev: "oak_log_side" }),
   glass: new Block("glass", [], { transparent: true }),
-  sapling: new Block("sapling", [], { flowerType: true }),
+  sapling: new Block("sapling", [], { type: "flower" }),
   coalOre: new Block("coal_ore", []),
   ironOre: new Block("iron_ore", []),
   goldOre: new Block("gold_ore", []),
@@ -117,11 +117,11 @@ let blocks: { [key: string]: Block } = {
   sponge: new Block("sponge", []),
   smoothStone: new Block("smooth_stone", []),
   leaves: new Block("leaves", [], { transparent: true }),
-  mushroomRed: new Block("mushroom_red", [], { flowerType: true }),
-  mushroomBrown: new Block("mushroom_brown", [], { flowerType: true }),
-  flowerYellow: new Block("flower_yellow", [], { flowerType: true }),
-  flowerRed: new Block("flower_red", [], { flowerType: true }),
-  flowerCyan: new Block("flower_cyan", [], { flowerType: true }),
+  mushroomRed: new Block("mushroom_red", [], { type: "flower" }),
+  mushroomBrown: new Block("mushroom_brown", [], { type: "flower" }),
+  flowerYellow: new Block("flower_yellow", [], { type: "flower" }),
+  flowerRed: new Block("flower_red", [], { type: "flower" }),
+  flowerCyan: new Block("flower_cyan", [], { type: "flower" }),
   ..._blocks,
 };
 Object.values(blocks).map((b) => b.register());
@@ -170,7 +170,7 @@ import BlockPreview from "./blockPreview";
     document.body.appendChild(glcanv);
 
     let prev = sel.getPreviewTex();
-    await new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType, count).done;
+    await new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.type, count).done;
 
     let canv2 = document.createElement("canvas");
     canv2.width = canv.width;
@@ -198,7 +198,7 @@ import BlockPreview from "./blockPreview";
     document.body.appendChild(glcanv);
 
     let prev = sel.getPreviewTex();
-    new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType, count);
+    new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.type, count);
   });
 
   [...craftingInv.in, ...craftingInv.out].forEach(async (item, n) => {
@@ -223,7 +223,7 @@ import BlockPreview from "./blockPreview";
     document.body.appendChild(glcanv);
 
     let prev = sel.getPreviewTex();
-    new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.flowerType, count);
+    new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.type, count);
   });
 };
 
@@ -562,3 +562,5 @@ initInvActions();
 initAPI();
 
 export { inventory, hotbar, hotbarSelection, GameOptions, craftingInv };
+
+setInventoryItem(blocks.planks_slab, 0, "hotbar", 64, "=")
