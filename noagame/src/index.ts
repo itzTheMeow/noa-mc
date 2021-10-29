@@ -35,7 +35,7 @@ let GameOptions = {
   thirdPersonZoom: 8,
   mineDelay: 350,
   hotbarScale: 3,
-  version: "0.3.3",
+  version: "0.4.0",
   jumpStack: 3,
 };
 GameOptions.autoJump = GameOptions.touchMode;
@@ -403,7 +403,6 @@ export function breakBlockAt(...pos: number[]) {
   if (!block || block.unbreakable) return;
 
   noa.setBlock(0, pos[0], pos[1], pos[2]);
-
 
   if (block.drops) {
     let blockDrop = blocks[block.drops[0]];

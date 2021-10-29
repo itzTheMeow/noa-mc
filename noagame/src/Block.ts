@@ -106,9 +106,6 @@ function slabMesh(names: string[]) {
   [topTex, bottomTex, leftTex1, leftTex2, rightTex1, rightTex2].forEach((t) => {
     t.hasAlpha = true;
   });
-  [leftTex1, leftTex2, rightTex1, rightTex2].forEach((t) => {
-    t.vScale = 0.5;
-  });
 
   matTop.diffuseTexture = topTex;
   matBottom.diffuseTexture = bottomTex;
@@ -116,6 +113,16 @@ function slabMesh(names: string[]) {
   matLeft2.diffuseTexture = leftTex2;
   matRight1.diffuseTexture = rightTex1;
   matRight2.diffuseTexture = rightTex2;
+
+  function cplane(name: string) {
+    let pl1 = Mesh.CreatePlane(name + "1", 0.5, noa.rendering.getScene());
+    let pl2 = Mesh.CreatePlane(name + "2", 0.5, noa.rendering.getScene());
+    pl1.position.x = -0.25;
+    pl2.position.x = 0.25;
+    let merged = Mesh.MergeMeshes([pl1, pl2], true);
+    merged.position.y = 0.5;
+    return merged;
+  }
 
   let top = Mesh.CreatePlane(`top-${names[0]}`, 1, noa.rendering.getScene());
   top.material = matTop;
@@ -126,20 +133,20 @@ function slabMesh(names: string[]) {
   bottom.rotation.x = -Math.PI / 2;
   bottom.position.y = 0;
 
-  let left1 = Mesh.CreatePlane(`left1-${names[0]}`, 1, noa.rendering.getScene());
+  let left1 = cplane(`left1-${names[0]}`);
   left1.material = matLeft1;
   left1.rotation.y = -Math.PI / 2;
   left1.position.x = 0.5;
-  let left2 = Mesh.CreatePlane(`left2-${names[0]}`, 1, noa.rendering.getScene());
+  let left2 = cplane(`left2-${names[0]}`);
   left2.material = matLeft2;
   left2.rotation.y = Math.PI / 2;
   left2.position.x = -0.5;
 
-  let right1 = Mesh.CreatePlane(`right1-${names[0]}`, 1, noa.rendering.getScene());
+  let right1 = cplane(`right1-${names[0]}`);
   right1.material = matRight1;
   right1.rotation.y = 0;
   right1.position.z = -0.5;
-  let right2 = Mesh.CreatePlane(`right2-${names[0]}`, 1, noa.rendering.getScene());
+  let right2 = cplane(`right2-${names[0]}`);
   right2.material = matRight2;
   right2.rotation.y = -Math.PI;
   right2.position.z = 0.5;
@@ -221,9 +228,8 @@ class Block {
   }
 
   public register() {
-    this.materials.forEach((m) => {
-      noa.registry.registerMaterial(...m);
-    });
+    let ids = this.materials.map((m) => noa.registry.registerMaterial(...m));
+    noa.registry._blockMeshLookup.forEach((l) => l && (l._material._diffuseTexture.vScale = 2));
     switch (this.type) {
       case "flower":
         this.block[1].blockMesh = xMesh(this.tex[0]);

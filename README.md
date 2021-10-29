@@ -40,6 +40,11 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
+## 0.4.0
+
+- Blocks drop proper things now.
+- Added unobtainable oak slabs.
+
 ## 0.3.3
 
 - Trees generate naturally.
