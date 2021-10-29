@@ -40,6 +40,10 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
+## 0.3.2
+
+- Limited jumps to 3.
+
 ## 0.3.1
 
 - Fixed mobile hotbar.

@@ -101,6 +101,9 @@ function slabMesh(names: string[]) {
   [topTex, bottomTex, leftTex1, leftTex2, rightTex1, rightTex2].forEach((t) => {
     t.hasAlpha = true;
   });
+  [leftTex1, leftTex2, rightTex1, rightTex2].forEach((t) => {
+    t.vScale = 0.5;
+  });
 
   matTop.diffuseTexture = topTex;
   matBottom.diffuseTexture = bottomTex;
@@ -116,7 +119,7 @@ function slabMesh(names: string[]) {
   let bottom = Mesh.CreatePlane(`bottom-${names[0]}`, 1, noa.rendering.getScene());
   bottom.material = matBottom;
   bottom.rotation.x = -Math.PI / 2;
-  bottom.position.y = -0.5;
+  bottom.position.y = 0;
 
   let left1 = Mesh.CreatePlane(`left1-${names[0]}`, 1, noa.rendering.getScene());
   left1.material = matLeft1;

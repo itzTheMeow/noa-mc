@@ -35,7 +35,8 @@ let GameOptions = {
   thirdPersonZoom: 8,
   mineDelay: 350,
   hotbarScale: 3,
-  version: "0.3.1",
+  version: "0.3.2",
+  jumpStack: 3,
 };
 GameOptions.autoJump = GameOptions.touchMode;
 (window as any).touchMode = GameOptions.touchMode;
@@ -54,6 +55,8 @@ let opts = {
 };
 let noa = new Engine(opts);
 export default noa;
+
+noa.entities.getMovement(noa.playerEntity).airJumps = GameOptions.jumpStack - 1;
 
 import { Block } from "./Block";
 import _blocks from "./blocks";
@@ -563,4 +566,4 @@ initAPI();
 
 export { inventory, hotbar, hotbarSelection, GameOptions, craftingInv };
 
-setInventoryItem(blocks.planks_slab, 0, "hotbar", 64, "=")
+setInventoryItem(blocks.planks_slab, 0, "hotbar", 64, "=");
