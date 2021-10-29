@@ -43,15 +43,15 @@ export function initInvActions() {
       if (pickedUp == null && item && type == "craftingout") {
         let [amt, done, finalize] = finishCraft();
         finalize();
-        pickedUp = [item[0], amt];
-        setInventoryItem(done ? null : item[0], 0, "craftingout", item[1] - amt, "=");
+        pickedUp = [item[0], item[1]];
+        setInventoryItem(done ? null : item[0], 0, "craftingout", item[1], "=");
       } else if (pickedUp && item && pickedUp[0].id == item[0].id && type == "craftingout") {
         let [amt, done, finalize] = finishCraft();
-        let newAmt = pickedUp[1] + amt;
+        let newAmt = pickedUp[1] + item[1];
         if (newAmt <= 64) {
           finalize();
           pickedUp = [item[0], newAmt];
-          setInventoryItem(done ? null : item[0], 0, "craftingout", item[1] - amt, "=");
+          setInventoryItem(done ? null : item[0], 0, "craftingout", item[1], "=");
         }
       } else if (pickedUp == null && item && type !== "craftingout") {
         let amt = right ? Math.floor(item[1] / 2) : item[1];
@@ -111,15 +111,8 @@ export function initInvActions() {
         document.body.appendChild(glcanv);
 
         let prev = pickedUp[0].getPreviewTex();
-        new BlockPreview(
-          glcanv,
-          canv,
-          prev[0],
-          prev[1],
-          prev[2],
-          pickedUp[0].flowerType,
-          pickedUp[1]
-        ).done;
+        new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], pickedUp[0].type, pickedUp[1])
+          .done;
       }
     } else pu.style.display = "none";
   });

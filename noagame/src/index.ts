@@ -35,7 +35,7 @@ let GameOptions = {
   thirdPersonZoom: 8,
   mineDelay: 350,
   hotbarScale: 3,
-  version: "0.3.2",
+  version: "0.3.3",
   jumpStack: 3,
 };
 GameOptions.autoJump = GameOptions.touchMode;
@@ -92,7 +92,6 @@ let blocks: { [key: string]: Block } = {
   bricks: new Block("bricks", []),
   obsidian: new Block("obsidian", []),
   mossyCobblestone: new Block("mossy_cobblestone", []),
-  oakLog: new Block("oak_log", ["oak_log_face", "oak_log_side"], { prev: "oak_log_side" }),
   glass: new Block("glass", [], { transparent: true }),
   sapling: new Block("sapling", [], { type: "flower" }),
   coalOre: new Block("coal_ore", []),
@@ -119,7 +118,6 @@ let blocks: { [key: string]: Block } = {
   ),
   sponge: new Block("sponge", []),
   smoothStone: new Block("smooth_stone", []),
-  leaves: new Block("leaves", [], { transparent: true }),
   mushroomRed: new Block("mushroom_red", [], { type: "flower" }),
   mushroomBrown: new Block("mushroom_brown", [], { type: "flower" }),
   flowerYellow: new Block("flower_yellow", [], { type: "flower" }),
@@ -308,6 +306,7 @@ import noise from "./perlin";
 let width = 64;
 let height = 64;
 let filter = new noise(0).read(width, height);
+let genQueue = [];
 function getVoxelID(x: number, y: number, z: number): number {
   if (x >= 64 || y >= 64 || z >= 64) return 0;
   if (x < 0 || y < 0 || z < 0) return 0;
@@ -316,6 +315,10 @@ function getVoxelID(x: number, y: number, z: number): number {
   if (y == 0) return blocks.bedrock.id;
   if (y == h + 1 && random(0, 100) == 0 && random(0, 1) == 0)
     return [blocks.flowerYellow.id, blocks.flowerRed.id, blocks.flowerCyan.id][random(0, 2)];
+  if (y == h + 1 && random(0, 400) == 0) {
+    genQueue.push([x, y, z, TreeTypes.oak]);
+    return 0;
+  }
   if (y == h) return blocks.grass.id;
   if (y < h && y >= h - 3) return blocks.dirt.id;
   if (y < h - 3) return blocks.stone.id;
@@ -385,6 +388,7 @@ import initAPI from "./API";
 import random from "./random";
 import { newDroppedItem } from "./droppedItem";
 import { initInvActions } from "./inventoryInteractions";
+import generateTree, { TreeTypes } from "./generateTree";
 let breakTextures = {};
 var capacity = 80;
 var rate = 80;
@@ -393,14 +397,19 @@ let actionTicks = 0;
 let mining = false;
 
 export function breakBlockAt(...pos: number[]) {
-  noa.setBlock(0, pos[0], pos[1], pos[2]);
-
   let block = Object.values(blocks).find(
     (b) => b.id == ((noa.targetedBlock || {}).blockID || noa.getBlock(pos[0], pos[1], pos[2]))
   );
-  if (!block) return;
+  if (!block || block.unbreakable) return;
 
-  newDroppedItem(pos[0] + 0.5, pos[1] + 0.5, pos[2] + 0.5, block);
+  noa.setBlock(0, pos[0], pos[1], pos[2]);
+
+
+  if (block.drops) {
+    let blockDrop = blocks[block.drops[0]];
+    let drop = block.drops[1];
+    if (blockDrop) newDroppedItem(pos[0] + 0.5, pos[1] + 0.5, pos[2] + 0.5, blockDrop, drop);
+  }
 
   let tex =
     breakTextures[block.name] ||
@@ -527,6 +536,12 @@ let touchDictionary = null;
     if (sel < 1) sel = 9;
     if (sel > 9) sel = 1;
     (window as any).setHotbarSelection(sel);
+  }
+
+  if (genQueue.length) {
+    let genItem = genQueue.shift();
+    //@ts-expect-error
+    generateTree(...genItem);
   }
 
   if (touchDictionary) {

@@ -3,8 +3,8 @@ import blocks from "./blocks";
 import setInventoryItem from "./setInventoryItem";
 
 export function updateCrafting() {
-  if (craftingInv.in[0] && craftingInv.in[0][0] == blocks.grass)
-    return setInventoryItem(blocks.dirt, 0, "craftingout", craftingInv.in[0][1], "=");
+  if (craftingInv.in[0] && craftingInv.in[0][0] == blocks.oak_log)
+    return setInventoryItem(blocks.planks, 0, "craftingout", 4, "=");
   setInventoryItem(null, 0, "craftingout");
 }
 

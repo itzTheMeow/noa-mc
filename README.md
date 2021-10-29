@@ -40,6 +40,10 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
+## 0.3.3
+
+- Trees generate naturally.
+
 ## 0.3.2
 
 - Limited jumps to 3.

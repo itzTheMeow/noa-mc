@@ -5,7 +5,7 @@ import { MeshBuilder, StandardMaterial, Texture } from "@babylonjs/core";
 import setInventoryItem from "./setInventoryItem";
 import { Block } from "./Block";
 
-export function newDroppedItem(x: number, y: number, z: number, block: Block) {
+export function newDroppedItem(x: number, y: number, z: number, block: Block, count: number = 1) {
   let sz = 0.55;
 
   const mat = new StandardMaterial("mat", noa.rendering.getScene());
@@ -32,7 +32,7 @@ export function newDroppedItem(x: number, y: number, z: number, block: Block) {
     callback: function (other) {
       if (other == noa.playerEntity) {
         (noa.entities as any).deleteEntity(id);
-        setInventoryItem(block);
+        new Array(count).fill(0).map(() => setInventoryItem(block));
       }
     },
   });

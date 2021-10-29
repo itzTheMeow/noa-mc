@@ -1,3 +1,3 @@
 import { Block } from "../Block";
 
-export const cobblestone = new Block("cobblestone", []);
+export const cobblestone = new Block("cobblestone", [], { drops: "cobblestone" });

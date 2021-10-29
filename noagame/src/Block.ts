@@ -1,6 +1,7 @@
 import noa from "./index";
 import { Matrix, Mesh, Texture } from "@babylonjs/core";
 import parseMaterial from "./util/parseMaterial";
+import blocks from "./blocks";
 
 export type BlockTypes = "block" | "slab" | "flower";
 type BlockOptions = {
@@ -8,7 +9,11 @@ type BlockOptions = {
   prev?: string;
   type?: BlockTypes;
   stackSize?: number;
+  drops?: string | null;
+  dropAmount?: number;
+  unbreakable?: boolean;
 };
+
 type NoaBlockOptions = {
   material: string | string[];
   opaque: boolean;
@@ -152,12 +157,22 @@ class Block {
   public stackSize: number;
   public materials: [string, null, string, true][] = [];
   public block: [number, NoaBlockOptions];
+  public drops: [string, number] | null;
+  public unbreakable: boolean = false;
 
   constructor(name: string, tex: string[], opts?: BlockOptions) {
     if (!tex.length) tex = [name];
     opts = Object.assign(
       {},
-      { transparent: false, prev: tex[0], type: "block", stackSize: 64 },
+      {
+        transparent: false,
+        prev: tex[0],
+        type: "block",
+        stackSize: 64,
+        drops: name,
+        dropAmount: 1,
+        unbreakable: false,
+      },
       opts
     );
 
@@ -176,6 +191,8 @@ class Block {
     this.transparent = opts.transparent;
     this.type = opts.type;
     this.stackSize = opts.stackSize;
+    this.drops = opts.drops ? [opts.drops, opts.dropAmount] : null;
+    this.unbreakable = opts.unbreakable;
 
     let blockOptions: NoaBlockOptions = {
       material: this.tex.length > 1 ? this.tex : this.tex[0],
