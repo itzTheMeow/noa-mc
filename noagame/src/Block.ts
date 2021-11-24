@@ -12,6 +12,7 @@ type BlockOptions = {
   drops?: string | null;
   dropAmount?: number;
   unbreakable?: boolean;
+  noHighlight?: boolean;
 };
 
 type NoaBlockOptions = {
@@ -166,6 +167,7 @@ class Block {
   public block: [number, NoaBlockOptions];
   public drops: [string, number] | null;
   public unbreakable: boolean = false;
+  public noHighlight: boolean = false;
 
   constructor(name: string, tex: string[], opts?: BlockOptions) {
     if (!tex.length) tex = [name];
@@ -179,6 +181,7 @@ class Block {
         drops: name,
         dropAmount: 1,
         unbreakable: false,
+        noHighlight: false,
       },
       opts
     );
@@ -200,6 +203,7 @@ class Block {
     this.stackSize = opts.stackSize;
     this.drops = opts.drops ? [opts.drops, opts.dropAmount] : null;
     this.unbreakable = opts.unbreakable;
+    this.noHighlight = opts.noHighlight;
 
     let blockOptions: NoaBlockOptions = {
       material: this.tex.length > 1 ? this.tex : this.tex[0],

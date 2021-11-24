@@ -1,4 +1,5 @@
 import { Block } from "./Block";
+import { barrier } from "./blocks/barrier";
 import { bedrock } from "./blocks/bedrock";
 import { cobblestone } from "./blocks/cobblestone";
 import { dirt } from "./blocks/dirt";
@@ -24,6 +25,7 @@ let list = [
   planks_slab,
   oak_log,
   leaves,
+  barrier,
 ];
 list.forEach((l) => {
   blocks[l.name] = l;

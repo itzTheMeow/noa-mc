@@ -51,6 +51,7 @@ let opts = {
   sensitivityY: GameOptions.sensitivity,
   bindings: GameOptions.bindings,
   playerAutoStep: GameOptions.autoJump,
+  skipDefaultHighlighting: true,
   // See `test` example, or noa docs/source, for more options
 };
 let noa = new Engine(opts);
@@ -302,14 +303,26 @@ _("backtogame").onclick = function () {
  *
  */
 
+(noa as any).on("targetBlockChanged", function (target: any) {
+  if (target) {
+    let tgblock = Object.values(blocks).find((b) => b.id == target.blockID);
+    if (!tgblock.noHighlight) {
+      this.rendering.highlightBlockFace(true, target.position, target.normal);
+      return;
+    }
+  }
+  this.rendering.highlightBlockFace(false);
+});
+
 import noise from "./perlin";
 let width = 64;
 let height = 64;
-let filter = new noise(0).read(width, height);
+let filter = new noise(1).read(width, height);
 let genQueue = [];
 function getVoxelID(x: number, y: number, z: number): number {
-  if (x >= 64 || y >= 64 || z >= 64) return 0;
-  if (x < 0 || y < 0 || z < 0) return 0;
+  if (x < 64 && z < 64 && x > 0 && z > 0 && y >= 64) return 0;
+  if (x >= 64 || y >= 64 || z >= 64) return blocks.barrier.id;
+  if (x < 0 || y < 0 || z < 0) return blocks.barrier.id;
 
   let h = Math.floor(filter[x + z * width] / 3);
   if (y == 0) return blocks.bedrock.id;
