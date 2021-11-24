@@ -579,5 +579,3 @@ initInvActions();
 initAPI();
 
 export { inventory, hotbar, hotbarSelection, GameOptions, craftingInv };
-
-setInventoryItem(blocks.planks_slab, 0, "hotbar", 64, "=");

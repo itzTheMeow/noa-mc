@@ -228,8 +228,7 @@ class Block {
   }
 
   public register() {
-    let ids = this.materials.map((m) => noa.registry.registerMaterial(...m));
-    noa.registry._blockMeshLookup.forEach((l) => l && (l._material._diffuseTexture.vScale = 2));
+    this.materials.map((m) => noa.registry.registerMaterial(...m));
     switch (this.type) {
       case "flower":
         this.block[1].blockMesh = xMesh(this.tex[0]);
