@@ -40,6 +40,12 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
+## 0.4.1
+
+- Removed slabs, they were glitchy.
+- Fixed flower render bug.
+- Added border that you can't pass or place past.
+
 ## 0.4.0
 
 - Blocks drop proper things now.

@@ -35,7 +35,7 @@ let GameOptions = {
   thirdPersonZoom: 8,
   mineDelay: 350,
   hotbarScale: 3,
-  version: "0.4.0",
+  version: "0.4.1",
   jumpStack: 3,
 };
 GameOptions.autoJump = GameOptions.touchMode;
@@ -472,6 +472,8 @@ let placing = false;
 let lastPlacedOn = [];
 function place() {
   if (noa.targetedBlock && placeBlock) {
+    let targetB = Object.values(blocks).find((b) => b.id == noa.targetedBlock.blockID);
+    if (!targetB || targetB.noHighlight) return;
     let pos = noa.targetedBlock.adjacent;
     let currentPos = noa.entities.getPosition(noa.playerEntity).map(Math.floor);
     if (
