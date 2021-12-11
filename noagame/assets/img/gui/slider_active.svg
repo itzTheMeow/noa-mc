@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 8 20" shape-rendering="crispEdges">
+<metadata>Made with Pixels to Svg https://codepen.io/shshaw/pen/XbxvNj</metadata>
+<path stroke="#000000" d="M0 0h8M0 1h1M7 1h1M0 2h1M7 2h1M0 3h1M7 3h1M0 4h1M7 4h1M0 5h1M7 5h1M0 6h1M7 6h1M0 7h1M7 7h1M0 8h1M7 8h1M0 9h1M7 9h1M0 10h1M7 10h1M0 11h1M7 11h1M0 12h1M7 12h1M0 13h1M7 13h1M0 14h1M7 14h1M0 15h1M7 15h1M0 16h1M7 16h1M0 17h1M7 17h1M0 18h1M7 18h1M0 19h8" />
+<path stroke="#bec7ff" d="M1 1h1M3 1h1M5 1h1M1 2h1M1 3h1M1 5h1M1 7h1M1 8h1M1 11h1M1 12h1M1 13h1M1 14h1M1 15h1" />
+<path stroke="#bdc6ff" d="M2 1h1" />
+<path stroke="#bfc8ff" d="M4 1h1M1 10h1" />
+<path stroke="#7e88bf" d="M6 1h1M2 2h2M4 3h1M2 4h1M2 5h1M3 6h1M5 7h1M5 8h1M2 9h3M2 11h2M2 12h3M3 13h1M2 15h2M2 16h1" />
+<path stroke="#7a84bc" d="M4 2h1M2 8h1" />
+<path stroke="#737db9" d="M5 2h1" />
+<path stroke="#586299" d="M6 2h1M6 18h1" />
+<path stroke="#7d87be" d="M2 3h1M5 5h1M2 6h1M4 6h1M2 7h1M3 8h1M2 10h1M5 13h1" />
+<path stroke="#7882bc" d="M3 3h1" />
+<path stroke="#7983bc" d="M5 3h1M3 7h1M5 10h1" />
+<path stroke="#5b659c" d="M6 3h1" />
+<path stroke="#bcc5ff" d="M1 4h1M1 16h1" />
+<path stroke="#7f89bf" d="M3 4h1M3 5h1M4 11h1M4 15h1" />
+<path stroke="#7b85bd" d="M4 4h1M5 6h1M4 7h1M5 12h1" />
+<path stroke="#757fba" d="M5 4h1M4 13h1" />
+<path stroke="#5a649b" d="M6 4h1" />
+<path stroke="#7c86be" d="M4 5h1M4 8h1M4 10h1M3 16h1" />
+<path stroke="#5f69a0" d="M6 5h1" />
+<path stroke="#b9c2ff" d="M1 6h1" />
+<path stroke="#5c669d" d="M6 6h1M6 7h1M6 8h1M6 10h1M6 13h1M6 14h1M2 17h5M2 18h2M5 18h1" />
+<path stroke="#c1caff" d="M1 9h1" />
+<path stroke="#747eb9" d="M5 9h1" />
+<path stroke="#555f96" d="M6 9h1M6 12h1" />
+<path stroke="#808ac0" d="M3 10h1M2 13h1M5 16h1" />
+<path stroke="#858fc2" d="M5 11h1" />
+<path stroke="#5e689f" d="M6 11h1M4 18h1" />
+<path stroke="#838dc1" d="M2 14h1" />
+<path stroke="#8690c3" d="M3 14h1M4 16h1" />
+<path stroke="#818bc1" d="M4 14h2" />
+<path stroke="#848ec2" d="M5 15h1" />
+<path stroke="#5d679e" d="M6 15h1" />
+<path stroke="#606aa1" d="M6 16h1" />
+<path stroke="#828cc1" d="M1 17h1" />
+<path stroke="#7c86bd" d="M1 18h1" />
+</svg>
