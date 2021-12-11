@@ -2,6 +2,7 @@ import noa from "./index";
 import { Matrix, Mesh, Texture } from "@babylonjs/core";
 import parseMaterial from "./util/parseMaterial";
 import blocks from "./blocks";
+import title from "./util/title";
 
 export type BlockTypes = "block" | "slab" | "flower";
 type BlockOptions = {
@@ -129,7 +130,11 @@ function slabMesh(names: string[]) {
   top.material = matTop;
   top.rotation.x = Math.PI / 2;
   top.position.y = 0.5;
-  let bottom = Mesh.CreatePlane(`bottom-${names[0]}`, 1, noa.rendering.getScene());
+  let bottom = Mesh.CreatePlane(
+    `bottom-${names[0]}`,
+    1,
+    noa.rendering.getScene()
+  );
   bottom.material = matBottom;
   bottom.rotation.x = -Math.PI / 2;
   bottom.position.y = 0;
@@ -158,6 +163,7 @@ function slabMesh(names: string[]) {
 class Block {
   public id: number;
   public name: string;
+  public formattedName: string;
   public tex: string[];
   public preview: string;
   public transparent: boolean;
@@ -205,6 +211,8 @@ class Block {
     this.unbreakable = opts.unbreakable;
     this.noHighlight = opts.noHighlight;
 
+    this.formattedName = title(this.name.replace(/_/g, " "));
+
     let blockOptions: NoaBlockOptions = {
       material: this.tex.length > 1 ? this.tex : this.tex[0],
       opaque: !this.transparent,
@@ -226,8 +234,10 @@ class Block {
 
   public getPreviewTex() {
     if (this.tex.length == 1) return [this.tex[0], this.tex[0], this.tex[0]];
-    else if (this.tex.length == 2) return [this.tex[0], this.tex[1], this.tex[1]];
-    else if (this.tex.length == 3) return [this.tex[0], this.tex[2], this.tex[2]];
+    else if (this.tex.length == 2)
+      return [this.tex[0], this.tex[1], this.tex[1]];
+    else if (this.tex.length == 3)
+      return [this.tex[0], this.tex[2], this.tex[2]];
     else return [this.tex[3], this.tex[1], this.tex[5]];
   }
 

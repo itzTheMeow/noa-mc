@@ -35,7 +35,7 @@ let GameOptions = {
   thirdPersonZoom: 8,
   mineDelay: 350,
   hotbarScale: 3,
-  version: "0.5.1",
+  version: "0.5.2",
   jumpStack: 3,
 };
 GameOptions.autoJump = GameOptions.touchMode;
@@ -190,8 +190,9 @@ import BlockPreview from "./blockPreview";
     let hb = _(`hotbar-item-${n + 1}`);
     hb.innerHTML = "";
     hb.style.left = getHotbarOffset(n + 1) + "px";
-    let hbi = document.querySelectorAll(`.inv-slot-hotbar`)[n];
+    let hbi = document.querySelectorAll(`.inv-slot-hotbar`)[n] as HTMLElement;
     hbi.innerHTML = "";
+    hbi.removeAttribute("tip");
     if (!sel) return;
 
     let glcanv = document.createElement("canvas");
@@ -222,12 +223,15 @@ import BlockPreview from "./blockPreview";
     canv2.height = canv.height;
     canv2.getContext("2d").drawImage(canv, 0, 0);
     hbi.appendChild(canv2);
+
+    hbi.setAttribute("tip", sel.formattedName);
   });
 
   inventory.forEach(async (item, n) => {
     let [sel, count] = item || [];
     let iv = document.querySelectorAll(`.inv-slot-main`)[n] as HTMLElement;
     iv.innerHTML = "";
+    iv.removeAttribute("tip");
     if (!sel) return;
 
     let glcanv = document.createElement("canvas");
@@ -244,6 +248,8 @@ import BlockPreview from "./blockPreview";
 
     let prev = sel.getPreviewTex();
     new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.type, count);
+
+    iv.setAttribute("tip", sel.formattedName);
   });
 
   [...craftingInv.in, ...craftingInv.out].forEach(async (item, n) => {
@@ -253,6 +259,7 @@ import BlockPreview from "./blockPreview";
       ...document.querySelectorAll(`.inv-slot-craftingout`),
     ][n] as HTMLElement;
     cr.innerHTML = "";
+    cr.removeAttribute("tip");
     if (!sel) return;
 
     let glcanv = document.createElement("canvas");
@@ -269,6 +276,8 @@ import BlockPreview from "./blockPreview";
 
     let prev = sel.getPreviewTex();
     new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.type, count);
+
+    cr.setAttribute("tip", sel.formattedName);
   });
 };
 
@@ -476,6 +485,8 @@ import {
   savedChunks,
   saveGame,
 } from "./savemanager";
+import { clearTooltip, initTooltip, setTooltip } from "./tooltips";
+import title from "./util/title";
 let breakTextures = {};
 var capacity = 80;
 var rate = 80;
@@ -689,6 +700,7 @@ let touchDictionary = null;
 
 initInvActions();
 initSettings();
+initTooltip();
 initAPI();
 
 GameLoadListeners.push(() => {

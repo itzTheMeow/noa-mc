@@ -40,74 +40,78 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
-## 0.5.1
+## v0.5.2
+
+- Added tooltips on items.
+
+## v0.5.1
 
 - Fixed inventory rendering bug.
 
-## 0.5.0
+## v0.5.0
 
 - Added settings page with sensitivity slider.
 - Added save game button.
 - The world and inventory now save in localStorage.
 
-## 0.4.1
+## v0.4.1
 
 - Removed slabs, they were glitchy.
 - Fixed flower render bug.
 - Added border that you can't pass or place past.
 
-## 0.4.0
+## v0.4.0
 
 - Blocks drop proper things now.
 - Added unobtainable oak slabs.
 
-## 0.3.3
+## v0.3.3
 
 - Trees generate naturally.
 
-## 0.3.2
+## v0.3.2
 
 - Limited jumps to 3.
 
-## 0.3.1
+## v0.3.1
 
 - Fixed mobile hotbar.
 - Made item count numbers resize with hotbar.
 
-## 0.3.0
+## v0.3.0
 
 - You can now move items around in your inventory.
 
-## 0.2.1
+## v0.2.1
 
 - You can no longer place blocks inside your character's space.
 
-## 0.2.0
+## v0.2.0
 
 - Made the inventory and hotbar functional.
 - Added functional item counts.
 
-## 0.1.3
+## v0.1.3
 
 - Made items bigger.
 - Added inventory screen.
 
-## 0.1.2
+## v0.1.2
 
 - Added flowers.
 - Added random flower generation.
 - Fixed mobile block breaking.
 - Blocks now drop items that disappear when you collide with them.
 
-## 0.1.1
+## v0.1.1
 
 - Added ore, tnt, metal, and more blocks.
 
-## 0.1.0
+## v0.1.0
 
 - Added pause menu.
 
-## 0.0.9
+## v0.0.9
 
 - Fixed hotbar clicking on mobile.
 - Added proper mobile placing/breaking

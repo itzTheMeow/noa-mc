@@ -3,6 +3,7 @@ import { Block } from "./Block";
 import BlockPreview from "./blockPreview";
 import blocks from "./blocks";
 import setInventoryItem, { Bars } from "./setInventoryItem";
+import { clearTooltip } from "./tooltips";
 import { finishCraft, updateCrafting } from "./updateCrafting";
 import _ from "./_";
 
@@ -10,12 +11,17 @@ let pickedUp: [Block, number] | null = null;
 
 export function initInvActions() {
   let slots = [...document.querySelectorAll(".inv-slot")] as HTMLElement[];
-  slots[0].parentElement.addEventListener("contextmenu", (e) => e.preventDefault());
+  slots[0].parentElement.addEventListener("contextmenu", (e) =>
+    e.preventDefault()
+  );
   slots.forEach((s) => {
     s.addEventListener("mousedown", function (mouseEvent) {
+      clearTooltip();
       let right = mouseEvent.button == 2;
 
-      let totalOfType = [...document.querySelectorAll(`.${[...s.classList.values()].join(".")}`)];
+      let totalOfType = [
+        ...document.querySelectorAll(`.${[...s.classList.values()].join(".")}`),
+      ];
       let slotNum = totalOfType.indexOf(s);
       let type: Bars = "main";
       let item = null;
@@ -45,22 +51,54 @@ export function initInvActions() {
         finalize();
         pickedUp = [item[0], item[1]];
         setInventoryItem(done ? null : item[0], 0, "craftingout", item[1], "=");
-      } else if (pickedUp && item && pickedUp[0].id == item[0].id && type == "craftingout") {
+      } else if (
+        pickedUp &&
+        item &&
+        pickedUp[0].id == item[0].id &&
+        type == "craftingout"
+      ) {
         let [amt, done, finalize] = finishCraft();
         let newAmt = pickedUp[1] + item[1];
         if (newAmt <= 64) {
           finalize();
           pickedUp = [item[0], newAmt];
-          setInventoryItem(done ? null : item[0], 0, "craftingout", item[1], "=");
+          setInventoryItem(
+            done ? null : item[0],
+            0,
+            "craftingout",
+            item[1],
+            "="
+          );
         }
       } else if (pickedUp == null && item && type !== "craftingout") {
         let amt = right ? Math.floor(item[1] / 2) : item[1];
         pickedUp = [item[0], amt];
-        setInventoryItem(right ? item[0] : null, slotNum, type, item[1] - amt, "=");
+        setInventoryItem(
+          right ? item[0] : null,
+          slotNum,
+          type,
+          item[1] - amt,
+          "="
+        );
       } else if (pickedUp && !item && type !== "craftingout") {
-        setInventoryItem(pickedUp[0], slotNum, type, right ? 1 : pickedUp[1], "=");
-        pickedUp = right ? (pickedUp[1] == 1 ? null : [pickedUp[0], pickedUp[1] - 1]) : null;
-      } else if (pickedUp && item && pickedUp[0].id == item[0].id && type !== "craftingout") {
+        setInventoryItem(
+          pickedUp[0],
+          slotNum,
+          type,
+          right ? 1 : pickedUp[1],
+          "="
+        );
+        pickedUp = right
+          ? pickedUp[1] == 1
+            ? null
+            : [pickedUp[0], pickedUp[1] - 1]
+          : null;
+      } else if (
+        pickedUp &&
+        item &&
+        pickedUp[0].id == item[0].id &&
+        type !== "craftingout"
+      ) {
         let total = (right ? 1 : pickedUp[1]) + item[1];
         setInventoryItem(pickedUp[0], slotNum, type, Math.min(total, 64), "=");
         if (total > 64) pickedUp[1] = right ? pickedUp[1] : total - 64;
@@ -94,7 +132,11 @@ export function initInvActions() {
         return;
       }
 
-      if (!lastPicked || lastPicked[0] != pickedUp[0].id || lastPicked[1] != pickedUp[1]) {
+      if (
+        !lastPicked ||
+        lastPicked[0] != pickedUp[0].id ||
+        lastPicked[1] != pickedUp[1]
+      ) {
         lastPicked = [pickedUp[0].id, pickedUp[1]];
         if (pu.firstChild) pu.firstChild.remove();
 
@@ -111,8 +153,15 @@ export function initInvActions() {
         document.body.appendChild(glcanv);
 
         let prev = pickedUp[0].getPreviewTex();
-        new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], pickedUp[0].type, pickedUp[1])
-          .done;
+        new BlockPreview(
+          glcanv,
+          canv,
+          prev[0],
+          prev[1],
+          prev[2],
+          pickedUp[0].type,
+          pickedUp[1]
+        ).done;
       }
     } else pu.style.display = "none";
   });

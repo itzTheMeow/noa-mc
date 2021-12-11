@@ -538,3 +538,18 @@ a {
   text-align: center;
   margin-bottom: 8px;
 }
+#tooltip {
+  z-index: 9999999;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 10px;
+  border-radius: 3px;
+  outline: 2px outset #003b9a;
+  outline-offset: -4px;
+}
+#tooltip #tooltip-title {
+  font-size: 18px;
+}
