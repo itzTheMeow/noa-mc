@@ -40,6 +40,7 @@ let GameOptions = {
 };
 GameOptions.autoJump = GameOptions.touchMode;
 (window as any).touchMode = GameOptions.touchMode;
+let GameLoadListeners: (() => any)[] = [];
 
 let opts = {
   debug: true,
@@ -156,6 +157,13 @@ let craftingInv: {
   in: new Array(4).fill(null),
   out: [null],
 };
+
+GameLoadListeners.push(() => {
+  let savedInv = loadInventory();
+  if (savedInv.hotbar) hotbar = savedInv.hotbar;
+  if (savedInv.inventory) inventory = savedInv.inventory;
+  if (savedInv.craftingInv) craftingInv = savedInv.craftingInv;
+});
 
 let getHotbarOffset = (n) =>
   -1 * GameOptions.hotbarScale + 20 * GameOptions.hotbarScale * (n - 1);
@@ -355,6 +363,7 @@ _("backtogame").onclick = function () {
   this.rendering.highlightBlockFace(false);
 });
 
+import VoxelCrunch from "voxel-crunch";
 import noise from "./perlin";
 let width = 64;
 let height = 64;
@@ -381,21 +390,35 @@ function getVoxelID(x: number, y: number, z: number): number {
   return 0;
 }
 
+GameLoadListeners.push(() => console.log("loaded"));
+export let needsLoaded = savedChunks();
 // register for world events
 (noa.world as any).on("worldDataNeeded", function (id, data, x, y, z) {
+  let saved = getSavedChunk(id);
   // `id` - a unique string id for the chunk
   // `data` - an `ndarray` of voxel ID data (see: https://github.com/scijs/ndarray)
   // `x, y, z` - world coords of the corner of the chunk
-  for (var i = 0; i < data.shape[0]; i++) {
-    for (var j = 0; j < data.shape[1]; j++) {
-      for (var k = 0; k < data.shape[2]; k++) {
-        var voxelID = getVoxelID(x + i, y + j, z + k);
-        data.set(i, j, k, voxelID);
+  if (saved) {
+    VoxelCrunch.decode(saved, data.data);
+    noa.world.setChunkData(id, data, null);
+    needsLoaded--;
+    console.log(needsLoaded);
+  } else {
+    for (var i = 0; i < data.shape[0]; i++) {
+      for (var j = 0; j < data.shape[1]; j++) {
+        for (var k = 0; k < data.shape[2]; k++) {
+          var voxelID = getVoxelID(x + i, y + j, z + k);
+          data.set(i, j, k, voxelID);
+        }
       }
     }
+    // tell noa the chunk's terrain data is now set
+    noa.world.setChunkData(id, data, null);
   }
-  // tell noa the chunk's terrain data is now set
-  noa.world.setChunkData(id, data, null);
+  if (needsLoaded == 0) {
+    GameLoadListeners.forEach((l) => l());
+    GameLoadListeners = [];
+  }
 });
 
 /*
@@ -446,6 +469,12 @@ import { newDroppedItem } from "./droppedItem";
 import { initInvActions } from "./inventoryInteractions";
 import generateTree, { TreeTypes } from "./generateTree";
 import initSettings from "./settings";
+import {
+  getSavedChunk,
+  loadInventory,
+  savedChunks,
+  saveGame,
+} from "./savemanager";
 let breakTextures = {};
 var capacity = 80;
 var rate = 80;
@@ -660,5 +689,12 @@ let touchDictionary = null;
 initInvActions();
 initSettings();
 initAPI();
+
+GameLoadListeners.push(() => {
+  setInterval(function () {
+    saveGame();
+  }, 2000);
+});
+(window as any).saveGame = saveGame;
 
 export { inventory, hotbar, hotbarSelection, GameOptions, craftingInv };
