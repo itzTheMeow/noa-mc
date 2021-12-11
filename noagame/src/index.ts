@@ -35,7 +35,7 @@ let GameOptions = {
   thirdPersonZoom: 8,
   mineDelay: 350,
   hotbarScale: 3,
-  version: "0.4.1",
+  version: "0.5.0",
   jumpStack: 3,
 };
 GameOptions.autoJump = GameOptions.touchMode;

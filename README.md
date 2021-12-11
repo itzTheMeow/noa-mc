@@ -40,6 +40,12 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
+## 0.5.0
+
+- Added settings page with sensitivity slider.
+- Added save game button.
+- The world and inventory now save in localStorage.
+
 ## 0.4.1
 
 - Removed slabs, they were glitchy.
