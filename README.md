@@ -40,6 +40,10 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
+## 0.5.1
+
+- Fixed inventory rendering bug.
+
 ## 0.5.0
 
 - Added settings page with sensitivity slider.

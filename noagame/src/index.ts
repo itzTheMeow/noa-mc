@@ -35,7 +35,7 @@ let GameOptions = {
   thirdPersonZoom: 8,
   mineDelay: 350,
   hotbarScale: 3,
-  version: "0.5.0",
+  version: "0.5.1",
   jumpStack: 3,
 };
 GameOptions.autoJump = GameOptions.touchMode;
@@ -163,6 +163,7 @@ GameLoadListeners.push(() => {
   if (savedInv.hotbar) hotbar = savedInv.hotbar;
   if (savedInv.inventory) inventory = savedInv.inventory;
   if (savedInv.craftingInv) craftingInv = savedInv.craftingInv;
+  (window as any).updateHotbar();
 });
 
 let getHotbarOffset = (n) =>
