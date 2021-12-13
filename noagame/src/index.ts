@@ -37,6 +37,8 @@ let GameOptions = {
   hotbarScale: 3,
   version: "0.5.2",
   jumpStack: 3,
+  jumpForce: 3,
+  speed: 5,
 };
 GameOptions.autoJump = GameOptions.touchMode;
 (window as any).touchMode = GameOptions.touchMode;
@@ -47,7 +49,7 @@ let opts = {
   showFPS: true,
   chunkSize: 32,
   playerStart: [32, 64, 32],
-  gravity: [0, -16, 0],
+  gravity: [0, -15, 0],
   sensitivityX: GameOptions.sensitivity,
   sensitivityY: GameOptions.sensitivity,
   bindings: GameOptions.bindings,
@@ -59,15 +61,15 @@ let noa = new Engine(opts);
 export default noa;
 
 noa.entities.getMovement(noa.playerEntity).airJumps = GameOptions.jumpStack - 1;
+noa.entities.getMovement(noa.playerEntity).jumpForce = GameOptions.jumpForce;
+noa.entities.getMovement(noa.playerEntity).maxSpeed = GameOptions.speed;
 
 import { Block } from "./Block";
 import _blocks from "./blocks";
 import initCtrlPad from "./control-pad";
 import { disableBodyScroll } from "body-scroll-lock";
 
-document.querySelector(
-  "title"
-).innerHTML = `Preclassic Port v${GameOptions.version}`;
+document.querySelector("title").innerHTML = `Preclassic Port v${GameOptions.version}`;
 
 disableBodyScroll(_("bsl"), {
   allowTouchMove: (e: HTMLElement | Element) => {
@@ -75,17 +77,11 @@ disableBodyScroll(_("bsl"), {
   },
 });
 
-_("inventory").innerHTML = `<div class="inv-slot inv-slot-main"></div>`.repeat(
-  27
-);
-_("inventory").innerHTML +=
-  `<div class="inv-slot inv-slot-hotbar"></div>`.repeat(9);
-_("inventory").innerHTML +=
-  `<div class="inv-slot inv-slot-armor"></div>`.repeat(4);
-_("inventory").innerHTML +=
-  `<div class="inv-slot inv-slot-craftingin"></div>`.repeat(4);
-_("inventory").innerHTML +=
-  `<div class="inv-slot inv-slot-craftingout"></div>`.repeat(1);
+_("inventory").innerHTML = `<div class="inv-slot inv-slot-main"></div>`.repeat(27);
+_("inventory").innerHTML += `<div class="inv-slot inv-slot-hotbar"></div>`.repeat(9);
+_("inventory").innerHTML += `<div class="inv-slot inv-slot-armor"></div>`.repeat(4);
+_("inventory").innerHTML += `<div class="inv-slot inv-slot-craftingin"></div>`.repeat(4);
+_("inventory").innerHTML += `<div class="inv-slot inv-slot-craftingout"></div>`.repeat(1);
 
 initScreenInteractions();
 initCtrlPad();
@@ -115,20 +111,12 @@ let blocks: { [key: string]: Block } = {
   bookshelf: new Block("bookshelf", ["bookshelf_top", "bookshelf_side"], {
     prev: "bookshelf_side",
   }),
-  ironBlock: new Block(
-    "iton_block",
-    ["iron_block_top", "iron_block_bottom", "iron_block_side"],
-    {
-      prev: "iron_block_top",
-    }
-  ),
-  goldBlock: new Block(
-    "gold_block",
-    ["gold_block_top", "gold_block_bottom", "gold_block_side"],
-    {
-      prev: "gold_block_top",
-    }
-  ),
+  ironBlock: new Block("iton_block", ["iron_block_top", "iron_block_bottom", "iron_block_side"], {
+    prev: "iron_block_top",
+  }),
+  goldBlock: new Block("gold_block", ["gold_block_top", "gold_block_bottom", "gold_block_side"], {
+    prev: "gold_block_top",
+  }),
   diamondBlock: new Block(
     "diamond_block",
     ["diamond_block_top", "diamond_block_bottom", "diamond_block_side"],
@@ -166,20 +154,15 @@ GameLoadListeners.push(() => {
   (window as any).updateHotbar();
 });
 
-let getHotbarOffset = (n) =>
-  -1 * GameOptions.hotbarScale + 20 * GameOptions.hotbarScale * (n - 1);
+let getHotbarOffset = (n) => -1 * GameOptions.hotbarScale + 20 * GameOptions.hotbarScale * (n - 1);
 
 (window as any).setHotbarSelection = function (num: number) {
   hotbarSelection = num;
   _("hotbar-selection").style.left = getHotbarOffset(num) + "px";
-  [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) =>
-    _(`hotbar-item-${n}`).classList.remove("selected")
-  );
+  [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => _(`hotbar-item-${n}`).classList.remove("selected"));
   let selection = _(`hotbar-item-${hotbarSelection}`);
   selection.classList.add("selected");
-  placeBlock = hotbar[hotbarSelection - 1]
-    ? hotbar[hotbarSelection - 1][0]
-    : null;
+  placeBlock = hotbar[hotbarSelection - 1] ? hotbar[hotbarSelection - 1][0] : null;
 };
 (window as any).setHotbarSelection(hotbarSelection);
 
@@ -208,15 +191,7 @@ import BlockPreview from "./blockPreview";
     document.body.appendChild(glcanv);
 
     let prev = sel.getPreviewTex();
-    await new BlockPreview(
-      glcanv,
-      canv,
-      prev[0],
-      prev[1],
-      prev[2],
-      sel.type,
-      count
-    ).done;
+    await new BlockPreview(glcanv, canv, prev[0], prev[1], prev[2], sel.type, count).done;
 
     let canv2 = document.createElement("canvas");
     canv2.width = canv.width;
@@ -284,9 +259,7 @@ import BlockPreview from "./blockPreview";
 (window as any).setHotbarScale = function (num: number, updH: boolean = true) {
   num = Math.floor(num) || 1;
   GameOptions.hotbarScale = num;
-  _("hotbarScale").innerHTML = `:root{--hotbar-scale:${num};--button-scale:${
-    num / 1.5
-  };}`;
+  _("hotbarScale").innerHTML = `:root{--hotbar-scale:${num};--button-scale:${num / 1.5};}`;
   if (updH) (window as any).updateHotbar(true);
   (window as any).setHotbarSelection(hotbarSelection);
 };
@@ -331,15 +304,10 @@ noa.inputs.up.on("esc", () => {
     noa.container.setPointerLock(true);
   }
 });
-noa.container._shell._onPointerLockChanged =
-  noa.container._shell.onPointerLockChanged;
+noa.container._shell._onPointerLockChanged = noa.container._shell.onPointerLockChanged;
 noa.container._shell.onPointerLockChanged = function (has) {
   this._onPointerLockChanged(has);
-  if (
-    !has &&
-    !GameOptions.touchMode &&
-    _("inventory").style.display == "none"
-  ) {
+  if (!has && !GameOptions.touchMode && _("inventory").style.display == "none") {
     toggleMenu(true);
   }
 };
@@ -387,9 +355,7 @@ function getVoxelID(x: number, y: number, z: number): number {
   let h = Math.floor(filter[x + z * width] / 3);
   if (y == 0) return blocks.bedrock.id;
   if (y == h + 1 && random(0, 100) == 0 && random(0, 1) == 0)
-    return [blocks.flowerYellow.id, blocks.flowerRed.id, blocks.flowerCyan.id][
-      random(0, 2)
-    ];
+    return [blocks.flowerYellow.id, blocks.flowerRed.id, blocks.flowerCyan.id][random(0, 2)];
   if (y == h + 1 && random(0, 400) == 0) {
     genQueue.push([x, y, z, TreeTypes.oak]);
     return 0;
@@ -479,12 +445,7 @@ import { newDroppedItem } from "./droppedItem";
 import { initInvActions } from "./inventoryInteractions";
 import generateTree, { TreeTypes } from "./generateTree";
 import initSettings from "./settings";
-import {
-  getSavedChunk,
-  loadInventory,
-  savedChunks,
-  saveGame,
-} from "./savemanager";
+import { getSavedChunk, loadInventory, savedChunks, saveGame } from "./savemanager";
 import { clearTooltip, initTooltip, setTooltip } from "./tooltips";
 import title from "./util/title";
 let breakTextures = {};
@@ -496,10 +457,7 @@ let mining = false;
 
 export function breakBlockAt(...pos: number[]) {
   let block = Object.values(blocks).find(
-    (b) =>
-      b.id ==
-      ((noa.targetedBlock || {}).blockID ||
-        noa.getBlock(pos[0], pos[1], pos[2]))
+    (b) => b.id == ((noa.targetedBlock || {}).blockID || noa.getBlock(pos[0], pos[1], pos[2]))
   );
   if (!block || block.unbreakable) return;
 
@@ -508,8 +466,7 @@ export function breakBlockAt(...pos: number[]) {
   if (block.drops) {
     let blockDrop = blocks[block.drops[0]];
     let drop = block.drops[1];
-    if (blockDrop)
-      newDroppedItem(pos[0] + 0.5, pos[1] + 0.5, pos[2] + 0.5, blockDrop, drop);
+    if (blockDrop) newDroppedItem(pos[0] + 0.5, pos[1] + 0.5, pos[2] + 0.5, blockDrop, drop);
   }
 
   let tex =
@@ -525,11 +482,7 @@ export function breakBlockAt(...pos: number[]) {
   let mps = new MPS(capacity, rate, scene, null, null, null);
   mps.disposeOnEmpty = true;
   mps.initParticle = function initParticle(pdata) {
-    pdata.position.copyFromFloats(
-      Math.random(),
-      Math.max(Math.random(), 0.6),
-      Math.random()
-    );
+    pdata.position.copyFromFloats(Math.random(), Math.max(Math.random(), 0.6), Math.random());
     pdata.velocity.x = ((Math.random() > 0.5 ? 1 : -1) * Math.random()) / 1.5;
     pdata.velocity.y = -Math.random() * 3;
     pdata.velocity.z = ((Math.random() > 0.5 ? 1 : -1) * Math.random()) / 1.5;
@@ -565,9 +518,7 @@ let placing = false;
 let lastPlacedOn = [];
 function place() {
   if (noa.targetedBlock && placeBlock) {
-    let targetB = Object.values(blocks).find(
-      (b) => b.id == noa.targetedBlock.blockID
-    );
+    let targetB = Object.values(blocks).find((b) => b.id == noa.targetedBlock.blockID);
     if (!targetB || targetB.noHighlight) return;
     let pos = noa.targetedBlock.adjacent;
     let currentPos = noa.entities.getPosition(noa.playerEntity).map(Math.floor);
@@ -613,40 +564,29 @@ noa.inputs.up.on("inventory", function () {
 });
 
 let touchDictionary = null;
-(noa.container.canvas as HTMLCanvasElement).addEventListener(
-  "touchstart",
-  (e) => {
-    //e.preventDefault();
-    let t = e.changedTouches[0];
-    touchDictionary = [Date.now(), t.pageX, t.pageY, t.pageX, t.pageY, false];
-  }
-);
-(noa.container.canvas as HTMLCanvasElement).addEventListener(
-  "touchmove",
-  (e) => {
-    //e.preventDefault();
-    let t = e.changedTouches[0];
-    let dict = touchDictionary;
-    touchDictionary = [dict[0], dict[1], dict[2], t.pageX, t.pageY, dict[5]];
-  }
-);
-(noa.container.canvas as HTMLCanvasElement).addEventListener(
-  "touchend",
-  (e) => {
-    e.preventDefault();
-    let t = e.changedTouches[0];
-    let dict = touchDictionary;
-    mining = false;
+(noa.container.canvas as HTMLCanvasElement).addEventListener("touchstart", (e) => {
+  //e.preventDefault();
+  let t = e.changedTouches[0];
+  touchDictionary = [Date.now(), t.pageX, t.pageY, t.pageX, t.pageY, false];
+});
+(noa.container.canvas as HTMLCanvasElement).addEventListener("touchmove", (e) => {
+  //e.preventDefault();
+  let t = e.changedTouches[0];
+  let dict = touchDictionary;
+  touchDictionary = [dict[0], dict[1], dict[2], t.pageX, t.pageY, dict[5]];
+});
+(noa.container.canvas as HTMLCanvasElement).addEventListener("touchend", (e) => {
+  e.preventDefault();
+  let t = e.changedTouches[0];
+  let dict = touchDictionary;
+  mining = false;
 
-    let timeDiff = Date.now() - dict[0];
-    let spaceDiff = Math.floor(
-      Math.hypot(t.pageX - dict[1], t.pageY - dict[2])
-    );
-    if (spaceDiff > 2) return;
-    if (timeDiff < GameOptions.mineDelay) place();
-    touchDictionary = null;
-  }
-);
+  let timeDiff = Date.now() - dict[0];
+  let spaceDiff = Math.floor(Math.hypot(t.pageX - dict[1], t.pageY - dict[2]));
+  if (spaceDiff > 2) return;
+  if (timeDiff < GameOptions.mineDelay) place();
+  touchDictionary = null;
+});
 
 (noa as any).on("tick", function (dt) {
   actionTicks++;
@@ -679,9 +619,7 @@ let touchDictionary = null;
     }
   }
 
-  let pos = noa.entities
-    .getPositionData(noa.playerEntity)
-    .position.map((p) => Math.ceil(p));
+  let pos = noa.entities.getPositionData(noa.playerEntity).position.map((p) => Math.ceil(p));
   _("coordinate-display").innerHTML = `${pos[0]}, ${pos[1]}, ${pos[2]}`;
   if (pos[1] < 0) noa.entities.setPosition(noa.playerEntity, [32, 64, 32]);
 
