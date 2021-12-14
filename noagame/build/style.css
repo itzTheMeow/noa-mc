@@ -1,3 +1,25 @@
+@font-face {
+  font-family: "Minecraft";
+  src: url("font/Minecraft.otf") format("opentype");
+  font-style: normal;
+}
+@font-face {
+  font-family: "Minecraft";
+  src: url("font/Minecraft_bold.otf") format("opentype");
+  font-style: normal;
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Minecraft";
+  src: url("font/Minecraft_italic.otf") format("opentype");
+  font-style: italic;
+}
+@font-face {
+  font-family: "Minecraft";
+  src: url("font/Minecraft_bold_italic.otf") format("opentype");
+  font-style: italic;
+  font-weight: bold;
+}
 .bg-dirt {
   background-image: url("img/blocks/dirt.png");
   background-repeat: repeat;
@@ -391,6 +413,50 @@
 [container][opened] {
   display: block;
 }
+.slider {
+  width: calc(200px * var(--button-scale));
+  height: calc(20px * var(--button-scale));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.slider input {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(img/gui/button_disabled.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.slider input:hover::-webkit-slider-thumb, .slider input:hover::-moz-range-thumb {
+  background-image: url(img/gui/slider_active.svg);
+}
+.slider input::-webkit-slider-thumb, .slider input::-moz-range-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: calc(8px * var(--button-scale));
+  height: calc(20px * var(--button-scale));
+  background-image: url(img/gui/slider.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border: 0;
+  outline: 0;
+  border-radius: 0;
+}
+.slider div {
+  position: absolute;
+  color: white;
+  font-size: calc(20px * var(--button-scale) / 2);
+  margin-left: auto;
+  margin-right: auto;
+  pointer-events: none;
+}
 :root {
   --text: #ffffff;
   --text-shadow: #3f3f3f;
@@ -471,72 +537,6 @@ a {
   font-size: 18px;
   text-align: center;
   margin-bottom: 8px;
-}
-@font-face {
-  font-family: "Minecraft";
-  src: url("font/Minecraft.otf") format("opentype");
-  font-style: normal;
-}
-@font-face {
-  font-family: "Minecraft";
-  src: url("font/Minecraft_bold.otf") format("opentype");
-  font-style: normal;
-  font-weight: bold;
-}
-@font-face {
-  font-family: "Minecraft";
-  src: url("font/Minecraft_italic.otf") format("opentype");
-  font-style: italic;
-}
-@font-face {
-  font-family: "Minecraft";
-  src: url("font/Minecraft_bold_italic.otf") format("opentype");
-  font-style: italic;
-  font-weight: bold;
-}
-.slider {
-  width: calc(200px * var(--button-scale));
-  height: calc(20px * var(--button-scale));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-.slider input {
-  -webkit-appearance: none;
-  appearance: none;
-  outline: 0;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url(img/gui/button_disabled.svg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-.slider input:hover::-webkit-slider-thumb, .slider input:hover::-moz-range-thumb {
-  background-image: url(img/gui/slider_active.svg);
-}
-.slider input::-webkit-slider-thumb, .slider input::-moz-range-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: calc(8px * var(--button-scale));
-  height: calc(20px * var(--button-scale));
-  background-image: url(img/gui/slider.svg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  border: 0;
-  outline: 0;
-  border-radius: 0;
-}
-.slider div {
-  position: absolute;
-  color: white;
-  font-size: calc(20px * var(--button-scale) / 2);
-  margin-left: auto;
-  margin-right: auto;
-  pointer-events: none;
 }
 #tooltip {
   z-index: 9999999;
