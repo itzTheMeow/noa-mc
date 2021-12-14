@@ -32,3 +32,7 @@ list.forEach((l) => {
 });
 
 export default blocks;
+
+export function getBlock(id: number) {
+  return Object.values(blocks).find((b) => b.id == id);
+}
