@@ -40,6 +40,12 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
+## v0.5.3
+
+- Fixed tooltip rendering bug.
+- Made items "magnet" toward you if you are close enough.
+- Added sprinting when you hold shift.
+
 ## v0.5.2
 
 - Added tooltips on items.

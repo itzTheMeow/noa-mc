@@ -37,7 +37,7 @@ let GameOptions = {
   thirdPersonZoom: 8,
   mineDelay: 350,
   hotbarScale: 3,
-  version: "0.5.2",
+  version: "0.5.3",
   jumpStack: 3,
   jumpForce: 3,
   speed: 6,
