@@ -1,5 +1,9 @@
 {
   "scripts": {
     "start": "cd noagame && npm start"
+  },
+  "dependencies": {
+    "@types/vec3": "^0.1.4",
+    "vec3": "^0.1.7"
   }
 }

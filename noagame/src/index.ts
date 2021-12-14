@@ -1,6 +1,9 @@
 import _ from "./_";
 import { Engine } from "../../noalib";
 import setInventoryItem from "./setInventoryItem";
+import { Vec3 } from "vec3";
+
+// noa.entities.getStatesList("physics").length
 
 let GameOptions = {
   sensitivity: 11,
@@ -39,6 +42,7 @@ let GameOptions = {
   jumpForce: 3,
   speed: 6,
   fov: 0,
+  grabDistance: 1.2,
 };
 GameOptions.autoJump = GameOptions.touchMode;
 (window as any).touchMode = GameOptions.touchMode;
@@ -480,7 +484,7 @@ import { toggleMenu } from "./menu";
 import initScreenInteractions from "./screenInteractions";
 import initAPI from "./API";
 import random from "./random";
-import { newDroppedItem } from "./droppedItem";
+import { droppedItems, newDroppedItem } from "./droppedItem";
 import { initInvActions } from "./inventoryInteractions";
 import generateTree, { TreeTypes } from "./generateTree";
 import initSettings from "./settings";
@@ -694,10 +698,15 @@ let touchDictionary = null;
     }
   }
 
-  let pos = noa.entities
-    .getPositionData(noa.playerEntity)
-    .position.map((p) => Math.ceil(p));
-  _("coordinate-display").innerHTML = `${pos[0]}, ${pos[1]}, ${pos[2]}`;
+  let pos = noa.entities.getPositionData(noa.playerEntity).position as [
+    number,
+    number,
+    number
+  ];
+  let neatPos = pos.map((p) => Math.ceil(p));
+  _(
+    "coordinate-display"
+  ).innerHTML = `${neatPos[0]}, ${neatPos[1]}, ${neatPos[2]}`;
   if (pos[1] < 0) noa.entities.setPosition(noa.playerEntity, [32, 64, 32]);
 
   if (mining && actionTicks % 12 == 0) mine();
@@ -711,6 +720,28 @@ let touchDictionary = null;
     )
       place();
   }
+
+  droppedItems.forEach((i) => {
+    let iPos = noa.entities.getPositionData(i).position as [
+      number,
+      number,
+      number
+    ];
+    if (!iPos) return;
+    let yourPos = new Vec3(...pos);
+    let itemPos = new Vec3(...iPos);
+    if (
+      yourPos.xzDistanceTo(itemPos) < GameOptions.grabDistance &&
+      yourPos.distanceTo(itemPos) < GameOptions.grabDistance * 2.5
+    ) {
+      let dx = yourPos.x - itemPos.x;
+      let dy = yourPos.y - itemPos.y;
+      let dz = yourPos.z - itemPos.z;
+      itemPos.add(new Vec3(dx * 0.1, dy * 0.1, dz * 0.1));
+      noa.entities.setPosition(i, itemPos.x, itemPos.y, itemPos.z);
+      noa.entities.getPhysicsBody(i).gravityMultiplier = 0;
+    }
+  });
 });
 
 initInvActions();
