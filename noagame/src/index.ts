@@ -19,7 +19,6 @@ let GameOptions = {
     "alt-fire": "<mouse 3>",
     jump: "<space>",
     sprint: "<shift>",
-    crouch: "<control>",
     inventory: "E",
     esc: "<escape>",
     hb1: "1",
@@ -39,6 +38,7 @@ let GameOptions = {
   jumpStack: 3,
   jumpForce: 3,
   speed: 6,
+  fov: 0,
 };
 GameOptions.autoJump = GameOptions.touchMode;
 (window as any).touchMode = GameOptions.touchMode;
@@ -63,6 +63,7 @@ export default noa;
 noa.entities.getMovement(noa.playerEntity).airJumps = GameOptions.jumpStack - 1;
 noa.entities.getMovement(noa.playerEntity).jumpForce = GameOptions.jumpForce;
 noa.entities.getMovement(noa.playerEntity).maxSpeed = GameOptions.speed;
+noa.camera.zoomDistance = GameOptions.fov;
 
 import { Block } from "./Block";
 import _blocks from "./blocks";
@@ -592,6 +593,16 @@ noa.inputs.down.on("fire", function () {
 });
 noa.inputs.up.on("fire", function () {
   placing = false;
+});
+
+noa.inputs.down.on("sprint", function () {
+  noa.entities.getMovement(noa.playerEntity).maxSpeed =
+    GameOptions.speed * 1.75;
+  noa.camera.zoomDistance = GameOptions.fov + 0.5;
+});
+noa.inputs.up.on("sprint", function () {
+  noa.entities.getMovement(noa.playerEntity).maxSpeed = GameOptions.speed;
+  noa.camera.zoomDistance = GameOptions.fov;
 });
 
 /*noa.inputs.up.on("mid-fire", function () {
