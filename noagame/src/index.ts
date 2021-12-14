@@ -409,7 +409,7 @@ function getVoxelID(x: number, y: number, z: number): number {
   return 0;
 }
 
-GameLoadListeners.push(() => console.log("loaded"));
+GameLoadListeners.push(() => console.log("loaded chunks"));
 export let needsLoaded = savedChunks();
 // register for world events
 (noa.world as any).on("worldDataNeeded", function (id, data, x, y, z) {
@@ -421,7 +421,6 @@ export let needsLoaded = savedChunks();
     VoxelCrunch.decode(saved, data.data);
     noa.world.setChunkData(id, data, null);
     needsLoaded--;
-    console.log(needsLoaded);
   } else {
     for (var i = 0; i < data.shape[0]; i++) {
       for (var j = 0; j < data.shape[1]; j++) {
