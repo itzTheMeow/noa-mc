@@ -18,7 +18,7 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 - ### What devices have you tested this on?
   - Firefox on iOS 12 (equivalent to safari 12)
-  - Firefox on Windows 10 (v91)
+  - Firefox on Windows 10 (v95)
   - Occasionally using Chrome on Windows 10 (v93)
   - _If something doesn't work right (blank page, console errors, etc) make an issue with your device and browser version/name._
 
