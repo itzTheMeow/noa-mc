@@ -33,7 +33,7 @@ export function gridCleanString() {
   // fancy regex to replace ".0", ".0.", and "0." except at the start without replacing something like "10."
   let fixed = ("\n" + gridToString())
     .replace(/0{1}\.0{1}/g, "")
-    .replace(/\.?(?<!\w)(?<!\n)0{1}\.?/g, "")
+    //.replace(/\.?(?<!\w)(?<!\n)0{1}\.?/g, "")
     .trim();
   if (!fixed.split("\n").find((a) => !a.startsWith("0."))) {
     // detects if all lines start with `0.` and shifts them left if so
