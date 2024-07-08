@@ -2,7 +2,7 @@
 
 Semi-functional port of minecraft preclassic to js using [noa](https://github.com/fenomas/noa).
 
-## Play [here](https://themeow.ml/noa-mc/noagame/build/)!
+## Play [here](https://git.itsmeow.cat/noa-mc/noagame/build/)!
 
 # **_DISCLAIMER_**
 
