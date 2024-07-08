@@ -12,13 +12,13 @@
   "author": "Meow",
   "license": "ISC",
   "dependencies": {
-    "@babylonjs/core": "^6.1.0",
-    "@babylonjs/inspector": "^6.1.0",
+    "@babylonjs/core": "^4.2.0",
+    "@babylonjs/inspector": "^4.2.0",
     "autoprefixer": "^10.3.4",
     "body-scroll-lock": "^4.0.0-beta.0",
     "esbuild": "^0.12.28",
     "express": "^4.17.1",
-    "noa-engine": "^0.33.0",
+    "noa-engine": "^0.30.0",
     "postcss-cli": "^8.3.1",
     "sass": "^1.39.2",
     "voxel-crunch": "^0.2.1"
@@ -30,6 +30,7 @@
     "webpack-dev-server": "^4.2.1"
   },
   "overrides": {
-    "aabb-3d": "itzTheMeow/aabb-3d"
+    "aabb-3d": "itzTheMeow/aabb-3d",
+    "voxel-physics-engine": "itzTheMeow/voxel-physics-engine"
   }
 }
