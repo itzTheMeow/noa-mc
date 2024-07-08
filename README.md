@@ -40,6 +40,11 @@ Semi-functional port of minecraft preclassic to js using [noa](https://github.co
 
 # Changelog
 
+## v0.5.4
+
+- Fixed mobile detection for iPads.
+- Added query parameter to force mobile mode.
+
 ## v0.5.3
 
 - Fixed tooltip rendering bug.
